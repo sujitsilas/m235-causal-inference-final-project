@@ -1,0 +1,17 @@
+scratch.md
+
+# NHANES raw downloads (re-fetched by the Rmd on demand)
+data/
+*.xpt
+*.XPT
+
+# Generated analytic dataset
+# nhanes_insurance_screening_analytic.csv
+
+# Knitted output
+nhanes_data_prep_files/
+.Rproj.user
+.Rhistory
+.RData
+.DS_Store
+

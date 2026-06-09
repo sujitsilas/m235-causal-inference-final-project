@@ -1,0 +1,396 @@
+---
+title: "NHANES 2017–2020: Health Insurance and Blood-Sugar Screening"
+subtitle: "Exploratory covariate analysis and positivity check"
+author: "Sujit Silas Armstrong"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, message = FALSE, warning = FALSE,
+  fig.align = "center", fig.width = 7, fig.height = 4.5
+)
+
+# ---- packages ----
+pkgs <- c("haven", "dplyr", "tidyr", "purrr", "forcats",
+          "ggplot2", "gtsummary", "labelled", "scales")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install)) install.packages(to_install)
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+theme_set(theme_minimal(base_size = 12))
+```
+
+
+# 1. Causal estimand
+
+We fix the causal question before any exploratory analysis so that covariate
+selection and filtering decisions are driven by the assumptions, not by the data.
+ 
+- **Target population.** Non-institutionalized U.S. adults aged ≥ 20 years
+  sampled in the NHANES **2017–March 2020 pre-pandemic** cycle (the `P_` files).
+- **Treatment / exposure $A$.** Health-insurance coverage,
+  `HIQ011` — *"Are you covered by health insurance or some other kind of
+  health-care plan?"* Binarized as **Insured (1)** vs. **Uninsured (0)**.
+- **Outcome $Y$.** `DIQ180` — *"Had blood tested for sugar/diabetes in the past
+  three years?"* Binarized as **Screened (1)** vs. **Not screened (0)**.
+- **Estimand.** The **average treatment effect (ATE)** on the probability of
+  blood-sugar screening:
+  $$\tau \;=\; \mathbb{E}\big[\,Y^{a=1} - Y^{a=0}\,\big]
+            \;=\; \mathbb{E}\big[\,Y^{\text{insured}} - Y^{\text{uninsured}}\,\big].$$
+
+**Identifying assumptions.** The ATE is identified from observational NHANES
+data under:
+
+1. **Consistency** — observed $Y$ equals the potential outcome under the
+   observed insurance status.
+2. **Conditional exchangeability (no unmeasured confounding)** —
+   $Y^a \perp A \mid L$ for the measured covariate set $L$ below.
+3. **Positivity** — $0 < \Pr(A = a \mid L = l) < 1$ for every covariate
+   stratum $l$ that occurs in the population. **This is the assumption the
+   summary table in Section 6 is built to interrogate.**
+
+**Measured confounders $L$.** Factors plausibly affecting *both* insurance
+coverage and the propensity to be screened:
+
+- *Demographic / socioeconomic:* age, sex, race/ethnicity, education, family
+  income-to-poverty ratio, marital status, U.S.-vs-foreign birth, interview
+  language (acculturation proxy).
+- *Health status / risk:* BMI, self-rated general health, prior hypertension
+  diagnosis (a guideline risk factor that itself prompts diabetes screening).
+- *Health behavior:* ever-smoking, ever-drinking alcohol.
+
+# 2. Download the NHANES source files
+
+The 2017–2020 pre-pandemic files are served as SAS transport (`.XPT`) files from
+the CDC. We download each once into a local `data/` cache and read with
+`haven::read_xpt()`.
+
+```{r download}
+data_dir <- "data"
+dir.create(data_dir, showWarnings = FALSE)
+
+base_url <- "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/"
+
+# component file -> the variables we keep from it
+files <- c(
+  P_DEMO = "P_DEMO.xpt",  # demographics: age, sex, race, education, income, lang
+  P_HIQ  = "P_HIQ.xpt",   # health insurance questionnaire (treatment)
+  P_DIQ  = "P_DIQ.xpt",   # diabetes questionnaire (outcome)
+  P_BMX  = "P_BMX.xpt",   # body measures: BMI
+  P_SMQ  = "P_SMQ.xpt",   # smoking: ever smoked >=100 cigarettes
+  P_ALQ  = "P_ALQ.xpt",   # alcohol: ever had a drink
+  P_HUQ  = "P_HUQ.xpt",   # health-care utilization: self-rated general health
+  P_BPQ  = "P_BPQ.xpt"    # blood pressure: prior hypertension diagnosis
+)
+
+# imap() calls .f(value, name); `file` is the .xpt filename, `name` the label
+read_nhanes <- function(file, name) {
+  dest <- file.path(data_dir, file)
+  if (!file.exists(dest)) {
+    utils::download.file(paste0(base_url, file), dest, mode = "wb", quiet = TRUE)
+  }
+  haven::read_xpt(dest)
+}
+
+raw <- imap(files, read_nhanes)
+map(raw, dim)
+```
+
+# 3. Merge on the respondent ID (`SEQN`)
+
+`SEQN` is the unique respondent sequence number that links every NHANES file.
+We keep all demographics records and left-join the questionnaire/exam files, so
+we start with the complete sampled population and *nothing is dropped yet*.
+
+```{r merge}
+demo <- raw$P_DEMO %>%
+  select(SEQN, RIAGENDR, RIDAGEYR, RIDRETH3, DMDEDUC2, DMDMARTZ,
+         DMDBORN4, INDFMPIR, SIALANG,
+         # survey-design variables, carried for later weighted analysis
+         SDMVPSU, SDMVSTRA, WTINTPRP, WTMECPRP)
+
+hiq <- raw$P_HIQ %>% select(SEQN, HIQ011)
+diq <- raw$P_DIQ %>% select(SEQN, DIQ180)
+bmx <- raw$P_BMX %>% select(SEQN, BMXBMI)
+smq <- raw$P_SMQ %>% select(SEQN, SMQ020)
+alq <- raw$P_ALQ %>% select(SEQN, ALQ111)
+huq <- raw$P_HUQ %>% select(SEQN, HUQ010)
+bpq <- raw$P_BPQ %>% select(SEQN, BPQ020)
+
+merged <- demo %>%
+  left_join(hiq, by = "SEQN") %>%
+  left_join(diq, by = "SEQN") %>%
+  left_join(bmx, by = "SEQN") %>%
+  left_join(smq, by = "SEQN") %>%
+  left_join(alq, by = "SEQN") %>%
+  left_join(huq, by = "SEQN") %>%
+  left_join(bpq, by = "SEQN")
+
+dim(merged)
+```
+
+# 4. Recode variables
+
+NHANES uses numeric codes with `7`/`77`/`9`/`99` reserved for *Refused* and
+*Don't know*; we map those to `NA`. Treatment and outcome are binarized as
+defined in the estimand.
+
+```{r recode}
+analytic_full <- merged %>%
+  mutate(
+    # ---- treatment: insurance coverage ----
+    insured = case_when(
+      HIQ011 == 1 ~ "Insured",
+      HIQ011 == 2 ~ "Uninsured",
+      TRUE        ~ NA_character_           # 7 = refused, 9 = don't know
+    ),
+    insured = factor(insured, levels = c("Uninsured", "Insured")),
+
+    # ---- outcome: blood-sugar screening in past 3 years ----
+    screened = case_when(
+      DIQ180 == 1 ~ "Screened",
+      DIQ180 == 2 ~ "Not screened",
+      TRUE        ~ NA_character_           # 7/9 and missing
+    ),
+    screened = factor(screened, levels = c("Not screened", "Screened")),
+
+    # ---- covariates ----
+    age = RIDAGEYR,
+    sex = factor(RIAGENDR, levels = c(1, 2), labels = c("Male", "Female")),
+    race_eth = factor(RIDRETH3,
+      levels = c(1, 2, 3, 4, 6, 7),
+      labels = c("Mexican American", "Other Hispanic", "Non-Hispanic White",
+                 "Non-Hispanic Black", "Non-Hispanic Asian", "Other/Multi")),
+    education = factor(case_when(
+      DMDEDUC2 %in% 1:2 ~ "< High school",
+      DMDEDUC2 == 3     ~ "High school / GED",
+      DMDEDUC2 == 4     ~ "Some college",
+      DMDEDUC2 == 5     ~ "College graduate",
+      TRUE              ~ NA_character_),
+      levels = c("< High school", "High school / GED",
+                 "Some college", "College graduate")),
+    marital = factor(case_when(
+      DMDMARTZ == 1 ~ "Married / partnered",
+      DMDMARTZ == 2 ~ "Widowed / divorced / separated",
+      DMDMARTZ == 3 ~ "Never married",
+      TRUE          ~ NA_character_),
+      levels = c("Married / partnered",
+                 "Widowed / divorced / separated", "Never married")),
+    us_born = factor(case_when(
+      DMDBORN4 == 1 ~ "Born in U.S.",
+      DMDBORN4 == 2 ~ "Born outside U.S.",
+      TRUE          ~ NA_character_),
+      levels = c("Born in U.S.", "Born outside U.S.")),
+    interview_lang = factor(case_when(
+      SIALANG == 1 ~ "English",
+      SIALANG == 2 ~ "Spanish",
+      TRUE         ~ NA_character_),
+      levels = c("English", "Spanish")),
+    pir = INDFMPIR,        # family income-to-poverty ratio (0–5, topcoded)
+    bmi = BMXBMI,
+
+    # ---- health status / risk ----
+    gen_health = factor(case_when(
+      HUQ010 == 1 ~ "Excellent",
+      HUQ010 == 2 ~ "Very good",
+      HUQ010 == 3 ~ "Good",
+      HUQ010 == 4 ~ "Fair",
+      HUQ010 == 5 ~ "Poor",
+      TRUE        ~ NA_character_),         # 7/9 = refused / don't know
+      levels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
+    hypertension = factor(case_when(
+      BPQ020 == 1 ~ "Yes",
+      BPQ020 == 2 ~ "No",
+      TRUE        ~ NA_character_),
+      levels = c("No", "Yes")),
+
+    # ---- health behavior ----
+    smoked_100 = factor(case_when(
+      SMQ020 == 1 ~ "Yes",
+      SMQ020 == 2 ~ "No",
+      TRUE        ~ NA_character_),
+      levels = c("No", "Yes")),
+    alcohol_ever = factor(case_when(
+      ALQ111 == 1 ~ "Yes",
+      ALQ111 == 2 ~ "No",
+      TRUE        ~ NA_character_),
+      levels = c("No", "Yes"))
+  )
+
+# nice labels for the summary table
+labelled::var_label(analytic_full) <- list(
+  age       = "Age (years)",
+  sex       = "Sex",
+  race_eth  = "Race / ethnicity",
+  education = "Education",
+  marital   = "Marital status",
+  us_born   = "Country of birth",
+  interview_lang = "Interview language",
+  pir       = "Income-to-poverty ratio",
+  bmi       = "Body-mass index (kg/m²)",
+  gen_health     = "Self-rated general health",
+  hypertension   = "Ever told had high blood pressure",
+  smoked_100     = "Ever smoked ≥100 cigarettes",
+  alcohol_ever   = "Ever had an alcoholic drink",
+  insured   = "Health-insurance coverage",
+  screened  = "Blood-sugar screening (past 3 yr)"
+)
+```
+
+# 5. Apply the assumption-driven filters
+
+Only now do we restrict the sample, and *only* for reasons tied to the
+identifying assumptions:
+
+1. **Target population** → adults aged ≥ 20 (the age group `DMDEDUC2` and the
+   screening question are defined for).
+2. **Consistency / well-defined treatment & outcome** → must have answered both
+   the insurance and the screening question (non-missing $A$ and $Y$).
+
+Covariate missingness is **not** used to drop rows here — we keep those records
+so the missingness itself can be inspected before any complete-case or
+imputation decision in the modeling stage.
+
+```{r filter}
+analytic <- analytic_full %>%
+  filter(age >= 20,
+         !is.na(insured),
+         !is.na(screened))
+
+# CONSORT-style accounting of what each restriction removes
+flow <- tibble::tibble(
+  step = c("Merged (all DEMO respondents)",
+           "Aged >= 20",
+           "+ non-missing insurance (A)",
+           "+ non-missing screening (Y)  [analytic set]"),
+  n = c(
+    nrow(analytic_full),
+    sum(analytic_full$age >= 20, na.rm = TRUE),
+    sum(analytic_full$age >= 20 & !is.na(analytic_full$insured), na.rm = TRUE),
+    nrow(analytic)
+  )
+)
+flow
+
+# write the analytic dataframe to CSV
+out_csv <- "nhanes_insurance_screening_analytic.csv"
+analytic_out <- analytic %>%
+  select(SEQN, insured, screened,
+         age, sex, race_eth, education, marital, us_born, interview_lang,
+         pir, bmi, gen_health, hypertension, smoked_100, alcohol_ever,
+         SDMVPSU, SDMVSTRA, WTINTPRP, WTMECPRP)
+readr::write_csv(analytic_out, out_csv)
+cat("Wrote", nrow(analytic_out), "rows to", out_csv, "\n")
+```
+
+# 6. Positivity check — covariate distribution by treatment arm
+
+For the ATE to be identified, every covariate stratum must contain both
+insured and uninsured respondents (positivity).
+```{r tbl-summary}
+tbl <- analytic %>%
+  select(insured, age, sex, race_eth, education, marital, us_born,
+         interview_lang, pir, bmi, gen_health, hypertension,
+         smoked_100, alcohol_ever) %>%
+  tbl_summary(
+    by = insured,
+    missing = "ifany",
+    missing_text = "Missing",
+    statistic = list(all_continuous()  ~ "{mean} ({sd})",
+                     all_categorical() ~ "{n} ({p}%)"),
+    digits = all_continuous() ~ 1
+  ) %>%
+  add_overall() %>%
+  add_p() %>%                                  # association with treatment
+  add_n() %>%
+  modify_header(label ~ "**Covariate**") %>%
+  modify_spanning_header(all_stat_cols() ~ "**Insurance status (treatment)**") %>%
+  bold_labels()
+
+tbl
+```
+```{r tbl-by-outcome}
+# For completeness, the same distribution stratified by the OUTCOME.
+analytic %>%
+  select(screened, age, sex, race_eth, education, marital, us_born,
+         interview_lang, pir, bmi, gen_health, hypertension,
+         smoked_100, alcohol_ever) %>%
+  tbl_summary(
+    by = screened, missing = "ifany",
+    statistic = list(all_continuous() ~ "{mean} ({sd})")
+  ) %>%
+  add_overall() %>%
+  bold_labels()
+```
+
+# 7. Exploratory covariate analysis
+
+```{r explore-treatment-balance}
+# Standardized-mean-difference-style overlap: continuous covariates by arm
+analytic %>%
+  select(insured, age, pir, bmi) %>%
+  pivot_longer(-insured, names_to = "covariate", values_to = "value") %>%
+  ggplot(aes(value, fill = insured)) +
+  geom_density(alpha = 0.45) +
+  facet_wrap(~covariate, scales = "free", labeller = as_labeller(
+    c(age = "Age (years)", pir = "Income-to-poverty ratio",
+      bmi = "BMI (kg/m²)"))) +
+  labs(title = "Overlap of continuous covariates across treatment arms",
+       x = NULL, y = "Density", fill = NULL) +
+  theme(legend.position = "top")
+```
+```{r explore-categorical-overlap, fig.height=6}
+# Categorical covariate composition within each treatment arm
+analytic %>%
+  select(insured, sex, race_eth, education, marital, us_born,
+         interview_lang, gen_health, hypertension, smoked_100, alcohol_ever) %>%
+  mutate(across(-insured, as.character)) %>%
+  pivot_longer(-insured, names_to = "covariate", values_to = "level") %>%
+  filter(!is.na(level)) %>%
+  count(covariate, insured, level) %>%
+  group_by(covariate, insured) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup() %>%
+  ggplot(aes(prop, level, fill = insured)) +
+  geom_col(position = "dodge") +
+  facet_wrap(~covariate, scales = "free_y", ncol = 2) +
+  scale_x_continuous(labels = scales::percent) +
+  labs(title = "Categorical covariate distribution within each treatment arm",
+       x = "Within-arm proportion", y = NULL, fill = NULL) +
+  theme(legend.position = "top")
+```
+```{r explore-missingness}
+# Covariate missingness (informs complete-case vs imputation in modeling)
+analytic %>%
+  summarise(across(c(age, sex, race_eth, education, marital, us_born,
+                     interview_lang, pir, bmi, gen_health, hypertension,
+                     smoked_100, alcohol_ever),
+                   ~ mean(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "covariate",
+               values_to = "pct_missing") %>%
+  arrange(desc(pct_missing)) %>%
+  mutate(pct_missing = scales::percent(pct_missing, accuracy = 0.1))
+```
+```{r crude-outcome}
+# Crude (unadjusted) screening rate by insurance — the naive contrast
+analytic %>%
+  group_by(insured) %>%
+  summarise(n = n(),
+            screened_rate = mean(screened == "Screened"),
+            .groups = "drop")
+```
+
+
+
+
+# 8. Session info
+
+```{r session}
+sessionInfo()
+```
