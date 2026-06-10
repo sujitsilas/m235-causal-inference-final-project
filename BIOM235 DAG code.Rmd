@@ -101,7 +101,10 @@ Sex -> "Smoking status"
 
 # Generating the DAG a format defined by the ggdag package
 
-To create a readable DAG, the ggdag package uses a mixure of r-code and html. 
+To create a readable DAG, the ggdag package uses a mixture of r-code and html. 
+
+In the proposed DAG, *High blood pressure* acts as a confounder for the causal pathway, while simultaneously serving as a collider for upstream variables such as *Age*, *BMI*, and *Smoking status*. While conditioning on a collider typically induces collider-stratification bias by opening backdoor paths between its parents, these newly opened paths are simultaneously blocked because the parent variables (i.e.*Age*, *BMI*, etc) are adjusted for within the model. For this reason, adjusting for *High blood pressure* would be considered statistically safe and would not introduce bias into our causal estimand.
+
 
 ```{r layout}
 dag_cleaned <- tidy_dagitty(nhanes_dag) %>%
