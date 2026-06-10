@@ -6,7 +6,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 109282,Insured,Screened,76,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,3.61,26.6,Fair,Yes,Yes,Yes,2,164,28363.015286,31816.3465
 109283,Insured,Not screened,52,Male,Other/Multi,High school / GED,Widowed / divorced / separated,Born in U.S.,English,0.96,NA,Good,No,Yes,NA,2,149,42539.680445,0
 109284,Uninsured,Screened,44,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,NA,39.1,Fair,No,No,No,1,154,13822.803724,13794.793542
-109286,Insured,Screened,33,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,1.36,28.9,Very good,No,No,NA,2,154,13776.534942,14547.467164
 109291,Insured,Not screened,42,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born in U.S.,English,NA,31.3,Fair,Yes,No,No,1,161,15845.543149,17228.617805
 109295,Insured,Not screened,54,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,5,24.9,Good,No,No,No,2,155,9559.577848,9951.368904
 109297,Insured,Not screened,30,Female,Non-Hispanic Asian,Some college,Never married,Born in U.S.,English,NA,23.2,Very good,No,No,Yes,2,154,13785.399152,14974.372893
@@ -76,7 +75,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 109439,Insured,Not screened,59,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,1.8,32.6,Very good,No,No,Yes,1,168,11972.156692,12824.370509
 109441,Insured,Not screened,20,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,0.41,18,Very good,No,No,Yes,2,157,86649.297742,93014.979079
 109444,Insured,Not screened,21,Male,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,1.07,21.7,Good,No,No,Yes,2,166,16017.268528,16879.818188
-109447,Uninsured,Screened,25,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.44,26.3,Excellent,No,Yes,Yes,1,165,50390.533428,51420.188111
 109450,Insured,Not screened,29,Male,Other/Multi,< High school,Married / partnered,Born in U.S.,English,0.61,21.5,Fair,No,Yes,Yes,2,156,4616.310332,4862.353194
 109451,Insured,Screened,37,Male,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,3.43,42,Very good,No,No,NA,2,167,9679.377261,10713.472659
 109454,Insured,Not screened,25,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,0.29,50.9,Good,Yes,No,Yes,2,171,11041.525929,12158.466823
@@ -213,7 +211,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 109754,Insured,Not screened,47,Female,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,2.16,30.4,Excellent,No,No,Yes,2,156,32514.870665,37283.295712
 109755,Insured,Screened,23,Male,Other Hispanic,Some college,Never married,Born in U.S.,English,1.33,NA,Very good,Yes,No,NA,2,150,13021.519559,0
 109756,Insured,Screened,72,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,NA,NA,Fair,Yes,Yes,NA,2,164,4052.767276,0
-109757,Insured,Screened,30,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,3.92,35.1,Very good,No,No,NA,1,164,12412.214189,13029.287038
 109758,Uninsured,Not screened,26,Male,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,NA,20.3,Good,No,Yes,NA,1,152,10393.687647,11072.916542
 109759,Insured,Screened,57,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,NA,Excellent,Yes,No,NA,1,169,12498.030736,0
 109760,Insured,Not screened,53,Male,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,English,4.62,27.4,Very good,No,Yes,Yes,2,163,18287.268861,19223.705851
@@ -555,7 +552,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 110489,Insured,Screened,80,Male,Non-Hispanic Black,< High school,Widowed / divorced / separated,Born in U.S.,English,1.39,20.4,Poor,Yes,Yes,NA,1,170,7390.076724,7515.649611
 110490,Insured,Not screened,23,Female,Other Hispanic,Some college,Never married,Born in U.S.,English,NA,16.1,Excellent,No,No,Yes,2,155,3513.076222,3730.7881
 110492,Insured,Screened,39,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.74,30.7,Very good,No,No,Yes,2,163,8976.989497,9503.952579
-110493,Uninsured,Screened,37,Female,Non-Hispanic Black,< High school,Married / partnered,Born outside U.S.,English,1.14,37.6,Very good,No,No,No,1,166,23417.647508,24156.608228
 110494,Insured,Not screened,49,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,3.2,27.6,Very good,Yes,Yes,Yes,1,160,25777.481805,29268.623015
 110495,Insured,Not screened,54,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,3.52,62.1,Good,No,No,Yes,2,149,85939.813414,93758.107586
 110496,Insured,Screened,52,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.93,32,Very good,Yes,No,Yes,2,158,69485.247436,70003.732878
@@ -683,7 +679,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 110742,Insured,Not screened,55,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,1.52,22.6,Excellent,No,No,Yes,2,155,4060.292071,4073.812686
 110744,Insured,Screened,80,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,3.48,25.8,Good,No,Yes,Yes,2,150,5889.262054,6715.6106
 110747,Insured,Not screened,80,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,2.35,34.4,Good,No,Yes,Yes,2,159,10437.077822,11879.716727
-110748,Insured,Not screened,24,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,1.18,20.3,Very good,No,No,Yes,3,156,6611.523924,7141.022995
 110749,Insured,Screened,80,Female,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,NA,23.8,Fair,No,Yes,Yes,1,158,13220.362429,14770.308834
 110750,Insured,Screened,52,Male,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,2.6,31.5,Good,Yes,No,Yes,2,156,6516.615166,7118.950199
 110751,Insured,Screened,69,Female,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,0.31,41.4,Good,Yes,Yes,Yes,1,155,19635.520612,19871.042436
@@ -723,8 +718,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 110814,Uninsured,Not screened,21,Male,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,0.04,42.5,Good,No,No,No,1,157,98407.873088,111930.542427
 110816,Uninsured,Not screened,29,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.58,30.7,Excellent,No,Yes,NA,2,171,14128.628767,15380.134859
 110819,Uninsured,Screened,35,Female,Mexican American,High school / GED,Widowed / divorced / separated,Born outside U.S.,English,0.78,27.1,Excellent,No,No,Yes,1,159,44978.402337,47483.835971
-110824,Insured,Not screened,37,Female,Non-Hispanic Black,< High school,Never married,Born in U.S.,English,0,32.7,Good,No,Yes,Yes,2,166,7957.244139,8512.959658
-110826,Uninsured,Not screened,26,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,NA,34.9,Excellent,No,No,NA,2,161,17860.329499,19774.164387
 110830,Insured,Screened,33,Male,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,1.69,26.9,Very good,No,No,Yes,1,158,6820.895682,7508.911514
 110831,Insured,Not screened,67,Male,Non-Hispanic Black,Some college,Married / partnered,Born outside U.S.,English,NA,26.1,Excellent,Yes,Yes,NA,2,153,6159.050007,6445.261686
 110833,Insured,Screened,68,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,5,25.7,Very good,No,Yes,Yes,2,165,65295.559768,71280.788628
@@ -807,7 +800,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 110991,Insured,Screened,66,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,32.3,Fair,Yes,No,Yes,1,158,70945.092675,73160.740787
 110995,Insured,Screened,28,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.28,21.3,Excellent,No,Yes,Yes,1,155,54911.125228,57869.795419
 110997,Insured,Not screened,40,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.35,36.1,Good,No,No,Yes,2,156,31596.231119,33534.591378
-110998,Insured,Not screened,25,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.62,31.6,Very good,No,No,Yes,2,167,28641.478465,30962.258503
 110999,Insured,Screened,25,Female,Other/Multi,Some college,Married / partnered,Born in U.S.,English,1.46,22.6,Excellent,No,No,Yes,2,157,43200.025466,45212.471176
 111000,Uninsured,Screened,56,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,NA,NA,Poor,No,No,NA,2,150,6149.427499,0
 111002,Insured,Not screened,79,Female,Non-Hispanic Black,College graduate,Widowed / divorced / separated,Born in U.S.,English,NA,21.6,Good,Yes,No,NA,1,164,16469.649561,17618.460683
@@ -907,7 +899,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 111198,Insured,Screened,56,Female,Non-Hispanic Black,College graduate,Widowed / divorced / separated,Born in U.S.,English,NA,49.1,Good,No,Yes,Yes,2,169,11464.15283,13127.362693
 111199,Insured,Not screened,47,Female,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born outside U.S.,English,0.96,22.8,Excellent,No,No,Yes,2,165,25983.208871,27808.117508
 111201,Insured,Not screened,50,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,NA,25.8,Fair,No,No,Yes,1,150,5299.864363,5602.659604
-111204,Insured,Not screened,32,Female,Other Hispanic,Some college,Married / partnered,Born in U.S.,English,5,22.7,Very good,No,No,Yes,1,163,45741.695057,49674.322026
 111206,Insured,Not screened,61,Male,Other Hispanic,College graduate,Widowed / divorced / separated,Born outside U.S.,English,5,25.5,Very good,Yes,No,Yes,1,150,14453.45435,14361.265441
 111208,Insured,Screened,36,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,25.1,Good,No,No,Yes,2,171,9436.987667,10480.696665
 111209,Insured,Not screened,31,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.14,52.1,Good,No,No,Yes,1,159,96341.663174,94850.723856
@@ -1372,7 +1363,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 112113,Insured,Screened,70,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,4.64,35.5,Good,Yes,Yes,Yes,2,149,13703.941385,15152.701259
 112116,Insured,Screened,45,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,4.17,25.2,Excellent,Yes,No,No,2,157,33661.950054,37863.447746
 112117,Insured,Screened,72,Male,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,Spanish,0.82,33.4,Very good,Yes,Yes,Yes,1,169,22045.727328,23449.296211
-112118,Insured,Not screened,34,Female,Other Hispanic,< High school,Never married,Born in U.S.,English,NA,NA,Very good,No,Yes,NA,1,171,7884.251209,8387.083792
 112120,Insured,Not screened,20,Female,Non-Hispanic Asian,Some college,Never married,Born in U.S.,English,2.98,19.1,Very good,No,No,Yes,3,156,13658.885208,14549.339059
 112122,Insured,Not screened,22,Female,Mexican American,High school / GED,Never married,Born in U.S.,English,NA,24.2,Good,No,No,Yes,1,150,24986.843363,27929.337099
 112124,Uninsured,Not screened,71,Male,Mexican American,< High school,Widowed / divorced / separated,Born outside U.S.,Spanish,NA,21.3,Excellent,Yes,Yes,Yes,2,152,9567.871645,10301.469659
@@ -1454,7 +1444,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 112284,Insured,Screened,30,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.43,36.6,Fair,Yes,Yes,Yes,2,163,51949.291078,53190.449218
 112285,Insured,Not screened,65,Male,Non-Hispanic Black,College graduate,Never married,Born in U.S.,English,1.69,46.1,Fair,No,No,Yes,1,158,2708.640531,2854.550106
 112287,Insured,Screened,75,Female,Non-Hispanic Black,< High school,Widowed / divorced / separated,Born in U.S.,English,1.52,29.4,Good,Yes,Yes,No,2,157,17633.476755,19813.197561
-112288,Insured,Screened,39,Female,Other Hispanic,Some college,Married / partnered,Born outside U.S.,English,1.22,36.2,Very good,Yes,Yes,Yes,2,157,53512.594378,56852.782444
 112289,Insured,Not screened,29,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.79,26.5,Very good,No,Yes,Yes,1,155,42978.257419,49817.508487
 112291,Insured,Not screened,65,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,0.62,23.7,Good,No,Yes,Yes,2,159,37592.387702,41714.18588
 112292,Uninsured,Not screened,21,Male,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,NA,27.3,Good,No,No,Yes,2,151,9037.706671,9685.394608
@@ -1464,7 +1453,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 112299,Insured,Screened,56,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.98,25.8,Excellent,Yes,No,Yes,1,155,18333.600046,17912.659273
 112303,Insured,Screened,63,Female,Other/Multi,Some college,Married / partnered,Born in U.S.,English,2,45,Very good,No,Yes,Yes,1,158,21687.356971,22463.809345
 112305,Insured,Screened,67,Female,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.69,53.3,Fair,Yes,Yes,Yes,1,166,14283.551816,15319.188434
-112306,Uninsured,Not screened,21,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.74,29.9,Good,No,No,Yes,1,163,33627.787724,36606.51849
 112308,Insured,Not screened,29,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,NA,21.9,Very good,No,No,Yes,2,168,52856.938674,59099.584116
 112309,Insured,Not screened,39,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,2.28,31.5,Good,No,Yes,Yes,1,157,37113.1632,38632.316415
 112310,Insured,Screened,64,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.66,NA,Good,Yes,Yes,NA,2,158,19414.086735,0
@@ -1572,13 +1560,11 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 112517,Insured,Not screened,69,Female,Non-Hispanic Asian,College graduate,Widowed / divorced / separated,Born outside U.S.,English,NA,22.2,Excellent,No,No,Yes,1,160,15024.787206,16435.853646
 112520,Insured,Screened,55,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,NA,36,Good,No,No,Yes,2,156,31907.711481,34693.050299
 112523,Uninsured,Not screened,31,Male,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,1.64,30.1,Excellent,No,No,Yes,2,160,24355.987911,26199.705519
-112524,Insured,Not screened,20,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,NA,25.8,Excellent,No,No,Yes,2,156,11128.802238,12362.008089
 112525,Insured,Screened,65,Female,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,NA,41.4,Good,Yes,No,Yes,2,166,4328.037806,4608.178189
 112530,Insured,Not screened,70,Female,Non-Hispanic Asian,High school / GED,Married / partnered,Born outside U.S.,English,0.95,20,Very good,No,No,Yes,1,169,22317.484007,23481.624438
 112531,Uninsured,Not screened,53,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,1.45,22.5,Fair,No,Yes,Yes,2,151,3910.94771,4397.082657
 112532,Uninsured,Not screened,63,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.99,33.3,Very good,No,No,Yes,2,151,35692.500706,36053.758773
 112535,Insured,Not screened,53,Male,Non-Hispanic Black,College graduate,Married / partnered,Born outside U.S.,English,1.58,30.6,Very good,Yes,No,Yes,1,170,10727.828505,11438.617418
-112540,Uninsured,Not screened,26,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,NA,25.9,Very good,No,No,Yes,2,153,22418.226022,23732.672564
 112543,Insured,Not screened,55,Male,Non-Hispanic White,College graduate,Widowed / divorced / separated,Born in U.S.,English,1.58,30.3,Good,Yes,Yes,Yes,2,163,12015.914042,12821.102596
 112544,Insured,Not screened,28,Female,Mexican American,College graduate,Married / partnered,Born in U.S.,English,5,28.9,Excellent,No,No,Yes,2,161,44172.049445,47853.65844
 112545,Insured,Not screened,24,Male,Other/Multi,Some college,Married / partnered,Born in U.S.,English,2.9,NA,Good,No,No,NA,1,155,17468.40643,19481.229481
@@ -1695,7 +1681,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 112800,Insured,Not screened,28,Male,Non-Hispanic Black,Some college,Never married,Born outside U.S.,English,NA,24.3,Good,No,No,Yes,1,171,9398.134287,10401.627463
 112803,Insured,Screened,33,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,5,30.1,Fair,Yes,No,Yes,1,155,68062.918952000007,72010.523819
 112810,Uninsured,Not screened,44,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,0.98,NA,Very good,Yes,Yes,NA,2,151,9975.367416,0
-112815,Insured,Not screened,26,Female,Other Hispanic,College graduate,Married / partnered,Born in U.S.,English,5,24.4,Very good,No,No,Yes,1,159,47826.555894,50606.574163
 112816,Insured,Screened,55,Female,Non-Hispanic White,College graduate,Widowed / divorced / separated,Born outside U.S.,English,NA,NA,Good,No,No,NA,2,171,26978.440437,0
 112817,Insured,Not screened,20,Female,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,3.4,20.3,Very good,No,No,Yes,1,158,75368.64932,82602.221828
 112818,Insured,Screened,67,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,NA,22.3,Excellent,No,No,Yes,1,161,14159.758573,15503.487149
@@ -1814,7 +1799,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 113033,Insured,Screened,28,Female,Other/Multi,College graduate,Married / partnered,Born in U.S.,English,3.38,44.1,Good,No,Yes,Yes,2,165,18693.469684,19718.750718
 113037,Uninsured,Screened,54,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.78,36.1,Excellent,No,No,No,2,163,18820.352992,18801.767855
 113038,Insured,Screened,65,Male,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,2.24,25,Very good,No,Yes,Yes,2,156,3263.809883,3440.139255
-113041,Uninsured,Not screened,31,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,0.52,20.8,Excellent,No,Yes,No,2,170,9537.686512,9823.58223
 113045,Uninsured,Not screened,21,Male,Other Hispanic,High school / GED,Never married,Born in U.S.,English,NA,21.9,Excellent,No,No,Yes,1,156,29054.08693,33304.092492
 113046,Insured,Not screened,62,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,1.77,37.1,Good,Yes,Yes,Yes,3,156,12972.351371,13721.352042
 113047,Insured,Not screened,80,Male,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.16,21.3,Good,No,Yes,Yes,2,156,6548.921551,7418.414763
@@ -1895,7 +1879,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 113227,Insured,Screened,38,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,1.56,36.1,Fair,Yes,Yes,Yes,2,158,22527.625906,24237.096687
 113231,Uninsured,Screened,62,Female,Non-Hispanic White,< High school,Widowed / divorced / separated,Born in U.S.,English,3.15,32.2,Fair,Yes,Yes,Yes,1,155,15755.417861,16558.359841
 113232,Insured,Screened,41,Male,Non-Hispanic Black,College graduate,Married / partnered,Born outside U.S.,English,5,32.7,Very good,No,No,Yes,3,156,6488.610143,6748.382172
-113233,Insured,Screened,41,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.09,40.4,Good,No,Yes,Yes,1,170,89280.967234,93525.014516
 113236,Insured,Not screened,55,Female,Other/Multi,College graduate,Married / partnered,Born in U.S.,English,3.92,32.1,Good,No,Yes,Yes,1,172,25239.573292,26445.89013
 113237,Insured,Screened,59,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.2,41,Very good,No,No,Yes,1,165,20446.468894,21834.218021
 113239,Insured,Screened,28,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,0.68,NA,Very good,Yes,No,NA,2,154,13433.446863,0
@@ -2032,7 +2015,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 113467,Insured,Screened,63,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,4.29,29.9,Good,Yes,No,Yes,1,164,85626.5668,86669.492315
 113468,Uninsured,Not screened,22,Male,Mexican American,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.32,37.1,Very good,No,No,Yes,1,159,40685.328844,45591.937407
 113469,Insured,Not screened,36,Male,Non-Hispanic White,Some college,Never married,Born in U.S.,English,2.03,28.5,Excellent,No,Yes,NA,1,167,54442.184375,61992.288322
-113470,Insured,Screened,29,Female,Non-Hispanic Asian,High school / GED,Married / partnered,Born outside U.S.,English,4.81,23.7,Excellent,No,No,Yes,1,169,23277.876874,24251.74792
 113472,Uninsured,Not screened,48,Female,Non-Hispanic Black,< High school,Never married,Born in U.S.,English,NA,24,Good,Yes,Yes,Yes,1,167,5713.6209930000005,6354.179708
 113473,Insured,Screened,80,Female,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,5,23.8,Very good,Yes,Yes,NA,2,170,7551.054129,8214.401902
 113478,Insured,Screened,31,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,2.07,46.9,Good,No,No,Yes,1,151,14034.091923,14844.5915
@@ -2051,7 +2033,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 113500,Insured,Not screened,80,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,2.31,27.9,Very good,No,No,Yes,2,162,48848.547905,53506.196891
 113501,Insured,Screened,56,Male,Other Hispanic,High school / GED,Widowed / divorced / separated,Born outside U.S.,Spanish,0.8,45.1,Fair,Yes,Yes,Yes,1,149,20422.284062,22749.349718
 113503,Insured,Screened,68,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,1.7,51.5,Good,Yes,No,Yes,1,157,24276.440998,26110.381351
-113504,Insured,Not screened,30,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.29,47.6,Excellent,No,Yes,Yes,1,161,19120.738746,21096.657389
 113505,Insured,Screened,29,Female,Non-Hispanic Black,College graduate,Married / partnered,Born outside U.S.,English,4.22,29.4,Excellent,No,No,Yes,1,151,17570.540108,19140.835292
 113509,Insured,Not screened,26,Male,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,4.39,24.2,Very good,No,No,Yes,2,170,53885.162196,59740.629847
 113514,Insured,Screened,42,Male,Other Hispanic,Some college,Married / partnered,Born outside U.S.,Spanish,0.84,38.4,Fair,Yes,Yes,Yes,1,149,12776.791093,13816.93975
@@ -2072,7 +2053,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 113551,Insured,Not screened,37,Female,Mexican American,College graduate,Widowed / divorced / separated,Born outside U.S.,English,0.89,26.9,Very good,No,No,Yes,2,156,14929.158395,15438.153005
 113552,Insured,Screened,80,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,33.3,Good,Yes,No,No,1,150,8356.310083,9409.507865
 113553,Insured,Screened,50,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,5,33.6,Very good,Yes,No,Yes,2,166,80465.241287,87264.688466
-113556,Insured,Not screened,23,Female,Other Hispanic,Some college,Married / partnered,Born in U.S.,English,2.55,29.1,Very good,No,No,No,1,155,30842.785475,32290.821046
 113558,Insured,Screened,33,Male,Other Hispanic,High school / GED,Married / partnered,Born in U.S.,English,3.88,26.2,Excellent,Yes,No,Yes,2,149,49575.459631,53440.61746
 113559,Insured,Screened,63,Male,Mexican American,Some college,Married / partnered,Born in U.S.,English,4.31,31.2,Good,Yes,Yes,Yes,1,161,10018.199425,10553.790959
 113560,Insured,Not screened,61,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,2.95,28.5,Fair,Yes,Yes,Yes,1,165,6094.684478,6443.114566
@@ -2100,7 +2080,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 113600,Insured,Not screened,80,Female,Non-Hispanic White,< High school,Never married,Born in U.S.,English,1.92,25.1,Very good,Yes,Yes,Yes,2,149,24473.056071,32032.146888
 113602,Insured,Not screened,45,Male,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,Spanish,2.3,25.7,Excellent,No,Yes,Yes,1,156,30531.42211,33505.388477
 113606,Insured,Not screened,39,Male,Mexican American,College graduate,Widowed / divorced / separated,Born outside U.S.,English,5,NA,Excellent,No,Yes,NA,1,170,29800.735086,0
-113613,Insured,Screened,20,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,1.35,26.2,Excellent,No,No,NA,1,170,11233.619067,11772.035614
 113614,Uninsured,Not screened,30,Male,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,NA,25.4,Very good,No,No,Yes,1,160,18165.160873,20099.413646
 113615,Insured,Not screened,54,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,NA,27.2,Excellent,No,No,Yes,1,164,88659.588319,94476.240122
 113616,Insured,Not screened,66,Male,Mexican American,High school / GED,Never married,Born in U.S.,English,2.42,28.7,Good,Yes,No,Yes,1,151,7361.710231,7815.550723
@@ -2213,7 +2192,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 113826,Insured,Not screened,70,Female,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.36,38.9,Good,Yes,No,Yes,3,156,14194.204452,16105.877807
 113827,Uninsured,Screened,80,Male,Non-Hispanic White,< High school,Widowed / divorced / separated,Born in U.S.,English,2.19,21.4,Excellent,Yes,Yes,Yes,1,167,14429.038449,17621.848746
 113828,Insured,Not screened,42,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,3.88,31.4,Very good,No,No,Yes,2,161,17357.845522,17676.462318
-113830,Insured,Screened,31,Female,Other/Multi,College graduate,Married / partnered,Born in U.S.,English,2.48,34.7,Good,Yes,No,Yes,1,156,14344.412554,14951.192072
 113834,Insured,Screened,42,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,NA,24.6,Very good,No,No,Yes,1,159,12218.633916,12774.796981
 113838,Uninsured,Screened,59,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,0.96,17,Fair,No,No,NA,2,154,7080.746612,7133.97463
 113840,Insured,Screened,62,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,4.25,23.6,Good,No,Yes,Yes,2,153,11881.252931,12098.809179
@@ -2552,7 +2530,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 114523,Insured,Screened,38,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,English,1.49,21.9,Poor,No,No,No,1,151,12154.842613,12743.477615
 114527,Insured,Screened,55,Female,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,English,2.61,26.9,Very good,No,Yes,Yes,1,156,24536.711851,26723.772274
 114530,Uninsured,Screened,52,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,1.17,26.4,Good,Yes,No,Yes,1,160,14315.190388,16608.977949
-114531,Insured,Screened,29,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,NA,28.4,Good,Yes,Yes,Yes,2,155,2592.462662,2813.489582
 114533,Insured,Not screened,23,Female,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,NA,27.7,Very good,No,Yes,Yes,2,149,80356.697969,86014.706484
 114534,Insured,Not screened,80,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.33,36.6,Very good,Yes,Yes,Yes,2,158,15890.063967,17512.409756
 114535,Insured,Screened,80,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,5,27.6,Good,Yes,Yes,Yes,2,159,13637.209741,15496.594909
@@ -2587,7 +2564,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 114595,Uninsured,Not screened,25,Female,Other/Multi,Some college,Married / partnered,Born in U.S.,English,1.05,29.4,Good,No,Yes,Yes,2,164,26252.25231,28206.163855
 114596,Insured,Screened,78,Male,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,1.54,26.8,Fair,Yes,Yes,Yes,1,165,9865.360705,10211.202548
 114597,Insured,Not screened,21,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,NA,29.4,Excellent,No,No,Yes,2,153,94095.957028,97103.278453
-114601,Insured,Screened,40,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,21.6,Very good,No,No,Yes,1,153,12316.500806,13473.297993
 114607,Uninsured,Not screened,22,Male,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,NA,27.5,Good,No,No,Yes,2,153,28358.037332,31978.911185
 114610,Uninsured,Not screened,38,Male,Mexican American,< High school,Married / partnered,Born in U.S.,English,0.87,25.6,Good,No,Yes,Yes,1,151,31219.872305,34239.959695
 114611,Uninsured,Not screened,61,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,1.52,28,Fair,Yes,Yes,Yes,1,163,56782.250698,65229.638906
@@ -2605,7 +2581,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 114633,Insured,Not screened,35,Female,Other Hispanic,College graduate,Married / partnered,Born outside U.S.,English,3.66,26.9,Very good,No,No,Yes,1,153,31513.982845,32876.555802
 114634,Insured,Screened,32,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,22.6,Very good,No,No,Yes,1,171,42840.460085,44095.969682
 114636,Insured,Not screened,50,Male,Other Hispanic,Some college,Married / partnered,Born in U.S.,English,1.47,33.1,Very good,No,Yes,Yes,1,165,19068.545024,19859.596529
-114640,Insured,Screened,33,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,29.8,Very good,No,Yes,Yes,3,156,94905.413068,102183.029142
 114641,Insured,Not screened,26,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,3.88,17.7,Excellent,No,No,Yes,1,159,19869.707679,20329.446977
 114642,Insured,Screened,80,Male,Non-Hispanic White,Some college,Never married,Born in U.S.,English,NA,NA,Very good,Yes,No,NA,1,150,11316.921792,0
 114643,Insured,Screened,50,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,NA,23,Very good,No,No,Yes,1,159,20754.359227,22821.80867
@@ -2630,7 +2605,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 114686,Insured,Not screened,80,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,NA,42.2,Good,Yes,Yes,Yes,1,150,19571.3684,22984.730149
 114688,Insured,Screened,28,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,1.13,22.7,Fair,No,Yes,Yes,2,172,25484.864725,27797.994799
 114690,Insured,Not screened,41,Female,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,0.55,26.1,Fair,No,No,Yes,1,166,27737.872445,30008.031914
-114691,Insured,Screened,34,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,NA,44.1,Very good,No,No,Yes,2,157,35963.584768,38082.750427
 114692,Uninsured,Not screened,41,Male,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,Spanish,2.65,39.9,Good,No,Yes,Yes,2,152,27966.868467,29495.559191
 114693,Insured,Not screened,48,Female,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,0.4,40.7,Poor,Yes,No,Yes,2,159,38175.455732,39084.81431
 114696,Insured,Screened,36,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,2.64,36.5,Good,No,No,Yes,1,149,51356.558474,54607.574341
@@ -2790,7 +2764,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 114995,Insured,Screened,62,Female,Mexican American,High school / GED,Married / partnered,Born outside U.S.,Spanish,1.94,28,Fair,No,No,Yes,2,165,12846.707569,14006.750833
 114996,Insured,Not screened,55,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,4.73,22.9,Fair,Yes,Yes,No,1,168,11521.442634000001,11856.714455
 114997,Insured,Screened,41,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,2.89,25.6,Excellent,No,No,Yes,2,166,98230.621168,104261.107087
-114999,Uninsured,Not screened,20,Female,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,NA,33.3,Very good,No,No,Yes,2,153,31330.999392,34847.81167
 115003,Insured,Screened,48,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,4.73,28.1,Very good,No,No,Yes,2,160,79313.622466,86903.619295
 115004,Insured,Not screened,23,Female,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,5,25.1,Very good,No,No,Yes,1,155,50887.45319,52248.733643
 115005,Insured,Screened,52,Male,Mexican American,< High school,Widowed / divorced / separated,Born outside U.S.,Spanish,2.02,26.1,Fair,No,No,No,2,154,11399.392999,11894.341879
@@ -2825,7 +2798,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 115064,Insured,Screened,45,Female,Other/Multi,Some college,Never married,Born in U.S.,English,0.79,42.4,Fair,Yes,Yes,Yes,2,161,12714.758415,13369.1596
 115065,Insured,Not screened,46,Female,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,0.88,20.7,Good,No,No,Yes,1,170,7836.357232,8253.400594
 115066,Uninsured,Not screened,64,Male,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,2.28,29.7,Good,No,Yes,Yes,2,158,14434.373656,16912.821555
-115067,Insured,Screened,29,Female,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,NA,30.6,Good,No,Yes,Yes,2,152,7003.22994,7897.990156
 115069,Insured,Not screened,23,Female,Non-Hispanic Black,Some college,Married / partnered,Born outside U.S.,English,1.74,21.6,Very good,No,No,No,2,149,28870.526909,30602.559184
 115070,Insured,Not screened,39,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,0.66,17.7,Good,No,Yes,Yes,1,165,34209.239713,34909.422024
 115071,Uninsured,Not screened,30,Male,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,2.41,NA,Very good,No,No,NA,2,164,12690.782032,0
@@ -2914,7 +2886,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 115249,Insured,Screened,57,Female,Other Hispanic,College graduate,Married / partnered,Born outside U.S.,Spanish,5,32.9,Good,No,No,No,2,162,47710.331552,46243.572252
 115250,Uninsured,Not screened,26,Male,Non-Hispanic White,Some college,Never married,Born in U.S.,English,1.24,21.2,Excellent,No,Yes,Yes,2,161,54750.342778,66916.082842
 115251,Insured,Not screened,36,Male,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,5,NA,Excellent,No,Yes,NA,1,149,40400.913845,0
-115252,Insured,Screened,40,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,3.88,27.6,Excellent,No,Yes,Yes,1,149,59950.821914,67576.585989
 115255,Insured,Not screened,40,Male,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,5,28.4,Fair,No,Yes,Yes,2,164,45444.154253,47204.905271
 115257,Insured,Screened,39,Female,Non-Hispanic White,College graduate,Widowed / divorced / separated,Born in U.S.,English,4.07,23.3,Excellent,Yes,Yes,Yes,2,157,154665.653995,160859.547797
 115258,Uninsured,Not screened,23,Female,Other Hispanic,College graduate,Married / partnered,Born in U.S.,English,2.93,33.1,Good,No,No,Yes,2,150,18489.858115,18974.498204
@@ -3012,7 +2983,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 115423,Uninsured,Not screened,22,Male,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,3.75,22.9,Excellent,No,No,Yes,1,152,21917.459333,23468.261047
 115426,Insured,Screened,75,Female,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,1.85,23.1,Good,Yes,No,No,1,154,12142.362882,12571.683479
 115428,Insured,Screened,52,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,2.62,26.1,Good,No,No,Yes,2,167,7315.351018,7914.70691
-115430,Insured,Not screened,42,Female,Non-Hispanic Black,Some college,Married / partnered,Born outside U.S.,English,0.85,29.1,Very good,No,No,NA,2,153,14095.987177,16199.324544
 115431,Uninsured,Not screened,28,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,0.78,24.5,Very good,No,Yes,Yes,1,151,90586.880075,103004.509292
 115437,Insured,Screened,79,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,2.9,25.2,Very good,Yes,Yes,Yes,1,165,44113.491525,49622.066421
 115438,Insured,Not screened,40,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,26.7,Very good,Yes,No,Yes,1,150,35947.852678,38046.79338
@@ -3183,7 +3153,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 115820,Uninsured,Not screened,48,Male,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,1.77,25,Good,No,No,Yes,2,160,21363.290859,23092.885969
 115822,Insured,Screened,67,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,1.27,25.5,Good,Yes,No,Yes,2,170,3833.728777,3929.78284
 115824,Insured,Screened,80,Female,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.18,NA,Good,No,No,NA,1,163,32793.370011,0
-115825,Insured,Screened,22,Female,Other Hispanic,Some college,Never married,Born outside U.S.,Spanish,2.65,31.2,Very good,No,No,Yes,3,156,17394.081247,18164.972071
 115827,Uninsured,Not screened,41,Male,Mexican American,< High school,Never married,Born outside U.S.,Spanish,2.89,32.5,Fair,No,Yes,Yes,2,161,23886.15345,24806.851902
 115829,Uninsured,Not screened,23,Male,Non-Hispanic White,< High school,Never married,Born in U.S.,English,1.18,24.3,Good,No,Yes,Yes,2,151,17510.031218,20604.986632
 115831,Insured,Not screened,28,Female,Other/Multi,High school / GED,Married / partnered,Born in U.S.,English,0.84,29,Fair,No,Yes,Yes,1,171,10675.736455,11914.38686
@@ -3204,7 +3173,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 115861,Insured,Screened,70,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.55,26.7,Very good,Yes,Yes,Yes,1,166,73672.434767,83292.667571
 115862,Uninsured,Screened,24,Male,Mexican American,High school / GED,Never married,Born in U.S.,English,NA,NA,Good,No,Yes,Yes,2,154,42786.634528,49045.424734
 115864,Uninsured,Not screened,56,Male,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,1.49,22.2,Very good,No,Yes,Yes,2,163,7061.915073,7538.964092
-115865,Insured,Screened,32,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,27.3,Good,No,No,NA,2,162,26712.884082,28134.646688
 115867,Uninsured,Not screened,26,Male,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,2.02,41.1,Very good,No,Yes,Yes,1,167,10060.645199,10534.51938
 115868,Insured,Screened,53,Male,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,NA,29.6,Good,Yes,No,Yes,1,158,10685.19647,11410.951804
 115874,Uninsured,Screened,54,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,1.6,37.5,Very good,Yes,Yes,Yes,1,152,8859.036416,8947.109068
@@ -3221,7 +3189,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 115894,Insured,Screened,66,Female,Mexican American,Some college,Married / partnered,Born in U.S.,English,1.95,NA,Fair,Yes,No,NA,2,154,11323.394032,0
 115895,Insured,Screened,70,Male,Other/Multi,Some college,Married / partnered,Born in U.S.,English,0.79,29.8,Poor,No,No,Yes,2,156,9566.90769,10358.49354
 115898,Insured,Screened,59,Male,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.97,34.1,Very good,No,Yes,Yes,1,167,69014.636577,70255.609707
-115902,Uninsured,Not screened,31,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,English,0.81,38.7,Good,No,No,Yes,1,172,24222.122468,25766.932759
 115904,Insured,Screened,67,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,5,23.1,Good,Yes,Yes,Yes,2,156,24410.388533,26957.824026
 115907,Insured,Screened,63,Male,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,5,27,Excellent,Yes,No,Yes,2,155,7126.292844,7971.748838
 115908,Insured,Screened,65,Male,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,2.82,20.6,Good,No,Yes,Yes,1,164,6544.609724,6880.730508
@@ -3252,14 +3219,12 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 115958,Insured,Screened,38,Female,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,1.22,40.6,Fair,No,No,Yes,1,155,32928.141249,36772.088421
 115959,Insured,Not screened,20,Male,Mexican American,Some college,Never married,Born in U.S.,English,0.39,20.5,Very good,No,No,Yes,2,151,9658.173932,10402.401893
 115961,Insured,Not screened,52,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,36.4,Excellent,No,No,Yes,2,159,47815.245511,51019.942066
-115962,Insured,Not screened,20,Female,Other Hispanic,< High school,Married / partnered,Born in U.S.,English,0.52,35.8,Good,No,No,Yes,1,149,9472.075705,10229.163255
 115963,Insured,Screened,79,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,0.87,23.7,Fair,No,No,NA,2,153,13187.944848,13874.098696
 115969,Insured,Screened,56,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,5,33.9,Good,Yes,No,Yes,1,161,17698.293824,18491.469604
 115975,Insured,Not screened,38,Female,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,3.4,32.7,Excellent,No,No,NA,1,169,16880.459766,16612.434438
 115976,Insured,Screened,37,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,4.9,24.5,Good,No,No,NA,1,161,12897.650144,13861.548456
 115978,Insured,Screened,40,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.96,33.9,Very good,Yes,Yes,NA,2,167,37738.927769,38352.282861
 115979,Insured,Screened,24,Female,Other Hispanic,Some college,Widowed / divorced / separated,Born in U.S.,English,NA,42.3,Good,No,Yes,Yes,2,157,46614.706444,48636.978174
-115982,Insured,Screened,30,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,NA,26.1,Excellent,No,No,Yes,1,170,10648.44734,11434.533098
 115983,Insured,Screened,72,Female,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,3.05,29.5,Good,Yes,Yes,Yes,2,150,13769.937025,16435.647823
 115986,Insured,Screened,55,Female,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.46,39.4,Good,No,No,Yes,1,157,33705.237632,37794.170523
 115988,Insured,Screened,57,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,28.7,Good,No,No,Yes,3,156,95286.074231,110764.143049
@@ -3329,7 +3294,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 116115,Insured,Screened,42,Female,Non-Hispanic Black,< High school,Married / partnered,Born outside U.S.,English,2.76,30.3,Excellent,No,No,Yes,3,156,11621.805724,13700.256301
 116116,Insured,Screened,23,Male,Non-Hispanic White,Some college,Never married,Born in U.S.,English,5,38.4,Fair,No,No,Yes,2,159,40299.062737,46838.239014
 116118,Insured,Screened,56,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,5,23.6,Excellent,No,No,Yes,1,156,76069.975096,82318.274202
-116119,Insured,Screened,37,Female,Mexican American,Some college,Married / partnered,Born in U.S.,English,1.99,39.6,Fair,No,No,Yes,2,155,13742.349639,14388.621635
 116120,Insured,Screened,71,Female,Other Hispanic,< High school,Widowed / divorced / separated,Born in U.S.,English,1.52,27,Excellent,No,No,Yes,2,159,8501.802286,9208.830893
 116121,Insured,Not screened,34,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.69,30.3,Excellent,No,Yes,Yes,2,151,6789.73531,7216.235894
 116125,Insured,Screened,69,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.32,25.1,Very good,Yes,Yes,Yes,2,151,20057.07639,22150.206051
@@ -3583,7 +3547,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 116633,Uninsured,Not screened,42,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,1.46,23.7,Good,No,No,NA,2,167,55729.965725,62905.550395
 116634,Insured,Not screened,80,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,2.77,27.2,Good,Yes,Yes,Yes,1,172,11389.159522,11988.418135
 116635,Insured,Not screened,47,Female,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,0.45,26.8,Fair,Yes,No,Yes,1,149,8878.899682,9608.381381
-116637,Insured,Not screened,30,Female,Other Hispanic,College graduate,Married / partnered,Born in U.S.,English,5,21,Very good,No,No,Yes,1,159,31862.351724,33262.617612
 116640,Insured,Screened,75,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.77,NA,Good,Yes,Yes,NA,1,154,45710.153215,0
 116642,Insured,Not screened,73,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,3.04,25.7,Good,No,No,Yes,2,158,68515.691207,73586.764625
 116643,Insured,Screened,41,Male,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,0.56,31.9,Very good,No,Yes,Yes,3,156,12387.386826,13545.43631
@@ -3611,7 +3574,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 116678,Insured,Screened,20,Female,Mexican American,< High school,Never married,Born in U.S.,English,0.45,17.5,Good,No,No,Yes,1,154,25212.757509,27309.265564
 116680,Insured,Screened,46,Female,Mexican American,< High school,Widowed / divorced / separated,Born outside U.S.,English,1.1,30.2,Good,No,No,Yes,2,164,8877.267578,9352.800183
 116684,Uninsured,Not screened,21,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,NA,32,Fair,No,No,No,2,158,36013.911644,39335.699967
-116687,Uninsured,Screened,29,Female,Non-Hispanic Black,College graduate,Never married,Born outside U.S.,English,1.65,36.2,Very good,Yes,No,NA,2,156,9250.883625,10086.688327
 116688,Insured,Not screened,80,Female,Non-Hispanic White,High school / GED,Married / partnered,Born outside U.S.,English,5,NA,Fair,Yes,No,NA,2,156,15712.464659,0
 116691,Insured,Screened,53,Female,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,0.66,28.8,Good,Yes,No,NA,1,153,15241.76312,16151.885539
 116694,Insured,Screened,57,Female,Non-Hispanic White,College graduate,Married / partnered,Born outside U.S.,English,5,27.7,Excellent,No,Yes,Yes,1,156,123718.234024,141679.305511
@@ -3869,7 +3831,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 117210,Insured,Screened,63,Female,Non-Hispanic Asian,< High school,Widowed / divorced / separated,Born outside U.S.,English,5,32.7,Fair,No,No,No,1,169,18993.399706,19042.506237
 117211,Insured,Not screened,70,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,23.9,Excellent,No,Yes,Yes,1,169,12523.990925,12738.702145
 117212,Uninsured,Not screened,30,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,1.72,33.9,Very good,No,Yes,Yes,2,151,19547.003394,20014.01501
-117216,Uninsured,Screened,23,Female,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,0.61,35.6,Very good,No,No,Yes,2,170,8815.668975,9517.084623
 117217,Insured,Screened,73,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,1.97,27.8,Fair,Yes,Yes,Yes,2,163,7823.651788,8833.645187
 117219,Insured,Not screened,61,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,1.99,31.8,Fair,No,No,No,1,160,19305.519732,20468.934568
 117220,Insured,Screened,80,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,3.98,24.3,Excellent,No,No,No,1,162,15518.999329,19587.719427
@@ -3908,7 +3869,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 117298,Insured,Screened,58,Female,Non-Hispanic Asian,High school / GED,Widowed / divorced / separated,Born outside U.S.,English,NA,23.6,Very good,No,No,NA,1,161,12660.381698,13189.231601
 117301,Insured,Screened,73,Female,Other Hispanic,High school / GED,Widowed / divorced / separated,Born outside U.S.,English,0.17,22.4,Fair,Yes,No,Yes,2,157,26054.120647,28621.413947
 117302,Insured,Not screened,63,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,5,23.7,Very good,Yes,No,Yes,2,159,57774.205586,62257.709443
-117303,Insured,Screened,37,Female,Other Hispanic,High school / GED,Never married,Born outside U.S.,Spanish,0.68,25.5,Excellent,No,No,Yes,2,153,26635.611264,28593.584183
 117305,Insured,Screened,68,Female,Other/Multi,Some college,Widowed / divorced / separated,Born in U.S.,English,1.66,36.9,Fair,Yes,Yes,Yes,2,159,40423.663259,38782.61531
 117306,Insured,Not screened,42,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,21.3,Very good,No,No,Yes,2,151,35182.115458,39713.918737
 117307,Insured,Not screened,62,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,NA,24.7,Very good,No,No,Yes,2,168,37022.227488,37728.129157
@@ -3951,7 +3911,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 117387,Insured,Not screened,31,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,4.14,46,Fair,No,No,Yes,1,149,45371.554541,46940.302335
 117388,Insured,Not screened,36,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,4.05,31.1,Good,No,No,Yes,2,156,10760.790638,11606.87835
 117389,Insured,Screened,34,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.06,42.1,Very good,No,Yes,Yes,2,170,84595.548345,90114.006846
-117394,Insured,Screened,24,Female,Non-Hispanic Asian,High school / GED,Married / partnered,Born outside U.S.,English,NA,24.7,Good,No,No,No,2,169,15012.050844,15404.965594
 117395,Insured,Screened,73,Female,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,NA,27.3,Good,No,No,No,1,149,6408.793146,7049.710266
 117397,Insured,Not screened,70,Male,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,1.27,23.7,Good,No,No,Yes,1,152,8002.073431,8384.763571
 117398,Insured,Screened,61,Female,Non-Hispanic White,< High school,Never married,Born in U.S.,English,1.88,58.8,Fair,No,Yes,Yes,1,155,19419.424597,20409.095031
@@ -4038,7 +3997,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 117589,Insured,Not screened,59,Female,Non-Hispanic White,College graduate,Married / partnered,Born outside U.S.,English,NA,24.9,Very good,No,Yes,Yes,1,165,118696.300362,129195.498045
 117592,Insured,Screened,31,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,0.81,26.9,Very good,No,Yes,Yes,1,157,40357.94345,43911.412982
 117593,Insured,Screened,80,Female,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,4.14,NA,Very good,Yes,No,NA,2,151,8874.080095,0
-117595,Insured,Screened,35,Female,Non-Hispanic White,Some college,Married / partnered,Born outside U.S.,English,0.93,25.8,Very good,No,No,Yes,2,149,43298.691617,42915.716915
 117598,Insured,Screened,70,Male,Other/Multi,High school / GED,Married / partnered,Born in U.S.,English,3.78,36.9,Good,Yes,Yes,Yes,2,159,45477.755891,46454.745984
 117599,Insured,Not screened,62,Female,Other/Multi,High school / GED,Widowed / divorced / separated,Born in U.S.,English,0.45,27.4,NA,Yes,Yes,Yes,1,150,4966.795226,5153.100438
 117600,Insured,Screened,27,Female,Non-Hispanic Black,College graduate,Married / partnered,Born outside U.S.,English,5,31.6,Very good,No,No,Yes,3,156,22124.063833,24124.087192
@@ -4106,7 +4064,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 117714,Uninsured,Screened,51,Female,Mexican American,High school / GED,Widowed / divorced / separated,Born outside U.S.,Spanish,NA,24.7,Good,No,No,Yes,2,160,20079.335527,21674.449058
 117720,Insured,Not screened,31,Male,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,5,30.2,Very good,No,Yes,Yes,2,170,9554.876682,10142.276928
 117722,Uninsured,Not screened,29,Female,Non-Hispanic Black,High school / GED,Married / partnered,Born outside U.S.,English,1.2,NA,Very good,No,No,NA,2,168,12346.035166,0
-117725,Insured,Not screened,28,Female,Non-Hispanic Black,College graduate,Never married,Born in U.S.,English,5,25.2,Very good,No,No,Yes,1,168,19660.616274,21007.870995
 117727,Insured,Screened,74,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,26.5,Very good,Yes,Yes,Yes,3,156,51113.924782,58968.905375
 117729,Insured,Screened,67,Female,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,0.99,28.9,Fair,Yes,No,Yes,3,156,11853.059955,12845.861064
 117730,Uninsured,Screened,45,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,0.7,27.9,Very good,No,No,Yes,2,152,11081.327423,12044.164556
@@ -4222,7 +4179,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 117968,Insured,Not screened,39,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.22,36.1,Fair,Yes,No,Yes,2,166,89626.513385,98773.365199
 117971,Uninsured,Not screened,21,Female,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,NA,20.6,Excellent,No,Yes,Yes,1,158,55965.668357,59390.337446
 117974,Insured,Not screened,39,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,23.9,Excellent,No,No,Yes,1,159,22060.684238,23951.658308
-117975,Insured,Not screened,22,Female,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,NA,36.8,Good,No,No,Yes,2,158,73265.193891,79198.163426
 117979,Insured,Not screened,29,Male,Mexican American,< High school,Never married,Born outside U.S.,Spanish,2.89,45,Fair,No,No,Yes,2,161,27624.271054,30836.343575
 117981,Insured,Not screened,24,Male,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,2.61,24.1,Excellent,No,No,Yes,1,155,36813.139868,40208.64601
 117984,Insured,Screened,65,Female,Non-Hispanic Black,College graduate,Widowed / divorced / separated,Born in U.S.,English,5,35.1,Good,Yes,Yes,Yes,1,168,9653.846286,9847.681386
@@ -4330,7 +4286,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 118193,Insured,Screened,51,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,5,23.1,Very good,No,Yes,Yes,1,158,144350.738258,158727.918792
 118194,Insured,Screened,74,Male,Other/Multi,High school / GED,Married / partnered,Born in U.S.,English,NA,NA,Fair,Yes,No,Yes,2,171,6257.977377,6450.224117
 118195,Insured,Not screened,41,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,NA,Good,No,No,NA,1,159,21951.224952,0
-118196,Insured,Screened,27,Female,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,2.99,40.8,Very good,No,No,Yes,1,170,12443.932244,13631.896392
 118197,Insured,Not screened,62,Female,Non-Hispanic White,< High school,Never married,Born in U.S.,English,0.65,21.4,Fair,No,No,NA,1,157,25437.318086,36473.564051
 118199,Insured,Not screened,22,Female,Mexican American,< High school,Never married,Born outside U.S.,English,NA,28.9,NA,No,No,Yes,1,154,17198.451817,18556.44138
 118201,Insured,Not screened,25,Male,Non-Hispanic Asian,Some college,Never married,Born in U.S.,English,1.2,22.2,Very good,No,No,Yes,1,168,10132.450633,11704.519308
@@ -4350,7 +4305,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 118227,Uninsured,Not screened,29,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,0.09,25.5,Very good,No,Yes,Yes,1,160,15774.674416,16819.91613
 118229,Insured,Screened,69,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,28.3,Very good,No,No,Yes,2,168,40146.526847,43133.943239
 118231,Insured,Not screened,34,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,0.43,35.8,Excellent,No,Yes,Yes,1,157,32327.027306,33284.455408
-118232,Insured,Not screened,25,Female,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,Spanish,1.49,25.6,Excellent,No,No,Yes,1,149,14344.092211,15684.573523
 118234,Uninsured,Not screened,52,Male,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,1.04,31,Fair,No,No,Yes,1,170,9545.833149,10238.829296
 118235,Uninsured,Not screened,23,Male,Other Hispanic,Some college,Married / partnered,Born in U.S.,English,NA,46.6,Fair,No,No,Yes,1,156,18452.916464,20278.853731
 118237,Insured,Screened,48,Male,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,5,32.1,Good,No,Yes,Yes,2,171,10819.208571,11604.647593
@@ -4430,7 +4384,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 118370,Insured,Screened,43,Female,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,0.59,32.3,Good,No,Yes,Yes,2,151,22473.736784,23520.679433
 118374,Insured,Not screened,28,Male,Non-Hispanic Black,College graduate,Never married,Born in U.S.,English,3.4,28.7,Very good,No,No,Yes,2,149,37737.729925,40267.222622
 118375,Insured,Screened,34,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.06,36.4,Poor,No,Yes,Yes,2,151,15662.665604,17179.744345
-118378,Insured,Not screened,23,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.11,31.3,Very good,No,Yes,Yes,1,151,65672.458397,72060.139075
 118380,Insured,Screened,70,Male,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,4.23,28.1,Good,Yes,No,Yes,2,150,4333.211409,4620.722432
 118381,Insured,Screened,55,Female,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,4.91,31,Very good,Yes,No,Yes,2,159,6860.130771,7439.525382
 118382,Insured,Screened,80,Male,Non-Hispanic White,College graduate,Widowed / divorced / separated,Born in U.S.,English,4.31,27.7,Good,Yes,Yes,Yes,2,150,5889.262054,7081.040506
@@ -4535,13 +4488,11 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 118592,Insured,Screened,54,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,0.72,27,Poor,No,Yes,Yes,2,157,311265.152122,321573.519227
 118594,Insured,Screened,20,Male,Other/Multi,Some college,Never married,Born in U.S.,English,2.94,36.9,Fair,No,No,Yes,1,162,19623.908776,23554.035032
 118595,Insured,Screened,71,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.93,29,Fair,Yes,No,Yes,1,164,70577.433737,76096.823104
-118597,Insured,Not screened,28,Female,Mexican American,Some college,Married / partnered,Born in U.S.,English,2.19,30.6,Good,No,No,Yes,2,155,3772.377394,4068.696284
 118598,Insured,Screened,52,Female,Non-Hispanic Black,College graduate,Never married,Born in U.S.,English,2.2,67.7,Good,Yes,No,Yes,2,167,6356.420309,6527.53196
 118599,Insured,Screened,69,Male,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,2.61,33.4,Good,Yes,No,Yes,2,150,2681.333578,2825.772177
 118600,Insured,Not screened,35,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,25.2,Very good,No,No,Yes,2,171,44404.91994,48079.514044
 118601,Insured,Screened,55,Female,Mexican American,College graduate,Married / partnered,Born in U.S.,English,5,41.2,Very good,No,No,Yes,1,155,24888.696685,23683.44385
 118604,Insured,Not screened,58,Female,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,2.73,26,Good,No,No,NA,1,170,12575.995039,14373.725053
-118606,Insured,Screened,32,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,1.53,34.3,Good,No,Yes,Yes,2,150,6151.9147,6487.34375
 118607,Uninsured,Screened,48,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,1.92,37.8,Fair,No,No,Yes,2,166,9952.213851,10321.381607
 118608,Insured,Screened,80,Female,Mexican American,High school / GED,Widowed / divorced / separated,Born in U.S.,English,NA,NA,Good,Yes,No,NA,1,162,15228.392918,0
 118609,Insured,Not screened,53,Female,Mexican American,College graduate,Widowed / divorced / separated,Born outside U.S.,Spanish,4.28,23.6,Very good,No,Yes,Yes,2,172,23924.625955,25052.834353
@@ -4675,7 +4626,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 118871,Insured,Not screened,63,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,5,29,Very good,Yes,No,Yes,1,157,70989.295068,74461.341928
 118872,Insured,Screened,62,Male,Other Hispanic,College graduate,Married / partnered,Born outside U.S.,English,4.56,29.1,Very good,No,Yes,Yes,2,165,9064.448184,9368.428324
 118873,Insured,Screened,69,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,22.5,Very good,No,No,No,1,153,7021.24146,7431.954323
-118875,Insured,Not screened,30,Female,Non-Hispanic Black,College graduate,Married / partnered,Born outside U.S.,English,0.99,22.8,Excellent,No,No,No,1,170,10132.154035,10560.751827
 118877,Uninsured,Not screened,59,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,1.47,35.6,Good,No,No,Yes,2,163,17293.484775,17524.640044
 118879,Insured,Screened,36,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,23.1,Excellent,No,No,Yes,2,169,62750.696199,64238.732165
 118883,Uninsured,Screened,29,Female,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,0.25,24,Fair,NA,No,No,2,165,14406.798798,15544.35947
@@ -4777,7 +4727,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 119094,Insured,Not screened,51,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,5,36.3,Very good,Yes,No,Yes,2,155,3865.225807,4197.818285
 119095,Insured,Not screened,52,Male,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,NA,29.1,Fair,Yes,No,No,2,170,6023.24663,6236.285414
 119096,Insured,Screened,47,Female,Other Hispanic,College graduate,Married / partnered,Born in U.S.,English,0.44,19.3,Very good,No,No,Yes,2,171,23889.68831,25851.027095
-119097,Insured,Not screened,40,Female,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,0.79,31.8,Good,No,No,No,1,162,11059.588477,10969.091057
 119098,Insured,Screened,32,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.64,53.5,Very good,No,No,Yes,2,163,40208.310802,43932.155819
 119099,Insured,Not screened,57,Female,Non-Hispanic White,< High school,Widowed / divorced / separated,Born in U.S.,English,0.81,27.5,Fair,Yes,Yes,Yes,2,172,23043.24779,27264.63708
 119100,Insured,Not screened,33,Female,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,0.04,24.9,Excellent,No,Yes,Yes,1,167,19496.302725,19795.264714
@@ -4785,7 +4734,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 119104,Uninsured,Not screened,35,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,NA,33,Excellent,No,Yes,Yes,1,150,9437.612154,10051.552269
 119105,Insured,Screened,57,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.48,30.4,Fair,Yes,Yes,Yes,2,151,27839.942956,30973.140275
 119109,Insured,Screened,33,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,1.22,26.3,Good,No,No,No,1,162,9797.645668,10588.775697
-119112,Insured,Screened,33,Female,Other Hispanic,< High school,Never married,Born outside U.S.,Spanish,1.07,32.5,Very good,No,Yes,Yes,1,156,18648.809735,20016.323712
 119117,Insured,Not screened,66,Male,Non-Hispanic Black,< High school,Never married,Born in U.S.,English,1.4,23.2,Fair,No,No,Yes,1,167,2248.361894,2284.672542
 119119,Insured,Screened,28,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,0.48,NA,Fair,No,No,NA,2,149,101508.495126,0
 119121,Uninsured,Not screened,27,Male,Other Hispanic,High school / GED,Never married,Born outside U.S.,English,NA,NA,Very good,No,No,NA,2,161,42423.47061,0
@@ -4805,7 +4753,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 119156,Insured,Not screened,22,Female,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,0.2,21.5,Very good,No,No,Yes,2,171,36058.712993,38299.548482
 119158,Insured,Not screened,44,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,3.04,33.6,Good,No,No,No,2,155,9047.188377,9521.848855
 119160,Insured,Not screened,71,Female,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.58,32,Very good,Yes,Yes,Yes,2,158,55555.079201,58162.106202
-119161,Insured,Screened,29,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,1.2,31,Good,No,Yes,Yes,1,150,8901.204099,9623.273694
 119166,Insured,Not screened,42,Male,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,NA,28.2,Good,Yes,Yes,Yes,1,149,58916.008359,63418.533871
 119169,Insured,Not screened,42,Male,Mexican American,< High school,Never married,Born in U.S.,English,NA,23.8,Good,Yes,Yes,Yes,1,154,26342.378462,27486.135039
 119170,Insured,Screened,65,Male,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,1.44,44.1,Good,No,Yes,Yes,1,168,4160.356577,4441.921032
@@ -4955,7 +4902,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 119481,Insured,Not screened,36,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,1.71,29.4,Fair,No,Yes,Yes,1,161,44314.997371,47805.853014
 119483,Insured,Not screened,38,Male,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,1.17,23.7,Fair,No,No,Yes,2,168,6228.363044,6698.718133
 119484,Insured,Not screened,21,Female,Other Hispanic,High school / GED,Never married,Born in U.S.,English,5,29.9,Very good,No,Yes,Yes,1,168,11250.365026,12349.534661
-119485,Insured,Screened,21,Female,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,2.08,38.1,Very good,No,No,Yes,2,167,22813.592597,26390.470688
 119486,Insured,Screened,62,Female,Non-Hispanic Black,< High school,Never married,Born in U.S.,English,1.22,15,Fair,No,Yes,Yes,1,168,5220.437061,5553.355463
 119488,Insured,Screened,30,Male,Other Hispanic,College graduate,Never married,Born outside U.S.,English,NA,35,Very good,Yes,Yes,Yes,1,152,30894.738164,31018.641962
 119489,Insured,Screened,59,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,0.84,28,Poor,Yes,No,Yes,2,151,11369.83577,12365.322008
@@ -5074,7 +5020,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 119711,Insured,Not screened,67,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,0.86,29.2,Good,Yes,No,Yes,2,165,3761.545258,3928.884665
 119712,Insured,Not screened,80,Male,Other Hispanic,College graduate,Widowed / divorced / separated,Born outside U.S.,English,1.88,33.3,Good,Yes,Yes,Yes,2,171,16380.100396,17529.003895
 119716,Insured,Screened,73,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,NA,37.2,Fair,Yes,No,Yes,2,166,39082.253912,42234.286694
-119725,Insured,Not screened,20,Female,Mexican American,High school / GED,Married / partnered,Born in U.S.,English,1.11,26.2,Good,No,No,Yes,2,164,24211.720661,27141.82366
 119727,Uninsured,Not screened,24,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.2,16.3,Good,No,Yes,Yes,2,164,17138.970203,20366.013966
 119728,Insured,Screened,63,Male,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,1.04,32.8,Good,Yes,Yes,Yes,2,151,2921.969484,3086.24739
 119734,Insured,Screened,73,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.93,28.3,Good,No,Yes,Yes,1,164,62372.974554,66162.488368
@@ -5255,7 +5200,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 120124,Insured,Not screened,57,Male,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.4,21.4,Fair,No,Yes,Yes,2,166,21225.32445,22598.611269
 120126,Insured,Not screened,33,Male,Other/Multi,Some college,Married / partnered,Born in U.S.,English,1.79,68.2,Fair,Yes,No,Yes,2,164,12075.273308,13526.249071
 120127,Insured,Not screened,62,Female,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,4.53,32.2,Good,Yes,Yes,Yes,2,161,8942.557717,9668.439798
-120130,Insured,Not screened,25,Female,Non-Hispanic Asian,Some college,Married / partnered,Born in U.S.,English,2.39,38.1,Good,No,No,Yes,2,155,8370.266141,8965.822592
 120131,Insured,Not screened,50,Male,Non-Hispanic White,Some college,Never married,Born in U.S.,English,1.4,18.4,Good,No,Yes,Yes,2,166,11410.500374,12645.536343
 120136,Insured,Not screened,68,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,1.23,21.9,Very good,No,No,Yes,1,165,10570.19052,11130.638288
 120137,Insured,Screened,35,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,3.86,29.1,Good,No,No,Yes,1,164,15564.585846,16067.370246
@@ -5332,7 +5276,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 120285,Insured,Screened,68,Male,Other Hispanic,College graduate,Married / partnered,Born in U.S.,English,2.89,24.9,Excellent,No,No,Yes,2,154,10508.601405,10680.857697
 120287,Insured,Screened,72,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,2.66,27.6,Very good,Yes,Yes,Yes,1,159,30148.088989,33053.960871
 120289,Insured,Screened,44,Female,Non-Hispanic White,College graduate,Widowed / divorced / separated,Born in U.S.,English,3.69,NA,Good,No,No,NA,1,153,168907.130943,0
-120290,Insured,Screened,34,Female,Mexican American,High school / GED,Married / partnered,Born outside U.S.,English,1.94,40.1,Good,No,No,Yes,2,154,4508.129283,4978.119425
 120291,Insured,Not screened,37,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,2.99,24.6,Very good,No,No,Yes,2,172,108384.346694,111660.853881
 120292,Insured,Not screened,60,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born outside U.S.,English,2.57,37.2,Good,No,No,Yes,1,164,7087.615999,7144.429859
 120293,Insured,Screened,75,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.08,30.1,Fair,Yes,No,Yes,1,153,53466.064055,56930.180652
@@ -5432,7 +5375,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 120460,Insured,Screened,20,Male,Non-Hispanic Asian,Some college,Never married,Born in U.S.,English,0.48,28.6,Very good,No,No,Yes,2,168,4564.585303,5257.093354
 120462,Insured,Screened,61,Female,Non-Hispanic White,High school / GED,Widowed / divorced / separated,Born in U.S.,English,3.05,23.6,Good,No,No,Yes,1,163,212300.531568,233967.362775
 120463,Insured,Not screened,54,Male,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,2.77,22.8,Fair,No,Yes,Yes,2,158,18783.267352,19839.316676
-120464,Insured,Screened,24,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,NA,34.3,Good,Yes,No,Yes,2,170,2251.959925,2387.939249
 120465,Insured,Screened,46,Male,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,5,31.6,Good,Yes,No,NA,1,150,6372.886323,6634.365298
 120467,Uninsured,Not screened,41,Male,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,2.03,32.8,Good,No,No,Yes,2,167,13487.454096,14399.711488
 120468,Insured,Not screened,69,Male,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,2.24,28.3,Good,Yes,Yes,Yes,2,169,8200.177298,8906.378329
@@ -5571,7 +5513,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 120727,Uninsured,Screened,29,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,0.8,42.4,NA,Yes,Yes,Yes,1,158,59522.337088,66681.436666
 120733,Insured,Not screened,74,Female,Non-Hispanic Black,< High school,Widowed / divorced / separated,Born in U.S.,English,0.82,28.1,Good,Yes,No,No,1,150,4622.998202,5099.693831
 120734,Uninsured,Screened,62,Female,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,English,1.69,31.3,Fair,No,No,Yes,2,172,12544.052919,13478.635321
-120737,Insured,Screened,20,Female,Other Hispanic,Some college,Never married,Born outside U.S.,Spanish,0.41,35,Good,No,No,Yes,1,149,17530.664974,18545.009768
 120739,Insured,Screened,63,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,2.11,34,Good,Yes,Yes,Yes,1,168,4870.168406,5086.826997
 120743,Insured,Screened,66,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.69,29,Excellent,Yes,No,Yes,1,151,89362.125267,93091.731967
 120745,Insured,Not screened,32,Male,Non-Hispanic Asian,College graduate,Never married,Born outside U.S.,English,5,26.1,Very good,No,Yes,Yes,1,161,17163.490882,19001.001886
@@ -5912,7 +5853,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 121425,Insured,Not screened,41,Female,Other Hispanic,< High school,Widowed / divorced / separated,Born in U.S.,Spanish,NA,34,Good,No,No,NA,1,169,19707.024668,21354.829255
 121427,Insured,Not screened,80,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born outside U.S.,English,2.09,NA,Fair,Yes,Yes,Yes,2,165,6780.898827,7457.340514
 121428,Insured,Screened,36,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,26.7,Very good,No,No,Yes,1,163,21861.028501,23377.961546
-121429,Uninsured,Not screened,39,Female,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,0.51,32.7,Good,No,Yes,Yes,1,152,8532.858553,8950.906239
 121432,Insured,Not screened,73,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.14,24.8,Good,Yes,No,No,2,168,26583.709239,29172.181554
 121435,Insured,Not screened,28,Male,Non-Hispanic Black,< High school,Never married,Born in U.S.,English,NA,23.2,Fair,No,Yes,NA,2,171,12138.812367,13096.396604
 121436,Insured,Screened,69,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,5,40,Excellent,Yes,Yes,Yes,1,164,8591.374897,8889.603919
@@ -6085,7 +6025,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 121804,Insured,Not screened,68,Male,Other Hispanic,< High school,Widowed / divorced / separated,Born in U.S.,English,1.3,NA,Fair,Yes,No,NA,1,171,5120.915172,0
 121808,Insured,Screened,23,Male,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,2.36,22.7,Very good,Yes,No,Yes,2,166,10074.630163,10946.288962
 121809,Insured,Screened,22,Male,Non-Hispanic Black,Some college,Never married,Born outside U.S.,English,2.45,21.6,Very good,No,No,Yes,1,164,18664.35339,20193.511216
-121810,Insured,Screened,31,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,3.4,42.7,Very good,No,No,Yes,2,170,71182.402162,71627.081461
 121812,Insured,Screened,57,Female,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,1.82,28,Very good,Yes,No,No,1,157,37316.762765,40292.315533
 121813,Insured,Screened,53,Male,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,2.43,NA,Fair,Yes,No,NA,1,157,25485.895819,0
 121814,Insured,Screened,41,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,3.3,44.5,Good,No,Yes,Yes,2,149,48977.836154,53862.799612
@@ -6112,7 +6051,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 121846,Insured,Screened,36,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.44,45.5,Good,Yes,No,Yes,1,150,37048.703525,37831.219156
 121848,Insured,Not screened,23,Male,Non-Hispanic Asian,High school / GED,Never married,Born in U.S.,English,1.36,32.1,Excellent,No,No,Yes,2,162,44742.316304,51415.38878
 121850,Insured,Not screened,21,Male,Non-Hispanic Asian,Some college,Never married,Born in U.S.,English,3.82,20.4,Very good,No,No,No,1,162,17866.102613,21444.188903
-121851,Insured,Screened,29,Female,Mexican American,College graduate,Married / partnered,Born outside U.S.,English,5,30.4,Good,No,No,Yes,1,151,43821.506897,46400.292134
 121854,Insured,Not screened,28,Female,Mexican American,Some college,Never married,Born in U.S.,English,1.36,28.2,Good,No,No,NA,2,155,25920.143992,28111.227515
 121855,Insured,Not screened,30,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,1.35,28.3,Excellent,No,No,NA,1,170,9444.471964,9945.05537
 121858,Insured,Screened,55,Female,Non-Hispanic White,High school / GED,Married / partnered,Born outside U.S.,English,5,NA,Very good,No,Yes,NA,3,156,111444.824903,0
@@ -6148,7 +6086,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 121921,Uninsured,Not screened,30,Male,Other/Multi,Some college,Married / partnered,Born in U.S.,English,3.18,34.1,Very good,Yes,No,Yes,1,162,25724.388741,28422.506848
 121922,Insured,Screened,41,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,21,Very good,No,No,Yes,3,156,83688.305415,99087.215418
 121923,Uninsured,Not screened,62,Female,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,English,4.62,32.8,Excellent,No,No,Yes,1,165,12596.698328,13220.108204
-121924,Insured,Not screened,29,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,1.16,32.3,Very good,No,No,Yes,2,151,4306.913995,4596.414971
 121925,Insured,Screened,47,Male,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,0.68,30,Good,No,No,Yes,1,149,24819.422133,26363.722715
 121928,Insured,Screened,60,Female,Mexican American,College graduate,Married / partnered,Born in U.S.,English,5,47.1,Good,Yes,No,Yes,1,159,22805.602085,23621.280644
 121931,Insured,Screened,23,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,4.7,25.7,Fair,No,No,Yes,2,169,9444.68301,10060.403418
@@ -6328,7 +6265,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 122309,Insured,Screened,46,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,2.84,NA,Good,No,No,NA,1,149,8202.273363,0
 122310,Insured,Screened,48,Male,Other/Multi,Some college,Widowed / divorced / separated,Born in U.S.,English,NA,20.6,Very good,Yes,Yes,Yes,1,171,4557.481764,4994.74954
 122315,Insured,Screened,80,Male,Non-Hispanic Asian,High school / GED,Married / partnered,Born outside U.S.,English,2.59,24.4,Excellent,Yes,No,Yes,1,155,14177.039801,14326.295617
-122318,Insured,Screened,25,Female,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,2.77,34.7,Fair,No,Yes,Yes,2,158,39574.704441,44904.026284
 122319,Uninsured,Not screened,31,Female,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,1.43,32.8,Fair,Yes,Yes,Yes,1,167,8696.664928,9126.09066
 122321,Insured,Screened,80,Female,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,5,NA,Fair,Yes,Yes,NA,3,156,22295.331962,0
 122322,Insured,Not screened,39,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.01,63.5,Good,Yes,No,Yes,1,158,52521.582496,54337.54665
@@ -6492,7 +6428,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 122649,Insured,Screened,80,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,2,23,Good,Yes,No,Yes,2,168,8486.925296,10631.727225
 122651,Insured,Screened,56,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,1.45,32.3,Fair,Yes,No,Yes,1,162,14560.805361,15157.567415
 122652,Insured,Not screened,73,Female,Other Hispanic,High school / GED,Widowed / divorced / separated,Born outside U.S.,English,5,24.1,Very good,No,No,Yes,3,156,20694.036201,24304.18113
-122653,Insured,Screened,35,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,27,Excellent,No,No,Yes,2,165,68243.320377,70976.259903
 122654,Insured,Screened,55,Male,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,5,31.5,Good,Yes,Yes,Yes,1,156,9079.015985,9988.767177
 122655,Insured,Screened,56,Female,Other/Multi,High school / GED,Widowed / divorced / separated,Born in U.S.,English,0.61,52.2,Good,No,Yes,Yes,1,158,30388.632161,31641.163115
 122656,Uninsured,Not screened,20,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,1.07,21.3,Excellent,No,Yes,Yes,2,166,16017.268528,16879.818188
@@ -6515,7 +6450,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 122698,Insured,Not screened,33,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,1.01,23.7,Very good,No,Yes,No,1,157,35530.618242,37991.602269
 122699,Insured,Screened,29,Male,Other Hispanic,< High school,Married / partnered,Born outside U.S.,English,0.73,28.5,Very good,No,No,Yes,1,162,20154.545153,22499.126282
 122700,Insured,Screened,35,Male,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,5,27.4,Very good,No,No,Yes,1,166,204101.122549,227218.449955
-122701,Insured,Screened,27,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,0.38,32.1,Very good,Yes,Yes,Yes,1,150,4527.28864,4800.658358
 122703,Insured,Screened,53,Female,Non-Hispanic White,High school / GED,Married / partnered,Born outside U.S.,English,2.61,25.2,Good,No,No,Yes,2,151,39444.466864,42910.155366
 122707,Insured,Not screened,32,Male,Other/Multi,< High school,Never married,Born in U.S.,English,1.7,28.7,Fair,Yes,Yes,Yes,2,158,22817.94273,24414.924121
 122709,Insured,Screened,54,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,0.94,26.1,Fair,No,No,Yes,2,159,37053.820877,36895.973948
@@ -6578,7 +6512,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 122821,Insured,Not screened,55,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,NA,24.2,Very good,No,No,Yes,2,157,282883.647647,308014.508627
 122822,Insured,Screened,57,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,NA,Very good,Yes,No,NA,2,150,44699.521228,0
 122824,Insured,Not screened,36,Male,Non-Hispanic Black,< High school,Married / partnered,Born outside U.S.,English,0.65,22,Very good,No,No,No,2,161,8126.508818,8891.336018
-122826,Insured,Not screened,21,Female,Mexican American,High school / GED,Married / partnered,Born in U.S.,English,2.72,36.8,Fair,No,No,Yes,2,161,38692.770809,42688.623015
 122827,Insured,Not screened,55,Male,Mexican American,High school / GED,Married / partnered,Born in U.S.,English,5,NA,Good,No,Yes,NA,2,163,19227.570846,0
 122828,Insured,Not screened,33,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.06,31,Excellent,Yes,Yes,NA,1,171,7216.857598,7633.646947
 122829,Uninsured,Screened,34,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,3.4,43.5,Good,Yes,Yes,Yes,1,158,76090.274,84763.190896
@@ -6590,16 +6523,13 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 122843,Insured,Screened,69,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,5,22.3,Excellent,Yes,No,Yes,1,154,113607.096078,121654.436457
 122844,Insured,Screened,70,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,3.3,NA,Good,Yes,No,NA,2,152,10617.694774,0
 122845,Insured,Not screened,43,Male,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,5,36.6,Fair,No,Yes,Yes,1,150,37817.660988,39374.120667
-122846,Insured,Screened,24,Female,Non-Hispanic White,< High school,Married / partnered,Born in U.S.,English,0.61,22.5,Fair,No,Yes,Yes,2,158,34272.632245,39646.140467
 122849,Insured,Screened,68,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,1.04,22.2,Good,Yes,No,Yes,2,163,12986.793799,14320.421633
 122851,Insured,Screened,31,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.7,53.2,Fair,No,No,Yes,1,150,8410.361886,8904.588161
 122852,Insured,Screened,36,Female,Other/Multi,College graduate,Married / partnered,Born in U.S.,English,5,23,Very good,No,No,Yes,1,171,8291.718467,9208.763341
 122855,Insured,Screened,32,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.2,30.6,Fair,No,Yes,Yes,1,165,25178.541371,27547.437949
 122856,Insured,Not screened,80,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.92,25.8,Good,No,No,No,2,158,6530.942519,7857.355708
-122859,Insured,Not screened,26,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,16.9,Excellent,No,No,Yes,3,156,16512.400632,17386.832661
 122864,Uninsured,Not screened,58,Male,Other/Multi,Some college,Never married,Born in U.S.,English,4.93,29.1,Good,No,No,Yes,2,161,9389.659797,9875.775721
 122867,Insured,Screened,22,Female,Mexican American,Some college,Never married,Born in U.S.,English,3.98,20.8,Good,No,No,Yes,2,152,16543.043836,17529.970644
-122870,Insured,Not screened,32,Female,Mexican American,< High school,Married / partnered,Born outside U.S.,Spanish,0.49,32.2,Good,No,No,NA,1,162,17928.943643,19894.374031
 122871,Insured,Not screened,52,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,NA,29.3,Good,Yes,Yes,Yes,1,161,85237.496475,86422.795027
 122874,Insured,Screened,35,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,2.39,21.6,Fair,No,No,No,2,159,51349.561015,52434.128903
 122876,Insured,Screened,61,Female,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,2.45,38.6,Good,Yes,No,Yes,1,172,15060.074436,15650.778404
@@ -6637,7 +6567,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 122940,Insured,Not screened,42,Male,Non-Hispanic Asian,High school / GED,Married / partnered,Born outside U.S.,English,2.24,21.1,Good,No,No,Yes,2,169,10592.952886,11947.544426
 122941,Uninsured,Not screened,32,Male,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,1.6,NA,Excellent,No,Yes,NA,2,152,43976.957255,0
 122945,Insured,Screened,63,Female,Non-Hispanic White,College graduate,Widowed / divorced / separated,Born in U.S.,English,2.74,27.3,Good,No,No,Yes,1,165,26264.810557,25754.346076
-122946,Insured,Not screened,36,Female,Non-Hispanic White,College graduate,Married / partnered,Born outside U.S.,English,NA,26.9,Good,No,Yes,Yes,2,171,38046.119655,40449.011225
 122949,Uninsured,Screened,43,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.06,22.2,Excellent,Yes,No,Yes,1,158,20712.498493,23236.618912
 122950,Insured,Screened,50,Female,Other Hispanic,< High school,Never married,Born outside U.S.,Spanish,NA,45.5,Fair,Yes,No,Yes,1,149,9966.092882,10826.805827
 122951,Insured,Not screened,25,Male,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,5,19.6,Very good,No,Yes,Yes,2,149,131264.923667,150299.034735
@@ -6692,7 +6621,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123063,Insured,Not screened,68,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,27.9,Very good,No,Yes,Yes,2,164,106510.528014,117854.326028
 123064,Insured,Screened,44,Female,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,5,40.7,Excellent,No,No,Yes,1,164,26809.912506,27321.991241
 123066,Insured,Not screened,23,Male,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,0.47,NA,Excellent,No,No,NA,1,149,55926.066174,0
-123068,Insured,Screened,35,Female,Non-Hispanic White,College graduate,Married / partnered,Born outside U.S.,English,5,27.9,Very good,No,No,NA,2,166,69935.486766,72801.474026
 123069,Insured,Not screened,80,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,5,23.4,Good,No,No,Yes,2,166,23067.469704,26533.165316
 123070,Insured,Not screened,53,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,4.97,31,Very good,No,No,Yes,3,156,108718.214064,127468.710385
 123073,Insured,Screened,52,Male,Other Hispanic,< High school,Married / partnered,Born outside U.S.,Spanish,0.35,35.1,Good,Yes,No,NA,1,154,16305.854526,16659.918177
@@ -6707,7 +6635,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123089,Insured,Not screened,56,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,5,20.8,Good,No,No,No,1,164,15413.26255,16303.292473
 123090,Insured,Screened,58,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,3.69,37.8,Good,Yes,Yes,No,1,161,18417.39366,20238.465216
 123091,Insured,Screened,59,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,28.5,Very good,No,No,Yes,2,155,6559.026764,7048.262498
-123094,Insured,Not screened,29,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.94,26.3,Very good,No,No,Yes,2,163,35475.444446,38327.241368
 123096,Insured,Not screened,39,Female,Non-Hispanic Black,College graduate,Married / partnered,Born in U.S.,English,5,37.1,Fair,No,No,Yes,1,166,43569.450244,45085.978962
 123097,Insured,Screened,48,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born in U.S.,English,1.52,38.8,Fair,No,Yes,Yes,2,169,6865.076525,7452.705191
 123099,Insured,Not screened,34,Female,Other Hispanic,< High school,Married / partnered,Born in U.S.,English,5,21.8,Very good,No,Yes,Yes,1,153,22003.17903,22941.536809
@@ -6822,7 +6749,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123318,Insured,Screened,53,Female,Other Hispanic,High school / GED,Married / partnered,Born outside U.S.,Spanish,0.99,27.3,Good,No,No,Yes,1,171,19597.933022,21237.008115
 123319,Uninsured,Not screened,30,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.13,33.8,Good,No,No,Yes,2,151,27415.313471,30223.348049
 123320,Insured,Not screened,25,Male,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,3.77,NA,Excellent,No,No,NA,2,155,54083.97957,0
-123321,Insured,Screened,28,Female,Non-Hispanic Asian,Some college,Married / partnered,Born outside U.S.,English,1.5,23.6,Very good,No,No,No,2,169,10442.402891,11123.694621
 123322,Insured,Not screened,39,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born in U.S.,English,2.89,27.8,Very good,No,Yes,Yes,2,166,9455.796102,10006.742589
 123323,Insured,Not screened,64,Male,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,1.85,33.5,Very good,Yes,Yes,Yes,2,157,30841.24513,33997.957512
 123324,Insured,Screened,65,Male,Mexican American,College graduate,Married / partnered,Born in U.S.,English,1.6,32.8,Very good,Yes,Yes,Yes,2,159,6160.505679,6251.238822
@@ -6895,7 +6821,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123453,Uninsured,Not screened,29,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,NA,23.4,Very good,No,No,Yes,2,165,14613.870436,16662.846852
 123460,Insured,Not screened,41,Female,Non-Hispanic Black,Some college,Married / partnered,Born outside U.S.,English,1.24,21.7,Excellent,No,No,Yes,2,170,7690.291785,8394.323128
 123461,Insured,Screened,80,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,NA,34.4,Excellent,No,Yes,Yes,2,168,19332.354157,21675.672902
-123463,Insured,Screened,27,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,2.6,24.2,Fair,Yes,No,Yes,2,160,19863.510149,21537.693298
 123464,Insured,Screened,79,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,2.94,22,Fair,No,Yes,Yes,1,162,9140.235871,9417.382193
 123466,Insured,Not screened,48,Male,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,4.4,22.9,Very good,No,Yes,Yes,1,168,8480.4328,9080.336142
 123467,Insured,Not screened,66,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,2.54,38.1,Good,Yes,No,Yes,1,163,6830.830642,7165.570024
@@ -6957,7 +6882,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123593,Insured,Screened,77,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,2.16,28.8,Very good,No,No,Yes,2,156,16810.277063,19649.192829
 123594,Insured,Screened,77,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,2.73,NA,Good,Yes,No,NA,1,157,11139.510659,0
 123600,Uninsured,Screened,63,Male,Other Hispanic,College graduate,Married / partnered,Born outside U.S.,English,1.5,29.7,Good,No,No,Yes,1,162,7648.388179,7790.733938
-123602,Insured,Not screened,34,Female,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,0.2,28.4,Excellent,No,No,NA,2,154,13677.04862,14409.847581
 123604,Insured,Screened,42,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.08,56.6,Poor,No,Yes,Yes,1,165,26137.814573,26193.319414
 123606,Insured,Screened,31,Female,Other/Multi,High school / GED,Never married,Born in U.S.,English,0.28,39.5,Very good,No,Yes,Yes,1,167,7811.267596,8111.650093
 123607,Insured,Screened,55,Female,Non-Hispanic White,Some college,Widowed / divorced / separated,Born in U.S.,English,1.32,33.4,Good,No,No,Yes,2,169,14565.732753,14120.735992
@@ -6996,7 +6920,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123686,Insured,Not screened,21,Female,Mexican American,High school / GED,Never married,Born in U.S.,English,3.2,40.6,Good,No,No,Yes,1,159,42947.988605,46280.216278
 123688,Insured,Screened,24,Female,Non-Hispanic White,High school / GED,Never married,Born in U.S.,English,5,26.4,Good,No,No,Yes,2,161,70814.951258,79332.279585
 123692,Insured,Not screened,33,Female,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,1.41,25,Excellent,No,No,Yes,2,168,4310.905226,4332.320196
-123693,Insured,Not screened,38,Female,Mexican American,High school / GED,Married / partnered,Born in U.S.,English,3.67,32.8,Good,No,No,No,1,154,32252.3045,35416.59751
 123694,Insured,Screened,24,Female,Other Hispanic,Some college,Never married,Born outside U.S.,Spanish,2.96,34.8,Good,No,No,Yes,2,156,7088.458559,7498.605067
 123695,Insured,Not screened,21,Female,Non-Hispanic Asian,High school / GED,Never married,Born in U.S.,English,4.52,33.8,Fair,No,No,Yes,1,155,20551.331347,20368.201313
 123701,Insured,Screened,44,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,5,NA,Very good,No,Yes,NA,2,154,74542.128323,0
@@ -7058,7 +6981,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123830,Uninsured,Not screened,46,Male,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.93,29.1,Very good,No,No,Yes,1,158,92019.554904,100365.831512
 123833,Insured,Not screened,34,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,3.56,25.1,Very good,No,No,Yes,1,158,60024.665709,62100.053314
 123834,Insured,Screened,57,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,1.84,22.1,Fair,No,Yes,Yes,2,149,93728.067391,104527.043783
-123837,Insured,Not screened,22,Female,Other Hispanic,High school / GED,Married / partnered,Born in U.S.,English,1.59,23.9,Excellent,No,No,Yes,2,164,16348.700487,17647.67297
 123838,Insured,Not screened,47,Male,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,3.85,24,Very good,No,No,Yes,2,169,5834.487271,6277.623003
 123840,Insured,Screened,46,Female,Non-Hispanic White,College graduate,Never married,Born in U.S.,English,4.81,25,Good,No,No,Yes,2,161,117457.500329,128366.350249
 123843,Uninsured,Not screened,48,Male,Non-Hispanic Black,< High school,Never married,Born in U.S.,English,NA,34,Good,No,No,No,1,150,5056.663657,5095.155554
@@ -7079,7 +7001,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123868,Insured,Not screened,60,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,1.18,28.9,Good,No,Yes,Yes,1,151,8465.306782,9064.824785
 123870,Insured,Not screened,26,Male,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,1.04,31.8,Very good,No,No,Yes,2,151,9517.840771,10359.162398
 123873,Insured,Not screened,47,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,5,19.6,Very good,No,No,Yes,2,154,9155.773915,9829.877772
-123875,Insured,Not screened,20,Female,Non-Hispanic White,Some college,Never married,Born in U.S.,English,3.88,31.1,Good,No,No,Yes,2,159,36841.267369,37594.063199
 123876,Insured,Not screened,34,Male,Other Hispanic,Some college,Married / partnered,Born outside U.S.,Spanish,1.89,28.6,Excellent,No,No,Yes,1,156,21021.674051,22244.12745
 123877,Insured,Not screened,28,Male,Mexican American,Some college,Married / partnered,Born in U.S.,English,5,30.2,Excellent,No,No,Yes,2,161,23044.473907,25206.464201
 123879,Insured,Screened,80,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,NA,29,Excellent,No,No,Yes,1,162,28948.771848,34606.076582
@@ -7088,7 +7009,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123886,Insured,Screened,63,Male,Other Hispanic,College graduate,Married / partnered,Born outside U.S.,English,NA,33.1,Good,No,Yes,Yes,1,152,9722.064197,9721.549835
 123891,Uninsured,Screened,70,Female,Other Hispanic,< High school,Never married,Born outside U.S.,Spanish,NA,25.5,Fair,Yes,Yes,Yes,1,169,13412.076973,14539.315343
 123893,Insured,Not screened,43,Male,Non-Hispanic Black,< High school,Married / partnered,Born in U.S.,English,NA,NA,Excellent,No,Yes,NA,2,151,4450.961026,0
-123898,Insured,Screened,26,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,2.43,50.6,Good,No,Yes,Yes,2,172,7776.710207,8268.839793
 123900,Insured,Not screened,73,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,NA,34.1,Very good,Yes,Yes,Yes,2,172,10297.485675,11030.673102
 123902,Uninsured,Not screened,34,Female,Other/Multi,Some college,Married / partnered,Born in U.S.,English,0.98,41.1,Very good,No,Yes,Yes,2,157,50012.197538,50705.806155
 123904,Uninsured,Not screened,22,Female,Non-Hispanic Black,High school / GED,Never married,Born in U.S.,English,0.51,41.3,Very good,No,No,Yes,1,152,13944.502543,14897.292119
@@ -7104,7 +7024,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 123927,Uninsured,Not screened,32,Male,Non-Hispanic White,Some college,Never married,Born in U.S.,English,1.81,23.2,Very good,No,No,Yes,2,172,11139.596684,12280.578446
 123928,Insured,Screened,50,Male,Non-Hispanic Black,Some college,Married / partnered,Born in U.S.,English,5,31,Good,Yes,No,Yes,1,169,15938.776999,18048.723618
 123931,Insured,Screened,63,Male,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,1.32,21.8,Good,Yes,Yes,Yes,1,163,5482.542554,5853.589861
-123932,Uninsured,Not screened,32,Female,Non-Hispanic Black,< High school,Widowed / divorced / separated,Born in U.S.,English,4.98,31,Very good,No,Yes,Yes,2,170,13335.301717,14059.621957
 123933,Insured,Not screened,61,Female,Non-Hispanic Black,Some college,Widowed / divorced / separated,Born in U.S.,English,3.48,26.5,Very good,No,Yes,Yes,2,169,3853.168197,4129.755013
 123937,Insured,Screened,50,Female,Mexican American,Some college,Widowed / divorced / separated,Born outside U.S.,English,3.84,24.6,Excellent,No,No,Yes,2,159,28402.210255,28639.905348
 123939,Insured,Not screened,62,Male,Other/Multi,High school / GED,Never married,Born in U.S.,English,0.74,NA,Very good,Yes,Yes,NA,2,156,48446.652353,0
@@ -7238,7 +7157,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 124189,Insured,Not screened,44,Male,Non-Hispanic Asian,< High school,Married / partnered,Born outside U.S.,English,1.15,29.7,Fair,Yes,Yes,No,2,154,12289.571932,12604.228874
 124191,Insured,Not screened,57,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,1.96,25.4,Excellent,No,Yes,Yes,1,154,27289.672037,28530.078262
 124194,Uninsured,Not screened,38,Male,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,1.14,28.5,Excellent,Yes,Yes,Yes,1,172,33537.65736,36949.324279
-124195,Insured,Screened,31,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,1.67,32.3,Very good,No,No,Yes,1,162,30924.773787,31663.619957
 124196,Insured,Screened,75,Female,Other/Multi,Some college,Widowed / divorced / separated,Born in U.S.,English,5,20.5,Very good,Yes,Yes,Yes,1,161,16174.383631,17786.21572
 124197,Insured,Not screened,69,Male,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.08,21.9,Good,Yes,Yes,Yes,1,168,5565.882636,5838.634255
 124199,Insured,Screened,80,Male,Non-Hispanic White,High school / GED,Married / partnered,Born in U.S.,English,2.75,28.4,Good,Yes,No,Yes,2,169,8711.471136,10461.953147
@@ -7345,7 +7263,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 124400,Insured,Screened,46,Female,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,NA,65.8,Good,Yes,No,NA,1,165,138930.975022,140087.923413
 124401,Insured,Screened,54,Female,Non-Hispanic White,College graduate,Widowed / divorced / separated,Born in U.S.,English,3.77,21.9,Very good,No,Yes,Yes,2,168,23065.164464,24146.143235
 124403,Insured,Screened,66,Female,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,1.66,40.5,Good,Yes,No,Yes,2,149,3708.615245,3857.537997
-124404,Insured,Not screened,34,Female,Mexican American,Some college,Never married,Born in U.S.,English,1.18,24.5,Very good,No,No,Yes,2,159,17939.635916,18117.830918
 124405,Insured,Screened,62,Male,Non-Hispanic White,College graduate,Married / partnered,Born in U.S.,English,5,45.2,Good,Yes,No,Yes,2,171,35036.044638,37487.834642
 124406,Uninsured,Screened,36,Female,Non-Hispanic Black,High school / GED,Married / partnered,Born in U.S.,English,NA,25.2,Fair,No,No,Yes,2,172,22654.285374,23984.126748
 124408,Insured,Screened,42,Female,Non-Hispanic Black,Some college,Never married,Born in U.S.,English,1.26,44.5,Good,No,Yes,Yes,1,161,10068.507482,10934.875973
@@ -7524,7 +7441,6 @@ SEQN,insured,screened,age,sex,race_eth,education,marital,us_born,interview_lang,
 124775,Insured,Screened,54,Female,Other Hispanic,College graduate,Married / partnered,Born in U.S.,English,2.78,25,Good,No,No,Yes,1,156,26470.128902,27234.160893
 124777,Insured,Screened,48,Male,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,3.43,29,Good,Yes,No,Yes,1,161,7907.381636,8057.178899
 124779,Insured,Screened,37,Female,Non-Hispanic Asian,College graduate,Married / partnered,Born outside U.S.,English,NA,28.4,Good,No,No,NA,1,161,17987.233,19994.508554
-124780,Insured,Not screened,36,Female,Non-Hispanic White,Some college,Married / partnered,Born in U.S.,English,0.33,28.4,Good,No,Yes,Yes,1,165,34631.845194,34458.912238
 124781,Insured,Not screened,20,Male,Mexican American,Some college,Never married,Born in U.S.,English,3.4,29.4,Fair,No,No,Yes,2,165,22948.189012,24694.339531
 124783,Insured,Screened,28,Female,Non-Hispanic Black,College graduate,Never married,Born in U.S.,English,5,45.8,Fair,No,No,Yes,1,163,33740.874851,36758.071331
 124784,Insured,Screened,80,Female,Non-Hispanic Black,High school / GED,Widowed / divorced / separated,Born in U.S.,English,2.73,34.2,Good,Yes,No,Yes,2,170,10095.807354,11188.828922
