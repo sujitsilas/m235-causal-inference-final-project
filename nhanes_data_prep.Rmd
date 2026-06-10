@@ -53,13 +53,14 @@ data under:
    $Y^a \perp A \mid L$ for the measured covariate set $L$ below.
 3. **Positivity** — $0 < \Pr(A = a \mid L = l) < 1$ for every covariate
    stratum $l$ that occurs in the population. **This is the assumption the
-   summary table in Section 6 is built to interrogate.**
+   summary table in Section 6 is built to investigate.**
+4. **No interference** — a unit's potential blood sugar testing outcome is unaffected by the             insurance status of other participants.
 
 **Measured confounders $L$.** Factors plausibly affecting *both* insurance
 coverage and the propensity to be screened:
 
 - *Demographic / socioeconomic:* age, sex, race/ethnicity, education, family
-  income-to-poverty ratio, marital status, U.S.-vs-foreign birth, interview
+  income-to-poverty ratio, marital status, U.S.-vs-foreign born, interview
   language (acculturation proxy).
 - *Health status / risk:* BMI, self-rated general health, prior hypertension
   diagnosis (a guideline risk factor that itself prompts diabetes screening).
@@ -111,12 +112,12 @@ we start with the complete sampled population and *nothing is dropped yet*.
 ```{r merge}
 demo <- raw$P_DEMO %>%
   select(SEQN, RIAGENDR, RIDAGEYR, RIDRETH3, DMDEDUC2, DMDMARTZ,
-         DMDBORN4, INDFMPIR, SIALANG,
+         DMDBORN4, INDFMPIR, SIALANG, RIDEXPRG,
          # survey-design variables, carried for later weighted analysis
          SDMVPSU, SDMVSTRA, WTINTPRP, WTMECPRP)
 
 hiq <- raw$P_HIQ %>% select(SEQN, HIQ011)
-diq <- raw$P_DIQ %>% select(SEQN, DIQ180)
+diq <- raw$P_DIQ %>% select(SEQN, DIQ180, DIQ010)
 bmx <- raw$P_BMX %>% select(SEQN, BMXBMI)
 smq <- raw$P_SMQ %>% select(SEQN, SMQ020)
 alq <- raw$P_ALQ %>% select(SEQN, ALQ111)
@@ -159,6 +160,10 @@ analytic_full <- merged %>%
       TRUE        ~ NA_character_           # 7/9 and missing
     ),
     screened = factor(screened, levels = c("Not screened", "Screened")),
+    
+    # ---- exclusion filter variables (only raw values) ----
+    DIQ010   = DIQ010,                      # 1 = Yes (reported being told unit has diabetes)
+    RIDEXPRG = RIDEXPRG,                    # 1 = Yes (reported being pregnant)
 
     # ---- covariates ----
     age = RIDAGEYR,
@@ -223,7 +228,7 @@ analytic_full <- merged %>%
       levels = c("No", "Yes"))
   )
 
-# nice labels for the summary table
+#Labels for the summary table
 labelled::var_label(analytic_full) <- list(
   age       = "Age (years)",
   sex       = "Sex",
@@ -248,8 +253,7 @@ labelled::var_label(analytic_full) <- list(
 Only now do we restrict the sample, and *only* for reasons tied to the
 identifying assumptions:
 
-1. **Target population** → adults aged ≥ 20 (the age group `DMDEDUC2` and the
-   screening question are defined for).
+1. **Target population** → adults aged ≥ 20 (aligns with the minimum age threshold required for the education variable (`DMDEDUC2`) and the specific health screening questionnaire).
 2. **Consistency / well-defined treatment & outcome** → must have answered both
    the insurance and the screening question (non-missing $A$ and $Y$).
 
@@ -260,6 +264,8 @@ imputation decision in the modeling stage.
 ```{r filter}
 analytic <- analytic_full %>%
   filter(age >= 20,
+        is.na(DIQ010) | DIQ010 != 1,         
+        is.na(RIDEXPRG) | RIDEXPRG != 1,
          !is.na(insured),
          !is.na(screened))
 
@@ -267,15 +273,21 @@ analytic <- analytic_full %>%
 flow <- tibble::tibble(
   step = c("Merged (all DEMO respondents)",
            "Aged >= 20",
+           "+ Excluded pre-existing diabetes (DIQ010 == 1)",
+           "+ Excluded currently pregnant (RIDEXPRG == 1)",
            "+ non-missing insurance (A)",
            "+ non-missing screening (Y)  [analytic set]"),
-  n = c(
+
+n = c(
     nrow(analytic_full),
     sum(analytic_full$age >= 20, na.rm = TRUE),
-    sum(analytic_full$age >= 20 & !is.na(analytic_full$insured), na.rm = TRUE),
+    sum(analytic_full$age >= 20 & (is.na(analytic_full$DIQ010) | analytic_full$DIQ010 != 1), na.rm = TRUE),
+    sum(analytic_full$age >= 20 & (is.na(analytic_full$DIQ010) | analytic_full$DIQ010 != 1) & (is.na(analytic_full$RIDEXPRG) | analytic_full$RIDEXPRG != 1), na.rm = TRUE),
+    sum(analytic_full$age >= 20 & (is.na(analytic_full$DIQ010) | analytic_full$DIQ010 != 1) & (is.na(analytic_full$RIDEXPRG) | analytic_full$RIDEXPRG != 1) & !is.na(analytic_full$insured), na.rm = TRUE),
     nrow(analytic)
   )
 )
+
 flow
 
 # write the analytic dataframe to CSV

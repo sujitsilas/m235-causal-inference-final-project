@@ -1,0 +1,173 @@
+---
+title: "NHANES 2017-2020: Health Insurance and Blood-Sugar Screening"
+subtitle: "Creation of the Directed acyclic graph (DAG)"
+author: "Amanda Millatt"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    df_print: paged
+---
+
+```{r setup-env, fig.width=10, fig.height=8}
+# ---- packages ----
+pkgs <- c("dagitty", "ggdag", "ggplot2", "dplyr")
+
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install)) install.packages(to_install)
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+theme_set(theme_minimal(base_size = 12))
+```
+
+# Defining the relationships for the Directed acyclic graph (DAG)
+
+The structural relationships between health insurance coverage, blood
+sugar screening, and potential confounding pathways are represented in
+the Directed Acyclic Graph (DAG) below. 
+
+**Methods** To ensure conditional exchangeability, peer-reviewed literature was assessed to identify known predictors of both health insurance coverage and preventative diabetes screening. 
+
+The DAG was first created using DAGGITY online and then modifed using the code below. 
+
+**Potential Confounders** Below are the the covariates included in the DAG:
+
+- *Demographic / socioeconomic:* age, sex, race/ethnicity, education, family
+  income-to-poverty ratio, marital status, country of birth, interview
+  language.
+- *Health status / risk:* BMI, self-rated general health, prior hypertension
+  diagnosis. 
+- *Health behavior:* ever-smoking.
+
+```{r daggity}
+nhanes_dag <- dagitty('dag {
+"Blood Sugar Screening (Y)" [outcome,pos="1.058,1.374"]
+"Country of birth" [pos="-1.175,-1.600"]
+"Family income-to-poverty ratio" [pos="1.128,-1.885"]
+"Health-insurance coverage (A)" [exposure,pos="-1.588,1.323"]
+"High blood pressure" [pos="-0.352,0.592"]
+"Interview language" [pos="0.635,-2.433"]
+"Marital Status" [pos="-1.823,-2.031"]
+"Race/Ethnicity" [pos="-0.921,-0.964"]
+"Self-rated general health" [pos="0.987,-0.446"]
+"Smoking status" [pos="-1.856,-0.606"]
+Acculturation [latent,pos="1.161,-2.389"]
+Age [pos="-0.291,-1.622"]
+BMI [pos="0.287,-1.359"]
+Education [pos="-0.925,-2.382"]
+Sex [pos="0.108,-0.241"]
+"Country of birth" -> "Blood Sugar Screening (Y)"
+"Country of birth" -> "Health-insurance coverage (A)"
+"Country of birth" -> "Interview language"
+"Family income-to-poverty ratio" -> "Blood Sugar Screening (Y)"
+"Family income-to-poverty ratio" -> "Health-insurance coverage (A)"
+"Family income-to-poverty ratio" -> "Self-rated general health"
+"Health-insurance coverage (A)" -> "Blood Sugar Screening (Y)"
+"High blood pressure" -> "Blood Sugar Screening (Y)"
+"High blood pressure" -> "Health-insurance coverage (A)"
+"Interview language" -> "Blood Sugar Screening (Y)"
+"Interview language" -> "Health-insurance coverage (A)"
+"Interview language" -> Education
+"Marital Status" -> "Family income-to-poverty ratio"
+"Marital Status" -> "Health-insurance coverage (A)"
+"Marital Status" -> "High blood pressure"
+"Race/Ethnicity" -> "Blood Sugar Screening (Y)"
+"Race/Ethnicity" -> "Health-insurance coverage (A)"
+"Race/Ethnicity" -> "High blood pressure"
+"Self-rated general health" -> "Blood Sugar Screening (Y)"
+"Self-rated general health" -> "Health-insurance coverage (A)"
+"Smoking status" -> "Blood Sugar Screening (Y)"
+"Smoking status" -> "Health-insurance coverage (A)"
+"Smoking status" -> "High blood pressure"
+Acculturation -> "Interview language"
+Age -> "Blood Sugar Screening (Y)"
+Age -> "Health-insurance coverage (A)"
+Age -> "High blood pressure"
+BMI -> "Blood Sugar Screening (Y)"
+BMI -> "Health-insurance coverage (A)"
+BMI -> "High blood pressure"
+BMI -> "Self-rated general health"
+Education -> "Blood Sugar Screening (Y)"
+Education -> "Family income-to-poverty ratio"
+Education -> "Health-insurance coverage (A)"
+Education -> "High blood pressure"
+Sex -> "Blood Sugar Screening (Y)"
+Sex -> "Health-insurance coverage (A)"
+Sex -> "Smoking status"
+}')
+```
+
+# Generating the DAG a format defined by the ggdag package
+
+To create a readable DAG, the ggdag package uses a mixure of r-code and html. 
+
+The only unadjusted variable is *High blood pressure* due to it being a collider in multiple pathhways from the exposure to the outcome. 
+
+
+```{r layout}
+dag_cleaned <- tidy_dagitty(nhanes_dag) %>%
+  node_status() %>% 
+  mutate(
+    x     = x * 1.5,
+    y     = y * 1.5,
+    xend  = xend * 1.5,
+    yend  = yend * 1.5,
+    
+  
+    status = case_when(
+      name == "Health-insurance coverage (A)" ~ "Exposure",
+      name == "Blood Sugar Screening (Y)" ~ "Outcome",
+      name %in% c("Acculturation") ~ "Unmeasured", 
+      name == "High blood pressure" ~ "Unadjusted",
+      TRUE ~ "Adjusted" 
+    )
+  )
+
+ggplot(dag_cleaned, aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_edges(
+    arrow_directed = grid::arrow(length = unit(3, "mm"), type = "closed"),
+    edge_colour = "black",
+    edge_width = 0.5
+  ) +
+
+  geom_dag_node(aes(color = status), size = 12) +
+
+  geom_dag_label_repel(
+    aes(label = name),
+    direction = "y",
+    size = 2,
+    box.padding = 0.1,
+    point.padding = 0.1,
+    segment.color = "grey75",
+    segment.size = 0.5,
+    label.size = 0.1,
+    fill = "white",
+    fontface = "bold",
+    show.legend = FALSE
+  ) +
+  theme_dag() +
+  scale_color_manual(
+    values = c(
+      "Exposure"   = "#1f77b4", 
+      "Outcome"    = "#d62728", 
+      "Adjusted"   = "#2ca02c",
+      "Unadjusted" = "#ff7f0e",
+      "Unmeasured" = "#7f7f7f"
+    ),
+    name = "Variable Status"
+  ) +
+  labs(
+    title = "Directed Acyclic Graph (DAG) for 2017-2020 NHANES Data",
+    subtitle = "Exposure: Insurance Status | Outcome: Blood Sugar Screening"
+  ) +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 8),
+    legend.title = element_text(size = 10, face = "bold"),
+    plot.title = element_text(size = 15, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "grey30"),
+    plot.margin = margin(15, 15, 15, 15)
+  )
+```
