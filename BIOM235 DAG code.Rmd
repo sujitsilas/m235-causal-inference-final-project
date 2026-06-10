@@ -103,9 +103,6 @@ Sex -> "Smoking status"
 
 To create a readable DAG, the ggdag package uses a mixure of r-code and html. 
 
-The only unadjusted variable is *High blood pressure* due to it being a collider in multiple pathhways from the exposure to the outcome. 
-
-
 ```{r layout}
 dag_cleaned <- tidy_dagitty(nhanes_dag) %>%
   node_status() %>% 
@@ -120,7 +117,6 @@ dag_cleaned <- tidy_dagitty(nhanes_dag) %>%
       name == "Health-insurance coverage (A)" ~ "Exposure",
       name == "Blood Sugar Screening (Y)" ~ "Outcome",
       name %in% c("Acculturation") ~ "Unmeasured", 
-      name == "High blood pressure" ~ "Unadjusted",
       TRUE ~ "Adjusted" 
     )
   )
