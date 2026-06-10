@@ -1,0 +1,216 @@
+---
+title: "BioMathM235_RegressionAnalysis"
+output: html_document
+date: "2026-06-10"
+---
+
+# NHANES 2017-2020 Analysis
+# Does having health insurance affect whether someone gets a blood sugar screening?
+# Janvi Bharucha
+
+library(survey)
+library(dplyr)
+library(tidyr)
+
+# this tells R how to handle strata that only have one PSU (common in NHANES)
+options(survey.lonely.psu = "adjust")
+
+
+# load the cleaned dataset 
+
+df <- read.csv("nhanes_insurance_screening_analytic.csv", stringsAsFactors = FALSE)
+
+
+# recode variables
+# setting reference levels so the model output makes sense
+# uninsured is the reference for insurance, non-hispanic white for race, etc.
+
+df <- df %>%
+  mutate(
+    # make outcome a 0/1 numeric so svyglm is happy
+    screened_bin = ifelse(screened == "Screened", 1, 0),
+
+    # exposure - uninsured is reference
+    insured = factor(insured, levels = c("Uninsured", "Insured")),
+
+    # demographics
+    sex = factor(sex, levels = c("Male", "Female")),
+
+    race_eth = factor(race_eth, levels = c("Non-Hispanic White", "Mexican American",
+                                           "Other Hispanic", "Non-Hispanic Black",
+                                           "Non-Hispanic Asian", "Other/Multi")),
+
+    education = factor(education, levels = c("< High school", "High school / GED",
+                                             "Some college", "College graduate")),
+
+    marital = factor(marital, levels = c("Married / partnered",
+                                         "Widowed / divorced / separated",
+                                         "Never married")),
+
+    us_born = factor(us_born, levels = c("Born in U.S.", "Born outside U.S.")),
+
+    interview_lang = factor(interview_lang, levels = c("English", "Spanish")),
+
+    # health status
+    gen_health = factor(gen_health, levels = c("Excellent", "Very good",
+                                               "Good", "Fair", "Poor")),
+    hypertension = factor(hypertension, levels = c("No", "Yes")),
+
+    # behaviors
+    smoked_100   = factor(smoked_100,   levels = c("No", "Yes")),
+    alcohol_ever = factor(alcohol_ever, levels = c("No", "Yes"))
+  )
+
+
+# drop people with zero MEC weight -------------------------------------------
+# these are respondents who did the interview but didn't come in for the exam
+# we need the exam weight because BMI was measured in the exam
+
+df_analytic <- df %>% filter(WTMECPRP > 0)
+
+cat("sample size after dropping zero MEC weights:", nrow(df_analytic), "\n")
+cat("insured:", sum(df_analytic$insured == "Insured"), "\n")
+cat("uninsured:", sum(df_analytic$insured == "Uninsured"), "\n")
+
+
+# check how much missing data we have in each covariate ---------------------
+
+missing_check <- df_analytic %>%
+  summarise(across(c(age, sex, race_eth, education, marital, us_born,
+                     interview_lang, pir, bmi, gen_health,
+                     hypertension, smoked_100, alcohol_ever),
+                   ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "n_missing") %>%
+  mutate(pct_missing = round(n_missing / nrow(df_analytic) * 100, 1)) %>%
+  arrange(desc(n_missing))
+
+print(missing_check)
+# pir and alcohol_ever have the most missing (~14% and ~6.5%)
+# complete case analysis will be used - svyglm drops missing rows automatically
+
+
+# set up the survey design 
+# this is what makes NHANES estimates nationally representative
+# id = the PSU (cluster), strata = the sampling stratum, weights = exam weight
+
+nhanes_design <- svydesign(
+  id      = ~SDMVPSU,
+  strata  = ~SDMVSTRA,
+  weights = ~WTMECPRP,
+  data    = df_analytic,
+  nest    = TRUE
+)
+
+
+# quick look at crude screening rates before modeling 
+
+crude_rates <- svyby(~screened_bin, ~insured, nhanes_design, svymean, na.rm = TRUE)
+crude_rates$pct <- round(crude_rates$screened_bin * 100, 1)
+cat("\nweighted screening rates by insurance status:\n")
+print(crude_rates[, c("insured", "pct")])
+
+
+# model 1: unadjusted --------------------------------------------------------
+# just insurance alone, no covariates
+# gives us the raw association before accounting for anything else
+
+m1 <- svyglm(
+  screened_bin ~ insured,
+  design = nhanes_design,
+  family = quasibinomial(link = "logit")
+)
+
+cat("\n--- model 1: unadjusted ---\n")
+summary(m1)
+
+# exponentiate to get ORs, use df=Inf for CIs (see note below model 3)
+m1_results <- as.data.frame(exp(cbind(OR = coef(m1), confint(m1, df = Inf))))
+m1_results$p_value <- round(summary(m1)$coefficients[, "Pr(>|t|)"], 4)
+cat("\nodds ratios:\n")
+print(round(m1_results, 3))
+
+
+# model 2: demographically adjusted 
+# adds age, sex, race/ethnicity, education, income, marital status,
+# nativity, and interview language as confounders
+# these are the core variables that differ between insured/uninsured
+# and also affect whether someone gets screened
+
+m2 <- svyglm(
+  screened_bin ~ insured + age + sex + race_eth +
+    education + pir + marital + us_born + interview_lang,
+  design = nhanes_design,
+  family = quasibinomial(link = "logit")
+)
+
+cat("\n--- model 2: demographically adjusted ---\n")
+summary(m2)
+
+m2_results <- as.data.frame(exp(cbind(OR = coef(m2), confint(m2, df = Inf))))
+m2_results$p_value <- round(summary(m2)$coefficients[, "Pr(>|t|)"], 4)
+cat("\nodds ratios:\n")
+print(round(m2_results, 3))
+
+
+# model 3: fully adjusted
+# adds BMI, general health, hypertension, smoking, and alcohol on top of model 2
+# these capture health status and behavior that might also confound the relationship
+#
+# NOTE on CIs: the masked NHANES PSU structure leaves very few residual degrees
+# of freedom once this many variables are in the model, so the CIs come out as
+# 0 to Inf. we use df=Inf as a workaround (normal approximation) but the CIs
+# are still unreliable for model 3. the ORs and p-values are still valid though.
+
+m3 <- svyglm(
+  screened_bin ~ insured + age + sex + race_eth +
+    education + pir + marital + us_born + interview_lang +
+    bmi + gen_health + hypertension + smoked_100 + alcohol_ever,
+  design = nhanes_design,
+  family = quasibinomial(link = "logit")
+)
+
+cat("\n--- model 3: fully adjusted ---\n")
+summary(m3)
+
+m3_results <- as.data.frame(exp(cbind(OR = coef(m3), confint(m3, df = Inf))))
+m3_results$p_value <- round(summary(m3)$coefficients[, "Pr(>|t|)"], 4)
+cat("\nodds ratios:\n")
+print(round(m3_results, 3))
+
+
+# summary of insurance effect across all three models 
+# this is the main thing we care about - does the OR stay consistent?
+
+cat("\n--- insurance OR across models ---\n")
+get_insurance_row <- function(model, label) {
+  or_ci <- exp(cbind(OR = coef(model), confint(model, df = Inf)))["insuredInsured", ]
+  pval  <- summary(model)$coefficients["insuredInsured", "Pr(>|t|)"]
+  data.frame(model    = label,
+             OR       = round(or_ci["OR"], 3),
+             CI_lower = round(or_ci["2.5 %"], 3),
+             CI_upper = round(or_ci["97.5 %"], 3),
+             p_value  = round(pval, 4))
+}
+
+insurance_summary <- rbind(
+  get_insurance_row(m1, "unadjusted"),
+  get_insurance_row(m2, "demographically adjusted"),
+  get_insurance_row(m3, "fully adjusted")
+)
+rownames(insurance_summary) <- NULL
+print(insurance_summary)
+
+
+# save full results to csv 
+
+write.csv(insurance_summary, "insurance_effect_by_model.csv", row.names = FALSE)
+cat("\nsaved to insurance_effect_by_model.csv\n")
+
+
+# wald tests for insurance term in each model
+# formal test of whether insurance adds anything beyond chance in each model
+
+cat("\n--- wald tests for insurance term ---\n")
+cat("model 1:\n"); print(regTermTest(m1, ~insured))
+cat("model 2:\n"); print(regTermTest(m2, ~insured))
+cat("model 3:\n"); print(regTermTest(m3, ~insured))
