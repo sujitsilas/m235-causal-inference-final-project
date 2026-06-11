@@ -10,7 +10,6 @@ output:
     code_folding: show
     df_print: paged
 ---
-
 ```{r setup-env, fig.width=10, fig.height=8}
 # ---- packages ----
 pkgs <- c("dagitty", "ggdag", "ggplot2", "dplyr")
@@ -21,6 +20,7 @@ invisible(lapply(pkgs, library, character.only = TRUE))
 
 theme_set(theme_minimal(base_size = 12))
 ```
+
 
 # Defining the relationships for the Directed acyclic graph (DAG)
 
@@ -40,6 +40,9 @@ The DAG was first created using DAGGITY online and then modifed using the code b
 - *Health status / risk:* BMI, self-rated general health, prior hypertension
   diagnosis. 
 - *Health behavior:* ever-smoking.
+
+
+
 
 ```{r daggity}
 nhanes_dag <- dagitty('dag {
@@ -104,6 +107,9 @@ Sex -> "Smoking status"
 To create a readable DAG, the ggdag package uses a mixture of r-code and html. 
 
 In the proposed DAG, *High blood pressure* acts as a confounder for the causal pathway, while simultaneously serving as a collider for upstream variables such as *Age*, *BMI*, and *Smoking status*. While conditioning on a collider typically induces collider-stratification bias by opening backdoor paths between its parents, these newly opened paths are simultaneously blocked because the parent variables (i.e.*Age*, *BMI*, etc) are adjusted for within the model. For this reason, adjusting for *High blood pressure* would be considered statistically safe and would not introduce bias into our causal estimand.
+
+
+
 
 
 ```{r layout}

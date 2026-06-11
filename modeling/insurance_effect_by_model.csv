@@ -1,0 +1,4 @@
+"model","OR","CI_lower","CI_upper","p_value"
+"unadjusted",2.518,2.109,3.006,0
+"demographically adjusted",1.95,1.51,2.517,2e-04
+"fully adjusted",1.942,0,Inf,0.1081

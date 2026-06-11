@@ -1,0 +1,91 @@
+---
+title: "NHANES 2017–2020: Health Insurance and Blood-Sugar Screening"
+subtitle: "Sensitivity analyses"
+author: "Sujit Silas Armstrong, Janvi Bharucha, Amanda Millatt"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, message = FALSE, warning = FALSE,
+  fig.align = "center", fig.width = 7, fig.height = 4.5
+)
+
+# ---- packages ----
+pkgs <- c("survey", "dplyr", "tidyr", "ggplot2")  # add: EValue, mice as needed
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install)) install.packages(to_install)
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+options(survey.lonely.psu = "adjust")
+
+# analytic dataset lives in the project root
+data_path <- c("nhanes_insurance_screening_analytic.csv",
+               "../nhanes_insurance_screening_analytic.csv")
+data_path <- data_path[file.exists(data_path)][1]
+```
+
+> **STATUS: PLACEHOLDER.** Scaffolding for the robustness checks that probe the
+> identifying assumptions behind the primary estimates (outcome regression, IPW,
+> doubly robust). Analysis chunks are `eval=FALSE` so the file knits; fill in and
+> enable as each check is built.
+
+# 1. Purpose
+
+The primary analyses identify the ATE under **consistency**, **conditional
+exchangeability** given the DAG adjustment set, and **positivity**. These
+sensitivity analyses ask how fragile the conclusion is to violations of those
+assumptions and to analytic choices.
+
+# 2. Unmeasured confounding (E-value)  *(TODO)*
+
+How strong would an unmeasured confounder have to be — in association with both
+insurance and screening — to explain away the observed effect?
+
+```{r evalue, eval=FALSE}
+# library(EValue)
+# point estimate + CI bound from the primary model (risk ratio scale)
+# evalues.RR(est = <RR>, lo = <CI_low>, hi = <CI_high>)
+```
+
+# 3. Positivity / extreme weights  *(TODO)*
+
+Re-estimate after (a) trimming the propensity score to common support and
+(b) truncating IPT weights at the 1st/99th percentiles.
+
+```{r trimming, eval=FALSE}
+# refit the IPW / AIPW pipeline restricting to 0.01 <= ps <= 0.99
+# and compare the ATE to the untrimmed estimate.
+```
+
+# 4. Alternative adjustment sets  *(TODO)*
+
+Compare the primary adjustment set against (a) adding `alcohol_ever` back in
+(at the cost of ~14% more missingness) and (b) a minimal sufficient set implied
+by the DAG.
+
+```{r adjustment-sets, eval=FALSE}
+# loop over candidate covariate sets, re-estimate, tabulate the insurance effect.
+```
+
+# 5. Missing-data handling  *(TODO)*
+
+Compare complete-case analysis (primary) against multiple imputation for the
+covariates with the most missingness (`pir`, `alcohol_ever`).
+
+```{r missing-data, eval=FALSE}
+# library(mice)
+# impute L, re-estimate within each completed dataset, pool with Rubin's rules.
+```
+
+# 6. Session info
+
+```{r session}
+sessionInfo()
+```

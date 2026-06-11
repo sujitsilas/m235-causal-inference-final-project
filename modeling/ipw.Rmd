@@ -1,0 +1,149 @@
+---
+title: "NHANES 2017–2020: Health Insurance and Blood-Sugar Screening"
+subtitle: "Inverse-probability-of-treatment weighting (IPTW)"
+author: "Amanda Millatt"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, message = FALSE, warning = FALSE,
+  fig.align = "center", fig.width = 7, fig.height = 4.5
+)
+
+# ---- packages ----
+pkgs <- c("survey", "dplyr", "tidyr", "ggplot2")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install)) install.packages(to_install)
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+options(survey.lonely.psu = "adjust")
+
+# analytic dataset lives in the project root; works whether this file is
+# knit from modeling/ or run interactively from the project root
+data_path <- c("nhanes_insurance_screening_analytic.csv",
+               "../nhanes_insurance_screening_analytic.csv")
+data_path <- data_path[file.exists(data_path)][1]
+```
+
+# 1. Overview
+
+**Estimand.** Average treatment effect (ATE) of health-insurance coverage on
+blood-sugar screening, identified under the assumptions documented in
+`../nhanes_data_prep.Rmd` and the DAG in `../nhanes_dag.Rmd`.
+
+**Method.** Inverse-probability-of-treatment weighting:
+
+1. Model the propensity score $e(L)=\Pr(A=1\mid L)$ with logistic regression.
+2. Form stabilized IPT weights $sw = \frac{\Pr(A)}{e(L)}$ for the treated and
+   $\frac{\Pr(A{=}0)}{1-e(L)}$ for the untreated.
+3. Combine the IPT weights with the NHANES survey weights.
+4. Estimate the marginal risk difference / odds ratio in the pseudo-population.
+
+# 2. Load and recode (shared with the team)
+
+```{r load-recode}
+df <- read.csv(data_path, stringsAsFactors = FALSE)
+
+df <- df %>% 
+  mutate(
+    screened_bin = ifelse(screened == "Screened", 1, 0),
+    treat        = ifelse(insured == "Insured", 1, 0),   # 1 = insured
+
+    insured  = factor(insured, levels = c("Uninsured", "Insured")),
+    sex      = factor(sex, levels = c("Male", "Female")),
+    race_eth = factor(race_eth, levels = c("Non-Hispanic White", "Mexican American",
+                                           "Other Hispanic", "Non-Hispanic Black",
+                                           "Non-Hispanic Asian", "Other/Multi")),
+    education = factor(education, levels = c("< High school", "High school / GED",
+                                             "Some college", "College graduate")),
+    marital  = factor(marital, levels = c("Married / partnered",
+                                          "Widowed / divorced / separated",
+                                          "Never married")),
+    us_born  = factor(us_born, levels = c("Born in U.S.", "Born outside U.S.")),
+    interview_lang = factor(interview_lang, levels = c("English", "Spanish")),
+    gen_health   = factor(gen_health, levels = c("Excellent", "Very good",
+                                                 "Good", "Fair", "Poor")),
+    hypertension = factor(hypertension, levels = c("No", "Yes")),
+    smoked_100   = factor(smoked_100,   levels = c("No", "Yes")),
+    alcohol_ever = factor(alcohol_ever, levels = c("No", "Yes"))
+  ) %>%
+  filter(WTMECPRP > 0)
+
+# confounder set L (adjustment set from the DAG)
+covariates <- c("age", "sex", "race_eth", "education", "pir", "marital",
+                "us_born", "interview_lang", "bmi", "gen_health",
+                "hypertension", "smoked_100")
+
+# complete cases on (A, Y, L) for the weighting model
+model_df <- df %>%
+  tidyr::drop_na(all_of(c("treat", "screened_bin", covariates)))
+
+cat("complete-case n:", nrow(model_df), "\n")
+```
+
+# 3. Propensity-score model  *(TODO)*
+
+```{r ps-model, eval=FALSE}
+# TODO: fit the propensity score e(L) = P(insured = 1 | L)
+ps_formula <- reformulate(covariates, response = "treat")
+
+ps_fit <- glm(ps_formula, data = model_df, family = binomial())
+model_df$ps <- predict(ps_fit, type = "response")
+
+# overlap / positivity diagnostic: PS distribution by treatment arm
+ggplot(model_df, aes(ps, fill = insured)) +
+  geom_density(alpha = 0.45) +
+  labs(title = "Propensity-score overlap by insurance status",
+       x = "Estimated P(insured | L)", y = "Density", fill = NULL)
+```
+
+# 4. Stabilized IPT weights  *(TODO)*
+
+```{r ipt-weights, eval=FALSE}
+# TODO: build stabilized IPT weights and combine with the NHANES survey weight
+p_treat <- mean(model_df$treat)
+
+model_df <- model_df %>%
+  mutate(
+    sw = ifelse(treat == 1, p_treat / ps, (1 - p_treat) / (1 - ps)),
+    # combine with NHANES exam weight for a design-consistent estimate
+    final_w = sw * WTMECPRP
+  )
+
+# check weights: mean of stabilized weights should be ~1; inspect the tail
+summary(model_df$sw)
+# TODO: consider truncating extreme weights (e.g. 1st/99th percentile)
+```
+
+# 5. Weighted effect estimate  *(TODO)*
+
+```{r ipw-estimate, eval=FALSE}
+# TODO: estimate the marginal effect in the IPT-weighted pseudo-population.
+# Use a survey design with the combined weights so SEs respect the NHANES
+# clustering/stratification.
+ipw_design <- svydesign(
+  id = ~SDMVPSU, strata = ~SDMVSTRA, weights = ~final_w,
+  data = model_df, nest = TRUE
+)
+
+# marginal risk difference
+svyby(~screened_bin, ~insured, ipw_design, svymean)
+
+# marginal model (msm)
+msm <- svyglm(screened_bin ~ insured, design = ipw_design,
+              family = quasibinomial())
+summary(msm)
+exp(cbind(OR = coef(msm), confint(msm, df = Inf)))
+```
+
+# 6. Session info
+
+```{r session}
+sessionInfo()
+```

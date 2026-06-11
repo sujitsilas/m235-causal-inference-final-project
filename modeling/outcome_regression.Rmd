@@ -1,29 +1,56 @@
 ---
-title: "BioMathM235_RegressionAnalysis"
-output: html_document
-date: "2026-06-10"
+title: "NHANES 2017–2020: Health Insurance and Blood-Sugar Screening"
+subtitle: "Outcome regression (survey-weighted logistic models)"
+author: "Janvi Bharucha"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    df_print: paged
 ---
 
-# NHANES 2017-2020 Analysis
-# Does having health insurance affect whether someone gets a blood sugar screening?
-# Janvi Bharucha
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, message = FALSE, warning = FALSE,
+  fig.align = "center", fig.width = 7, fig.height = 4.5
+)
 
-library(survey)
-library(dplyr)
-library(tidyr)
+# ---- packages ----
+pkgs <- c("survey", "dplyr", "tidyr")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install)) install.packages(to_install)
+invisible(lapply(pkgs, library, character.only = TRUE))
 
-# this tells R how to handle strata that only have one PSU (common in NHANES)
+# tells R how to handle strata that only have one PSU (common in NHANES)
 options(survey.lonely.psu = "adjust")
 
+# analytic dataset lives in the project root; works whether this file is
+# knit from modeling/ or run interactively from the project root
+data_path <- c("nhanes_insurance_screening_analytic.csv",
+               "../nhanes_insurance_screening_analytic.csv")
+data_path <- data_path[file.exists(data_path)][1]
+```
 
-# load the cleaned dataset 
+# 1. Overview
 
-df <- read.csv("nhanes_insurance_screening_analytic.csv", stringsAsFactors = FALSE)
+**Question.** Does having health insurance affect whether someone gets a
+blood-sugar screening?
 
+This document estimates the association using **survey-weighted logistic
+regression** (the outcome-regression / G-computation building block of the
+project). It consumes the shared analytic dataset built in
+`../nhanes_data_prep.Rmd` and reports the insurance odds ratio under three
+levels of adjustment.
 
-# recode variables
-# setting reference levels so the model output makes sense
-# uninsured is the reference for insurance, non-hispanic white for race, etc.
+# 2. Load and recode
+
+We set reference levels so the model output is interpretable: **uninsured** is
+the reference for insurance, **non-Hispanic White** for race/ethnicity, etc.
+
+```{r load-recode}
+df <- read.csv(data_path, stringsAsFactors = FALSE)
 
 df <- df %>%
   mutate(
@@ -60,21 +87,22 @@ df <- df %>%
     smoked_100   = factor(smoked_100,   levels = c("No", "Yes")),
     alcohol_ever = factor(alcohol_ever, levels = c("No", "Yes"))
   )
+```
 
+# 3. Restrict to the exam sample and check missingness
 
-# drop people with zero MEC weight -------------------------------------------
-# these are respondents who did the interview but didn't come in for the exam
-# we need the exam weight because BMI was measured in the exam
-
+```{r mec-weights}
+# drop people with zero MEC weight: respondents who did the interview but did
+# not come in for the exam. We need the exam weight because BMI was measured
+# in the exam.
 df_analytic <- df %>% filter(WTMECPRP > 0)
 
 cat("sample size after dropping zero MEC weights:", nrow(df_analytic), "\n")
-cat("insured:", sum(df_analytic$insured == "Insured"), "\n")
+cat("insured:",   sum(df_analytic$insured == "Insured"),   "\n")
 cat("uninsured:", sum(df_analytic$insured == "Uninsured"), "\n")
+```
 
-
-# check how much missing data we have in each covariate ---------------------
-
+```{r missing-check}
 missing_check <- df_analytic %>%
   summarise(across(c(age, sex, race_eth, education, marital, us_born,
                      interview_lang, pir, bmi, gen_health,
@@ -85,14 +113,15 @@ missing_check <- df_analytic %>%
   arrange(desc(n_missing))
 
 print(missing_check)
-# pir and alcohol_ever have the most missing (~14% and ~6.5%)
-# complete case analysis will be used - svyglm drops missing rows automatically
+# pir and alcohol_ever have the most missing (~14% and ~6.5%).
+# complete-case analysis is used - svyglm drops missing rows automatically.
+```
 
+# 4. Survey design
 
-# set up the survey design 
+```{r design}
 # this is what makes NHANES estimates nationally representative
 # id = the PSU (cluster), strata = the sampling stratum, weights = exam weight
-
 nhanes_design <- svydesign(
   id      = ~SDMVPSU,
   strata  = ~SDMVSTRA,
@@ -100,42 +129,46 @@ nhanes_design <- svydesign(
   data    = df_analytic,
   nest    = TRUE
 )
+```
 
-
-# quick look at crude screening rates before modeling 
-
+```{r crude-rates}
+# weighted crude screening rates before modeling
 crude_rates <- svyby(~screened_bin, ~insured, nhanes_design, svymean, na.rm = TRUE)
 crude_rates$pct <- round(crude_rates$screened_bin * 100, 1)
-cat("\nweighted screening rates by insurance status:\n")
+cat("weighted screening rates by insurance status:\n")
 print(crude_rates[, c("insured", "pct")])
+```
 
+# 5. Models
 
-# model 1: unadjusted --------------------------------------------------------
-# just insurance alone, no covariates
-# gives us the raw association before accounting for anything else
+## Model 1 — unadjusted
 
+Just insurance alone, no covariates: the raw association before accounting for
+anything else.
+
+```{r m1}
 m1 <- svyglm(
   screened_bin ~ insured,
   design = nhanes_design,
   family = quasibinomial(link = "logit")
 )
 
-cat("\n--- model 1: unadjusted ---\n")
 summary(m1)
 
-# exponentiate to get ORs, use df=Inf for CIs (see note below model 3)
+# exponentiate to get ORs, use df=Inf for CIs (see note under model 3)
 m1_results <- as.data.frame(exp(cbind(OR = coef(m1), confint(m1, df = Inf))))
 m1_results$p_value <- round(summary(m1)$coefficients[, "Pr(>|t|)"], 4)
 cat("\nodds ratios:\n")
 print(round(m1_results, 3))
+```
 
+## Model 2 — demographically adjusted
 
-# model 2: demographically adjusted 
-# adds age, sex, race/ethnicity, education, income, marital status,
-# nativity, and interview language as confounders
-# these are the core variables that differ between insured/uninsured
-# and also affect whether someone gets screened
+Adds age, sex, race/ethnicity, education, income, marital status, nativity, and
+interview language as confounders — the core variables that differ between
+insured/uninsured and also affect whether someone gets screened.
 
+```{r m2}
 m2 <- svyglm(
   screened_bin ~ insured + age + sex + race_eth +
     education + pir + marital + us_born + interview_lang,
@@ -143,24 +176,26 @@ m2 <- svyglm(
   family = quasibinomial(link = "logit")
 )
 
-cat("\n--- model 2: demographically adjusted ---\n")
 summary(m2)
 
 m2_results <- as.data.frame(exp(cbind(OR = coef(m2), confint(m2, df = Inf))))
 m2_results$p_value <- round(summary(m2)$coefficients[, "Pr(>|t|)"], 4)
 cat("\nodds ratios:\n")
 print(round(m2_results, 3))
+```
 
+## Model 3 — fully adjusted
 
-# model 3: fully adjusted
-# adds BMI, general health, hypertension, smoking, and alcohol on top of model 2
-# these capture health status and behavior that might also confound the relationship
-#
-# NOTE on CIs: the masked NHANES PSU structure leaves very few residual degrees
-# of freedom once this many variables are in the model, so the CIs come out as
-# 0 to Inf. we use df=Inf as a workaround (normal approximation) but the CIs
-# are still unreliable for model 3. the ORs and p-values are still valid though.
+Adds BMI, general health, hypertension, smoking, and alcohol on top of model 2 —
+health status and behavior that might also confound the relationship.
 
+> **Note on CIs.** The masked NHANES PSU structure leaves very few residual
+> degrees of freedom once this many variables are in the model, so the default
+> CIs come out as 0 to Inf. We use `df = Inf` as a workaround (normal
+> approximation), but the model-3 CIs are still unreliable. The ORs and
+> p-values remain valid.
+
+```{r m3}
 m3 <- svyglm(
   screened_bin ~ insured + age + sex + race_eth +
     education + pir + marital + us_born + interview_lang +
@@ -169,19 +204,20 @@ m3 <- svyglm(
   family = quasibinomial(link = "logit")
 )
 
-cat("\n--- model 3: fully adjusted ---\n")
 summary(m3)
 
 m3_results <- as.data.frame(exp(cbind(OR = coef(m3), confint(m3, df = Inf))))
 m3_results$p_value <- round(summary(m3)$coefficients[, "Pr(>|t|)"], 4)
 cat("\nodds ratios:\n")
 print(round(m3_results, 3))
+```
 
+# 6. Insurance effect across models
 
-# summary of insurance effect across all three models 
-# this is the main thing we care about - does the OR stay consistent?
+The main thing we care about: does the insurance OR stay consistent as we add
+adjustment?
 
-cat("\n--- insurance OR across models ---\n")
+```{r summary-table}
 get_insurance_row <- function(model, label) {
   or_ci <- exp(cbind(OR = coef(model), confint(model, df = Inf)))["insuredInsured", ]
   pval  <- summary(model)$coefficients["insuredInsured", "Pr(>|t|)"]
@@ -200,17 +236,19 @@ insurance_summary <- rbind(
 rownames(insurance_summary) <- NULL
 print(insurance_summary)
 
-
-# save full results to csv 
-
 write.csv(insurance_summary, "insurance_effect_by_model.csv", row.names = FALSE)
 cat("\nsaved to insurance_effect_by_model.csv\n")
+```
 
-
-# wald tests for insurance term in each model
+```{r wald-tests}
 # formal test of whether insurance adds anything beyond chance in each model
-
-cat("\n--- wald tests for insurance term ---\n")
 cat("model 1:\n"); print(regTermTest(m1, ~insured))
 cat("model 2:\n"); print(regTermTest(m2, ~insured))
 cat("model 3:\n"); print(regTermTest(m3, ~insured))
+```
+
+# 7. Session info
+
+```{r session}
+sessionInfo()
+```

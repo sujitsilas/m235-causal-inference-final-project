@@ -1,0 +1,234 @@
+---
+title: "NHANES 2017–2020: Health Insurance and Blood-Sugar Screening"
+subtitle: "Doubly robust estimation (AIPW)"
+author: "Sujit Silas Armstrong"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, message = FALSE, warning = FALSE,
+  fig.align = "center", fig.width = 7, fig.height = 4.5
+)
+
+# ---- packages ----
+pkgs <- c("survey", "dplyr", "tidyr", "ggplot2")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install)) install.packages(to_install)
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+options(survey.lonely.psu = "adjust")
+theme_set(theme_minimal(base_size = 12))
+
+# analytic dataset lives in the project root; works whether this file is
+# knit from modeling/ or run interactively from the project root
+data_path <- c("nhanes_insurance_screening_analytic.csv",
+               "../nhanes_insurance_screening_analytic.csv")
+data_path <- data_path[file.exists(data_path)][1]
+```
+
+
+# 1. Overview
+
+**Estimand.** Average treatment effect (ATE) of health-insurance coverage
+($A$: insured vs. uninsured) on blood-sugar screening ($Y$), on the **risk-
+difference** scale,
+$$\tau = \mathbb{E}\!\left[Y^{1}\right] - \mathbb{E}\!\left[Y^{0}\right],$$
+identified under the assumptions in `../nhanes_data_prep.Rmd` and the adjustment
+set in `../nhanes_dag.Rmd`.
+
+**Method — Augmented IPW (AIPW).** The doubly robust estimator combines a
+**propensity-score** model $e(L)=\Pr(A=1\mid L)$ with an **outcome** model
+$m_a(L)=\mathbb{E}[Y\mid A=a, L]$ through the per-subject pseudo-outcomes
+
+$\hat\tau = \overline{\hat\mu_1} - \overline{\hat\mu_0}$ is **consistent if
+*either*** the propensity model **or** the outcome model is correctly specified
+(double robustness). We carry the NHANES survey weights through every step so
+the estimate targets the U.S. adult population, and we obtain design-based
+confidence intervals from the survey package.
+
+# 2. Load, recode, complete-case
+
+```{r load-recode}
+df <- read.csv(data_path, stringsAsFactors = FALSE)
+
+df <- df %>%
+  mutate(
+    screened_bin = ifelse(screened == "Screened", 1, 0),
+    treat        = ifelse(insured == "Insured", 1, 0),   # 1 = insured (treated)
+
+    insured  = factor(insured, levels = c("Uninsured", "Insured")),
+    sex      = factor(sex, levels = c("Male", "Female")),
+    race_eth = factor(race_eth, levels = c("Non-Hispanic White", "Mexican American",
+                                           "Other Hispanic", "Non-Hispanic Black",
+                                           "Non-Hispanic Asian", "Other/Multi")),
+    education = factor(education, levels = c("< High school", "High school / GED",
+                                             "Some college", "College graduate")),
+    marital  = factor(marital, levels = c("Married / partnered",
+                                          "Widowed / divorced / separated",
+                                          "Never married")),
+    us_born  = factor(us_born, levels = c("Born in U.S.", "Born outside U.S.")),
+    interview_lang = factor(interview_lang, levels = c("English", "Spanish")),
+    gen_health   = factor(gen_health, levels = c("Excellent", "Very good",
+                                                 "Good", "Fair", "Poor")),
+    hypertension = factor(hypertension, levels = c("No", "Yes")),
+    smoked_100   = factor(smoked_100,   levels = c("No", "Yes")),
+    alcohol_ever = factor(alcohol_ever, levels = c("No", "Yes"))
+  ) %>%
+  filter(WTMECPRP > 0)            # keep the MEC-examined sample (BMI measured there)
+
+# adjustment set L (from the DAG). alcohol is dropped here to limit the
+# complete-case loss it drives (~14% missing); revisit in sensitivity analysis.
+covariates <- c("age", "sex", "race_eth", "education", "pir", "marital",
+                "us_born", "interview_lang", "bmi", "gen_health",
+                "hypertension", "smoked_100")
+
+model_df <- df %>%
+  tidyr::drop_na(all_of(c("treat", "screened_bin", covariates)))
+
+cat("MEC-examined n:      ", nrow(df), "\n")
+cat("complete-case n (L): ", nrow(model_df), "\n")
+cat("  insured:   ", sum(model_df$treat == 1), "\n")
+cat("  uninsured: ", sum(model_df$treat == 0), "\n")
+```
+
+# 3. Nuisance models
+
+Both nuisance models are fit with the NHANES exam weights so they estimate
+population quantities. Two implementation details matter here:
+
+- We use `quasibinomial()` to avoid spurious non-integer-weight warnings;
+  coefficients are identical to `binomial()`.
+
+```{r nuisance}
+# rescale survey weights to mean 1
+model_df$sw <- model_df$WTMECPRP / mean(model_df$WTMECPRP)
+
+# ---- propensity score: e(L) = P(insured = 1 | L) ----
+ps_formula <- reformulate(covariates, response = "treat")
+ps_fit <- glm(ps_formula, data = model_df,
+              family = quasibinomial(), weights = sw)
+model_df$ps <- predict(ps_fit, type = "response")
+
+# ---- outcome models: m_a(L) = E(Y | A = a, L), fit separately by arm ----
+y_formula <- reformulate(covariates, response = "screened_bin")
+out1 <- glm(y_formula, data = filter(model_df, treat == 1),
+            family = quasibinomial(), weights = sw)
+out0 <- glm(y_formula, data = filter(model_df, treat == 0),
+            family = quasibinomial(), weights = sw)
+
+# counterfactual predictions for everyone under each arm
+model_df$m1 <- predict(out1, newdata = model_df, type = "response")
+model_df$m0 <- predict(out0, newdata = model_df, type = "response")
+```
+
+## 3.1 Positivity / overlap diagnostics
+
+```{r overlap, fig.height=4}
+cat("propensity range, uninsured:",
+    round(range(model_df$ps[model_df$treat == 0]), 4), "\n")
+cat("propensity range, insured:  ",
+    round(range(model_df$ps[model_df$treat == 1]), 4), "\n")
+
+ggplot(model_df, aes(ps, fill = insured)) +
+  geom_density(alpha = 0.45) +
+  labs(title = "Propensity-score overlap by insurance status",
+       subtitle = "Positivity holds where both arms have density across the PS range",
+       x = "Estimated P(insured | L)", y = "Density", fill = NULL) +
+  theme(legend.position = "top")
+
+# IPT weights implied by the PS — inspect the tails for instability
+model_df$ipt_w <- ifelse(model_df$treat == 1, 1 / model_df$ps, 1 / (1 - model_df$ps))
+cat("\nIPT weight summary (unstabilized):\n"); print(summary(model_df$ipt_w))
+```
+
+# 4. AIPW estimator
+
+```{r aipw}
+model_df <- model_df %>%
+  mutate(
+    mu1 = m1 + treat       / ps       * (screened_bin - m1),   # pseudo-outcome for E[Y^1]
+    mu0 = m0 + (1 - treat) / (1 - ps) * (screened_bin - m0),   # pseudo-outcome for E[Y^0]
+    aipw_contrast = mu1 - mu0
+  )
+
+# design-based inference: the survey-weighted mean of the pseudo-outcomes IS the
+# AIPW estimate of each potential-outcome mean; svycontrast gives the RD/RR/OR
+# with delta-method CIs that respect the NHANES clustering and stratification.
+aipw_design <- svydesign(id = ~SDMVPSU, strata = ~SDMVSTRA,
+                         weights = ~WTMECPRP, data = model_df, nest = TRUE)
+
+po  <- svymean(~mu1 + mu0, aipw_design)            # E[Y^1], E[Y^0]
+rd  <- svycontrast(po, quote(mu1 - mu0))                           # risk difference
+rr  <- svycontrast(po, quote(mu1 / mu0))                           # risk ratio
+or  <- svycontrast(po, quote((mu1 / (1 - mu1)) / (mu0 / (1 - mu0))))  # marginal OR
+
+aipw_results <- rbind(
+  `E[Y^1] (insured)`   = c(coef(po)["mu1"], confint(po)["mu1", ]),
+  `E[Y^0] (uninsured)` = c(coef(po)["mu0"], confint(po)["mu0", ]),
+  `Risk difference`    = c(coef(rd), confint(rd)),
+  `Risk ratio`         = c(coef(rr), confint(rr)),
+  `Marginal OR`        = c(coef(or), confint(or))
+)
+colnames(aipw_results) <- c("estimate", "ci_low", "ci_high")
+round(aipw_results, 4)
+```
+
+The **risk difference** is the headline causal estimate: the change in the
+population probability of blood-sugar screening attributable to insurance
+coverage. The **marginal OR** is reported for comparison with the conditional
+ORs from the outcome-regression document (`outcome_regression.Rmd`); marginal
+and conditional ORs are not expected to be equal (non-collapsibility).
+
+# 5. Double robustness — the two halves vs. AIPW
+
+The AIPW estimate should sit close to its two ingredients (plug-in g-formula and
+IPW) and is the one that stays valid if *either* nuisance model is wrong.
+
+```{r dr-comparison}
+w <- model_df$WTMECPRP
+
+# (a) plug-in g-formula (outcome model only)
+rd_g <- weighted.mean(model_df$m1 - model_df$m0, w)
+
+# (b) IPW / Hajek (propensity model only)
+ey1_ipw <- with(model_df, sum(w * treat * screened_bin / ps) /
+                          sum(w * treat / ps))
+ey0_ipw <- with(model_df, sum(w * (1 - treat) * screened_bin / (1 - ps)) /
+                          sum(w * (1 - treat) / (1 - ps)))
+rd_ipw <- ey1_ipw - ey0_ipw
+
+# (c) AIPW (doubly robust)
+rd_aipw <- weighted.mean(model_df$aipw_contrast, w)
+
+data.frame(
+  estimator = c("g-formula (outcome only)", "IPW (propensity only)",
+                "AIPW (doubly robust)"),
+  risk_difference = round(c(rd_g, rd_ipw, rd_aipw), 4)
+)
+```
+
+# 6. Alternative inference (treats nuisances as fixed, iid)
+
+A simpler influence-function SE that ignores the survey design, shown only as a
+cross-check on the design-based CI above. The design-based result in Section 4
+is the one we report.
+
+```{r if-se}
+n   <- nrow(model_df)
+psi <- mean(model_df$aipw_contrast)                 # unweighted sample ATE
+se  <- sd(model_df$aipw_contrast) / sqrt(n)
+cat(sprintf("iid AIPW risk difference: %.4f  (95%% CI %.4f to %.4f)\n",
+            psi, psi - 1.96 * se, psi + 1.96 * se))
+```
+
+# 7. Session info
+
+```{r session}
+sessionInfo()
+```
