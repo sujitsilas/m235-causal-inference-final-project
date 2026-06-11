@@ -1,0 +1,468 @@
+---
+title: "Health Insurance and Blood Sugar Screening: Logistic Regression Analysis"
+subtitle: "NHANES 2017–2020 Pre-Pandemic Data"
+author: "Janvi Bharucha"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+    highlight: tango
+    code_folding: hide
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+```
+
+---
+
+# Overview
+
+This analysis examines whether having health insurance is associated with receiving a blood sugar screening test, using NHANES 2017–2020 pre-pandemic data. We fit three survey-weighted logistic regression models with increasing levels of covariate adjustment, and estimate the Average Treatment Effect (ATE) using g-computation (standardization).
+
+- **Exposure:** Health insurance coverage (Insured vs. Uninsured)
+- **Outcome:** Blood sugar screened in the past 3 years (Yes vs. No)
+- **Estimand:** Average Treatment Effect (ATE) on the probability of screening
+
+---
+
+# Setup
+
+```{r libraries}
+library(survey)
+library(dplyr)
+library(tidyr)
+library(knitr)
+
+# suppress the common kableExtra dependency warning gracefully
+use_kable_extra <- requireNamespace("kableExtra", quietly = TRUE)
+if (use_kable_extra) library(kableExtra)
+
+# tells R how to handle strata with only one PSU, which comes up in NHANES
+options(survey.lonely.psu = "adjust")
+```
+
+---
+
+# 1. Load and Prepare Data
+
+```{r load-data}
+df <- read.csv("nhanes_insurance_screening_analytic.csv", stringsAsFactors = FALSE)
+```
+
+```{r recode}
+# set reference levels so model output makes sense:
+# uninsured = reference for insurance, non-hispanic white = reference for race, etc.
+
+df <- df %>%
+  mutate(
+    # make outcome 0/1 numeric for svyglm
+    screened_bin = ifelse(screened == "Screened", 1, 0),
+
+    # exposure — uninsured is reference
+    insured = factor(insured, levels = c("Uninsured", "Insured")),
+
+    # demographics
+    sex      = factor(sex, levels = c("Male", "Female")),
+    race_eth = factor(race_eth,
+                      levels = c("Non-Hispanic White", "Mexican American",
+                                 "Other Hispanic", "Non-Hispanic Black",
+                                 "Non-Hispanic Asian", "Other/Multi")),
+    education = factor(education,
+                       levels = c("< High school", "High school / GED",
+                                  "Some college", "College graduate")),
+    marital = factor(marital,
+                     levels = c("Married / partnered",
+                                "Widowed / divorced / separated",
+                                "Never married")),
+    us_born        = factor(us_born,
+                            levels = c("Born in U.S.", "Born outside U.S.")),
+    interview_lang = factor(interview_lang, levels = c("English", "Spanish")),
+
+    # health status
+    gen_health   = factor(gen_health,
+                          levels = c("Excellent", "Very good", "Good", "Fair", "Poor")),
+    hypertension = factor(hypertension, levels = c("No", "Yes")),
+
+    # behaviors
+    smoked_100   = factor(smoked_100,   levels = c("No", "Yes")),
+    alcohol_ever = factor(alcohol_ever, levels = c("No", "Yes"))
+  )
+```
+
+---
+
+# 2. Sample Flow
+
+Respondents with a zero MEC weight did not attend the physical exam. We exclude them because BMI (from the exam) is a covariate in Model 3, and we want a consistent analytic sample across all models.
+
+```{r sample-flow}
+n_full <- nrow(df)
+df_analytic <- df %>% filter(WTMECPRP > 0)
+n_analytic  <- nrow(df_analytic)
+
+flow <- data.frame(
+  Step = c(
+    "Full dataset",
+    "Excluded: zero MEC weight (interview only, no exam)",
+    "Final analytic sample"
+  ),
+  N = c(
+    n_full,
+    n_full - n_analytic,
+    n_analytic
+  )
+)
+
+kable(flow, caption = "Sample Flow", align = c("l", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+**Final sample breakdown:**
+
+- Insured: **`r sum(df_analytic$insured == "Insured")`**
+- Uninsured: **`r sum(df_analytic$insured == "Uninsured")`**
+- Screened: **`r sum(df_analytic$screened_bin == 1, na.rm = TRUE)`**
+- Not screened: **`r sum(df_analytic$screened_bin == 0, na.rm = TRUE)`**
+
+---
+
+# 3. Covariate Missingness
+
+```{r missingness}
+missing_check <- df_analytic %>%
+  summarise(across(c(age, sex, race_eth, education, marital, us_born,
+                     interview_lang, pir, bmi, gen_health,
+                     hypertension, smoked_100, alcohol_ever),
+                   ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "Variable", values_to = "N Missing") %>%
+  mutate(`% Missing` = round(`N Missing` / nrow(df_analytic) * 100, 1)) %>%
+  arrange(desc(`N Missing`))
+
+kable(missing_check,
+      caption = "Covariate Missingness in Analytic Sample",
+      align   = c("l", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+> Income-to-poverty ratio (`pir`) and alcohol use (`alcohol_ever`) have the most missing values. Complete case analysis is used throughout — `svyglm()` automatically drops observations missing any model variable.
+
+---
+
+# 4. Survey Design
+
+```{r survey-design}
+# incorporates NHANES complex sample design:
+# id = PSU (cluster), strata = sampling stratum, weights = MEC exam weight
+
+nhanes_design <- svydesign(
+  id      = ~SDMVPSU,
+  strata  = ~SDMVSTRA,
+  weights = ~WTMECPRP,
+  data    = df_analytic,
+  nest    = TRUE
+)
+```
+
+---
+
+# 5. Crude Screening Rates
+
+Before modeling, we look at the raw weighted screening rates by insurance status.
+
+```{r crude-rates}
+crude_rates <- svyby(~screened_bin, ~insured, nhanes_design, svymean, na.rm = TRUE)
+
+crude_table <- data.frame(
+  `Insurance Status` = c("Uninsured", "Insured"),
+  `Screening Rate (%)` = round(crude_rates$screened_bin * 100, 1),
+  `Std. Error (%)` = round(crude_rates$se * 100, 1)
+)
+
+kable(crude_table,
+      caption = "Weighted Blood Sugar Screening Rates by Insurance Status",
+      align   = c("l", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+---
+
+# 6. Dispersion Check
+
+Before committing to a model family, we fit a quasibinomial to check the dispersion parameter. If it is close to 1, standard binomial is appropriate.
+
+```{r dispersion-check}
+dispersion_check <- svyglm(
+  screened_bin ~ insured + age + sex + race_eth +
+    education + pir + marital + us_born + interview_lang,
+  design = nhanes_design,
+  family = quasibinomial(link = "logit")
+)
+
+disp <- round(summary(dispersion_check)$dispersion, 4)
+```
+
+**Dispersion parameter: `r disp`**
+
+> A dispersion parameter of `r disp` is very close to 1, confirming no meaningful overdispersion. We use standard `binomial` for all three models going forward.
+
+---
+
+# 7. Logistic Regression Models
+
+## Model 1: Unadjusted
+
+Insurance only — gives us the raw association before accounting for any covariates.
+
+```{r model1}
+m1 <- svyglm(
+  screened_bin ~ insured,
+  design = nhanes_design,
+  family = binomial(link = "logit")
+)
+
+m1_results <- as.data.frame(exp(cbind(OR = coef(m1), confint(m1, df = Inf))))
+m1_results$p_value <- round(summary(m1)$coefficients[, "Pr(>|t|)"], 4)
+m1_results <- round(m1_results, 3)
+m1_results$Variable <- rownames(m1_results)
+rownames(m1_results) <- NULL
+m1_results <- m1_results[, c("Variable", "OR", "2.5 %", "97.5 %", "p_value")]
+colnames(m1_results) <- c("Variable", "OR", "95% CI Lower", "95% CI Upper", "p-value")
+
+kable(m1_results,
+      caption = "Model 1: Unadjusted — Odds Ratios (95% CI)",
+      align   = c("l", "r", "r", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+## Model 2: Demographically Adjusted
+
+Adds age, sex, race/ethnicity, education, income-to-poverty ratio, marital status, country of birth, and interview language.
+
+```{r model2}
+m2 <- svyglm(
+  screened_bin ~ insured + age + sex + race_eth +
+    education + pir + marital + us_born + interview_lang,
+  design = nhanes_design,
+  family = binomial(link = "logit")
+)
+
+m2_results <- as.data.frame(exp(cbind(OR = coef(m2), confint(m2, df = Inf))))
+m2_results$p_value <- round(summary(m2)$coefficients[, "Pr(>|t|)"], 4)
+m2_results <- round(m2_results, 3)
+m2_results$Variable <- rownames(m2_results)
+rownames(m2_results) <- NULL
+m2_results <- m2_results[, c("Variable", "OR", "2.5 %", "97.5 %", "p_value")]
+colnames(m2_results) <- c("Variable", "OR", "95% CI Lower", "95% CI Upper", "p-value")
+
+kable(m2_results,
+      caption = "Model 2: Demographically Adjusted — Odds Ratios (95% CI)",
+      align   = c("l", "r", "r", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+## Model 3: Fully Adjusted
+
+Adds BMI, general health, hypertension, smoking history, and alcohol use on top of Model 2.
+
+> **Note on confidence intervals:** The masked NHANES PSU structure leaves very few residual degrees of freedom with this many covariates, causing the CIs to be unreliable (0 to Inf). We use `df = Inf` as a normal approximation workaround. The point estimates and p-values remain valid.
+
+```{r model3}
+m3 <- svyglm(
+  screened_bin ~ insured + age + sex + race_eth +
+    education + pir + marital + us_born + interview_lang +
+    bmi + gen_health + hypertension + smoked_100 + alcohol_ever,
+  design = nhanes_design,
+  family = binomial(link = "logit")
+)
+
+m3_results <- as.data.frame(exp(cbind(OR = coef(m3), confint(m3, df = Inf))))
+m3_results$p_value <- round(summary(m3)$coefficients[, "Pr(>|t|)"], 4)
+m3_results <- round(m3_results, 3)
+m3_results$Variable <- rownames(m3_results)
+rownames(m3_results) <- NULL
+m3_results <- m3_results[, c("Variable", "OR", "2.5 %", "97.5 %", "p_value")]
+colnames(m3_results) <- c("Variable", "OR", "95% CI Lower", "95% CI Upper", "p-value")
+
+kable(m3_results,
+      caption = "Model 3: Fully Adjusted — Odds Ratios (95% CI)",
+      align   = c("l", "r", "r", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+---
+
+# 8. Insurance Effect Across Models
+
+```{r insurance-summary}
+get_insurance_row <- function(model, label) {
+  or_ci <- exp(cbind(OR = coef(model), confint(model, df = Inf)))["insuredInsured", ]
+  pval  <- summary(model)$coefficients["insuredInsured", "Pr(>|t|)"]
+  data.frame(
+    Model    = label,
+    OR       = round(or_ci["OR"],    3),
+    CI_lower = round(or_ci["2.5 %"], 3),
+    CI_upper = round(or_ci["97.5 %"],3),
+    p_value  = round(pval, 4)
+  )
+}
+
+insurance_summary <- rbind(
+  get_insurance_row(m1, "Unadjusted"),
+  get_insurance_row(m2, "Demographically Adjusted"),
+  get_insurance_row(m3, "Fully Adjusted")
+)
+rownames(insurance_summary) <- NULL
+colnames(insurance_summary) <- c("Model", "OR", "95% CI Lower", "95% CI Upper", "p-value")
+
+kable(insurance_summary,
+      caption = "Insurance Effect (Insured vs. Uninsured) Across All Three Models",
+      align   = c("l", "r", "r", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+---
+
+# 9. Average Treatment Effect (ATE)
+
+The regression odds ratios describe the association on the log-odds scale, conditional on all covariates. The ATE answers a more interpretable causal question: **if we could give everyone insurance versus give no one insurance, how much would the probability of screening change on average?**
+
+We estimate the ATE using g-computation (standardization):
+
+1. Predict each person's probability of screening if they were **insured**
+2. Predict each person's probability of screening if they were **uninsured**
+3. Take the survey-weighted average of each, then subtract
+
+```{r ate-function}
+compute_ate <- function(model, weight_var = "WTMECPRP") {
+
+  model_data <- model$data
+
+  # counterfactual datasets: everyone insured vs. everyone uninsured
+  data_insured           <- model_data
+  data_uninsured         <- model_data
+  data_insured$insured   <- factor("Insured",   levels = c("Uninsured", "Insured"))
+  data_uninsured$insured <- factor("Uninsured", levels = c("Uninsured", "Insured"))
+
+  # predicted probabilities under each scenario
+  p_insured   <- predict(model, newdata = data_insured,   type = "response")
+  p_uninsured <- predict(model, newdata = data_uninsured, type = "response")
+
+  # align weights to the complete cases the model actually used
+  used_rows <- as.integer(rownames(model$data))
+  weights   <- df_analytic[[weight_var]][used_rows]
+
+  # survey-weighted means
+  mean_p_insured   <- sum(weights * p_insured,   na.rm = TRUE) / sum(weights, na.rm = TRUE)
+  mean_p_uninsured <- sum(weights * p_uninsured, na.rm = TRUE) / sum(weights, na.rm = TRUE)
+
+  list(
+    p_if_all_insured   = round(mean_p_insured,   4),
+    p_if_all_uninsured = round(mean_p_uninsured, 4),
+    ATE                = round(mean_p_insured - mean_p_uninsured, 4)
+  )
+}
+```
+
+```{r ate-results}
+ate1 <- compute_ate(m1)
+ate2 <- compute_ate(m2)
+ate3 <- compute_ate(m3)
+
+ate_table <- data.frame(
+  Model = c("Unadjusted", "Demographically Adjusted", "Fully Adjusted"),
+  `P(Screened | All Insured)`   = c(ate1$p_if_all_insured,
+                                     ate2$p_if_all_insured,
+                                     ate3$p_if_all_insured),
+  `P(Screened | All Uninsured)` = c(ate1$p_if_all_uninsured,
+                                     ate2$p_if_all_uninsured,
+                                     ate3$p_if_all_uninsured),
+  ATE = c(ate1$ATE, ate2$ATE, ate3$ATE)
+)
+colnames(ate_table) <- c("Model",
+                          "P(Screened | All Insured)",
+                          "P(Screened | All Uninsured)",
+                          "ATE")
+
+kable(ate_table,
+      caption = "Average Treatment Effect (ATE) Across Models — G-Computation",
+      align   = c("l", "r", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+> **Interpretation (Model 2):** If everyone in the population had health insurance, the probability of receiving a blood sugar screening would be approximately **`r round((ate2$ATE)*100, 1)` percentage points higher** than if no one had insurance, after adjusting for sociodemographic differences.
+
+---
+
+# 10. Wald Tests for Insurance Term
+
+Formal test of whether the insurance term contributes significantly to each model beyond chance.
+
+```{r wald-tests}
+w1 <- regTermTest(m1, ~insured)
+w2 <- regTermTest(m2, ~insured)
+w3 <- regTermTest(m3, ~insured)
+
+wald_table <- data.frame(
+  Model   = c("Unadjusted", "Demographically Adjusted", "Fully Adjusted"),
+  F_stat  = round(c(w1$Ftest["F"], w2$Ftest["F"], w3$Ftest["F"]), 3),
+  df1     = c(w1$Ftest["df1"], w2$Ftest["df1"], w3$Ftest["df1"]),
+  df2     = c(w1$Ftest["df2"], w2$Ftest["df2"], w3$Ftest["df2"]),
+  p_value = round(c(w1$p, w2$p, w3$p), 6)
+)
+colnames(wald_table) <- c("Model", "F Statistic", "df1", "df2", "p-value")
+
+kable(wald_table,
+      caption = "Wald Tests for Insurance Term",
+      align   = c("l", "r", "r", "r", "r")) %>%
+  { if (use_kable_extra) kable_styling(., bootstrap_options = c("striped", "hover"),
+                                        full_width = FALSE) else . }
+```
+
+---
+
+# 11. Save Results
+
+```{r save-results}
+write.csv(ate_table,
+          "ate_results.csv", row.names = FALSE)
+
+or_summary <- data.frame(
+  Model    = c("Unadjusted", "Demographically Adjusted", "Fully Adjusted"),
+  OR       = c(exp(coef(m1)["insuredInsured"]),
+               exp(coef(m2)["insuredInsured"]),
+               exp(coef(m3)["insuredInsured"])),
+  p_value  = c(summary(m1)$coefficients["insuredInsured", "Pr(>|t|)"],
+               summary(m2)$coefficients["insuredInsured", "Pr(>|t|)"],
+               summary(m3)$coefficients["insuredInsured", "Pr(>|t|)"])
+)
+write.csv(or_summary,
+          "insurance_effect_by_model.csv", row.names = FALSE)
+
+cat("results saved to ate_results.csv and insurance_effect_by_model.csv\n")
+```
+
+---
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```
