@@ -10,7 +10,9 @@ output:
     code_folding: show
     df_print: paged
 ---
-```{r setup-env, fig.width=10, fig.height=8}
+
+```{r setup-env, fig.width=12, fig.height=12}
+
 # ---- packages ----
 pkgs <- c("dagitty", "ggdag", "ggplot2", "dplyr")
 
@@ -20,7 +22,6 @@ invisible(lapply(pkgs, library, character.only = TRUE))
 
 theme_set(theme_minimal(base_size = 12))
 ```
-
 
 # Defining the relationships for the Directed acyclic graph (DAG)
 
@@ -41,22 +42,20 @@ The DAG was first created using DAGGITY online and then modifed using the code b
   diagnosis. 
 - *Health behavior:* ever-smoking.
 
-
-
-
 ```{r daggity}
 nhanes_dag <- dagitty('dag {
 "Blood Sugar Screening (Y)" [outcome,pos="1.058,1.374"]
 "Country of birth" [pos="-1.175,-1.600"]
-"Family income-to-poverty ratio" [pos="1.128,-1.885"]
+"Ever drank alcohol" [pos="-1.753,-1.447"]
+"Family income-to-poverty ratio" [pos="0.982,-1.776"]
 "Health-insurance coverage (A)" [exposure,pos="-1.588,1.323"]
 "High blood pressure" [pos="-0.352,0.592"]
 "Interview language" [pos="0.635,-2.433"]
-"Marital Status" [pos="-1.823,-2.031"]
+"Marital Status" [pos="-1.447,-2.338"]
 "Race/Ethnicity" [pos="-0.921,-0.964"]
 "Self-rated general health" [pos="0.987,-0.446"]
 "Smoking status" [pos="-1.856,-0.606"]
-Acculturation [latent,pos="1.161,-2.389"]
+Acculturation [latent,pos="1.185,-2.440"]
 Age [pos="-0.291,-1.622"]
 BMI [pos="0.287,-1.359"]
 Education [pos="-0.925,-2.382"]
@@ -64,7 +63,12 @@ Sex [pos="0.108,-0.241"]
 "Country of birth" -> "Blood Sugar Screening (Y)"
 "Country of birth" -> "Health-insurance coverage (A)"
 "Country of birth" -> "Interview language"
+"Ever drank alcohol" -> "Blood Sugar Screening (Y)"
+"Ever drank alcohol" -> "Health-insurance coverage (A)"
+"Ever drank alcohol" -> "Self-rated general health"
+"Ever drank alcohol" -> BMI
 "Family income-to-poverty ratio" -> "Blood Sugar Screening (Y)"
+"Family income-to-poverty ratio" -> "Ever drank alcohol"
 "Family income-to-poverty ratio" -> "Health-insurance coverage (A)"
 "Family income-to-poverty ratio" -> "Self-rated general health"
 "Health-insurance coverage (A)" -> "Blood Sugar Screening (Y)"
@@ -73,6 +77,7 @@ Sex [pos="0.108,-0.241"]
 "Interview language" -> "Blood Sugar Screening (Y)"
 "Interview language" -> "Health-insurance coverage (A)"
 "Interview language" -> Education
+"Marital Status" -> "Blood Sugar Screening (Y)"
 "Marital Status" -> "Family income-to-poverty ratio"
 "Marital Status" -> "Health-insurance coverage (A)"
 "Marital Status" -> "High blood pressure"
@@ -107,9 +112,6 @@ Sex -> "Smoking status"
 To create a readable DAG, the ggdag package uses a mixture of r-code and html. 
 
 In the proposed DAG, *High blood pressure* acts as a confounder for the causal pathway, while simultaneously serving as a collider for upstream variables such as *Age*, *BMI*, and *Smoking status*. While conditioning on a collider typically induces collider-stratification bias by opening backdoor paths between its parents, these newly opened paths are simultaneously blocked because the parent variables (i.e.*Age*, *BMI*, etc) are adjusted for within the model. For this reason, adjusting for *High blood pressure* would be considered statistically safe and would not introduce bias into our causal estimand.
-
-
-
 
 
 ```{r layout}
