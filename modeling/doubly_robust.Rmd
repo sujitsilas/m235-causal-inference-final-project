@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 
 # ---- packages ----
-pkgs <- c("survey", "dplyr", "tidyr", "ggplot2")
+pkgs <- c("survey", "dplyr", "tidyr", "ggplot2", "cobalt")
 to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
 if (length(to_install)) install.packages(to_install)
 invisible(lapply(pkgs, library, character.only = TRUE))
@@ -145,6 +145,30 @@ ggplot(model_df, aes(ps, fill = insured)) +
 # IPT weights implied by the PS — inspect the tails for instability
 model_df$ipt_w <- ifelse(model_df$treat == 1, 1 / model_df$ps, 1 / (1 - model_df$ps))
 cat("\nIPT weight summary (unstabilized):\n"); print(summary(model_df$ipt_w))
+```
+
+## 3.2 Covariate balance (diagnostic)
+
+Unlike IPW, AIPW's validity does **not** hinge on balance — the outcome-model
+augmentation corrects whatever imbalance the weights leave behind. But because
+the IPW arm of the estimator uses these propensity weights, we confirm they pull
+the covariates toward balance; a standardized mean difference (SMD) below 0.1 is
+the usual target. Residual imbalance here is not fatal (it is exactly what the
+augmentation term mops up), but it flags which covariates the effect leans on the
+outcome model to adjust.
+
+```{r balance, fig.height=6}
+bal_formula <- treat ~ age + sex + race_eth + education + pir + marital +
+  us_born + interview_lang + bmi + gen_health + hypertension + smoked_100
+
+cobalt::love.plot(
+  bal_formula, data = model_df,
+  weights = model_df$ipt_w,          # IPT weights from the AIPW propensity model
+  binary = "std", abs = TRUE, threshold = 0.1,
+  var.order = "unadjusted",
+  sample.names = c("Unweighted", "IPT-weighted"),
+  title = "Covariate balance before vs. after IPT weighting"
+)
 ```
 
 # 4. AIPW estimator

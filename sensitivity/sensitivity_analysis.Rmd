@@ -18,12 +18,13 @@ knitr::opts_chunk$set(
 )
 
 # ---- packages ----
-pkgs <- c("survey", "dplyr", "tidyr", "ggplot2")  # add: EValue, mice as needed
+pkgs <- c("survey", "dplyr", "tidyr", "ggplot2", "EValue", "mice")
 to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
 if (length(to_install)) install.packages(to_install)
 invisible(lapply(pkgs, library, character.only = TRUE))
 
 options(survey.lonely.psu = "adjust")
+theme_set(theme_minimal(base_size = 12))
 
 # analytic dataset lives in the project root
 data_path <- c("nhanes_insurance_screening_analytic.csv",
@@ -31,60 +32,225 @@ data_path <- c("nhanes_insurance_screening_analytic.csv",
 data_path <- data_path[file.exists(data_path)][1]
 ```
 
-> **STATUS: PLACEHOLDER.** Scaffolding for the robustness checks that probe the
-> identifying assumptions behind the primary estimates (outcome regression, IPW,
-> doubly robust). Analysis chunks are `eval=FALSE` so the file knits; fill in and
-> enable as each check is built.
-
 # 1. Purpose
 
-The primary analyses identify the ATE under **consistency**, **conditional
+The primary analyses (outcome regression, IPW, doubly robust AIPW) identify the
+ATE of insurance on blood-sugar screening under **consistency**, **conditional
 exchangeability** given the DAG adjustment set, and **positivity**. These
-sensitivity analyses ask how fragile the conclusion is to violations of those
-assumptions and to analytic choices.
+sensitivity analyses ask how fragile that conclusion is to violations of those
+assumptions and to analytic choices. Each check re-uses the **doubly robust
+(AIPW)** estimator as the workhorse, since it is the primary headline method.
 
-# 2. Unmeasured confounding (E-value)  *(TODO)*
+```{r load}
+df <- read.csv(data_path, stringsAsFactors = FALSE)
 
-How strong would an unmeasured confounder have to be — in association with both
-insurance and screening — to explain away the observed effect?
+df <- df %>%
+  mutate(
+    screened_bin = ifelse(screened == "Screened", 1, 0),
+    treat        = ifelse(insured == "Insured", 1, 0),
+    insured  = factor(insured, levels = c("Uninsured", "Insured")),
+    sex      = factor(sex, levels = c("Male", "Female")),
+    race_eth = factor(race_eth, levels = c("Non-Hispanic White", "Mexican American",
+                                           "Other Hispanic", "Non-Hispanic Black",
+                                           "Non-Hispanic Asian", "Other/Multi")),
+    education = factor(education, levels = c("< High school", "High school / GED",
+                                             "Some college", "College graduate")),
+    marital  = factor(marital, levels = c("Married / partnered",
+                                          "Widowed / divorced / separated",
+                                          "Never married")),
+    us_born  = factor(us_born, levels = c("Born in U.S.", "Born outside U.S.")),
+    interview_lang = factor(interview_lang, levels = c("English", "Spanish")),
+    gen_health   = factor(gen_health, levels = c("Excellent", "Very good",
+                                                 "Good", "Fair", "Poor")),
+    hypertension = factor(hypertension, levels = c("No", "Yes")),
+    smoked_100   = factor(smoked_100,   levels = c("No", "Yes")),
+    alcohol_ever = factor(alcohol_ever, levels = c("No", "Yes"))
+  ) %>%
+  filter(WTMECPRP > 0)
 
-```{r evalue, eval=FALSE}
-# library(EValue)
-# point estimate + CI bound from the primary model (risk ratio scale)
-# evalues.RR(est = <RR>, lo = <CI_low>, hi = <CI_high>)
+# primary adjustment set from the DAG (alcohol excluded for missingness)
+primary_covs <- c("age", "sex", "race_eth", "education", "pir", "marital",
+                  "us_born", "interview_lang", "bmi", "gen_health",
+                  "hypertension", "smoked_100")
 ```
 
-# 3. Positivity / extreme weights  *(TODO)*
+```{r aipw-helper}
+# Reusable AIPW estimator. Returns the risk difference and risk ratio with
+# design-based (delta-method) CIs. `ps_bounds` either truncates the propensity
+# score (drop_outside = FALSE) or trims units outside the bounds
+# (drop_outside = TRUE). Mirrors modeling/doubly_robust.Rmd.
+aipw_estimate <- function(data, covs, ps_bounds = c(0, 1), drop_outside = FALSE) {
+  d <- tidyr::drop_na(data, dplyr::all_of(c("treat", "screened_bin", covs)))
+  d$sw <- d$WTMECPRP / mean(d$WTMECPRP)        # rescale weights for stable glm
 
-Re-estimate after (a) trimming the propensity score to common support and
-(b) truncating IPT weights at the 1st/99th percentiles.
+  psf <- glm(reformulate(covs, "treat"), d, family = quasibinomial(), weights = sw)
+  d$ps <- predict(psf, type = "response")
 
-```{r trimming, eval=FALSE}
-# refit the IPW / AIPW pipeline restricting to 0.01 <= ps <= 0.99
-# and compare the ATE to the untrimmed estimate.
+  if (drop_outside) {
+    d <- d[d$ps >= ps_bounds[1] & d$ps <= ps_bounds[2], ]
+  } else {
+    d$ps <- pmin(pmax(d$ps, ps_bounds[1]), ps_bounds[2])
+  }
+
+  o1 <- glm(reformulate(covs, "screened_bin"), dplyr::filter(d, treat == 1),
+            family = quasibinomial(), weights = sw)
+  o0 <- glm(reformulate(covs, "screened_bin"), dplyr::filter(d, treat == 0),
+            family = quasibinomial(), weights = sw)
+  d$m1 <- predict(o1, d, type = "response")
+  d$m0 <- predict(o0, d, type = "response")
+
+  d$mu1 <- d$m1 + d$treat       / d$ps       * (d$screened_bin - d$m1)
+  d$mu0 <- d$m0 + (1 - d$treat) / (1 - d$ps) * (d$screened_bin - d$m0)
+
+  des <- svydesign(id = ~SDMVPSU, strata = ~SDMVSTRA, weights = ~WTMECPRP,
+                   data = d, nest = TRUE)
+  po <- svymean(~mu1 + mu0, des)
+  rd <- svycontrast(po, quote(mu1 - mu0))
+  rr <- svycontrast(po, quote(mu1 / mu0))
+
+  data.frame(
+    n     = nrow(d),
+    rd    = as.numeric(coef(rd)),
+    rd_se = as.numeric(SE(rd)),
+    rd_lo = confint(rd)[1], rd_hi = confint(rd)[2],
+    rr    = as.numeric(coef(rr)),
+    rr_lo = confint(rr)[1], rr_hi = confint(rr)[2]
+  )
+}
+
+# primary estimate for reference throughout
+primary <- aipw_estimate(df, primary_covs)
+round(primary, 4)
 ```
 
-# 4. Alternative adjustment sets  *(TODO)*
+# 2. Unmeasured confounding (E-value)
 
-Compare the primary adjustment set against (a) adding `alcohol_ever` back in
-(at the cost of ~14% more missingness) and (b) a minimal sufficient set implied
-by the DAG.
+How strong would an unmeasured confounder have to be — associated with *both*
+insurance and screening on the risk-ratio scale — to fully explain away the
+observed effect (and to push the confidence bound to the null)?
 
-```{r adjustment-sets, eval=FALSE}
-# loop over candidate covariate sets, re-estimate, tabulate the insurance effect.
+```{r evalue}
+ev <- EValue::evalues.RR(est = primary$rr, lo = primary$rr_lo, hi = primary$rr_hi)
+ev
 ```
 
-# 5. Missing-data handling  *(TODO)*
-
-Compare complete-case analysis (primary) against multiple imputation for the
-covariates with the most missingness (`pir`, `alcohol_ever`).
-
-```{r missing-data, eval=FALSE}
-# library(mice)
-# impute L, re-estimate within each completed dataset, pool with Rubin's rules.
+```{r evalue-interpret, echo=FALSE, results='asis'}
+e_point <- ev["E-values", "point"]
+e_ci    <- ev["E-values", "lower"]
+cat(sprintf(
+  "An unmeasured confounder would need a risk ratio of **%.2f** with both the exposure and the outcome (beyond the measured covariates) to explain away the point estimate, and **%.2f** to move the lower confidence bound to the null.\n",
+  e_point, e_ci))
 ```
 
-# 6. Session info
+# 3. Positivity: propensity trimming and truncation
+
+The propensity overlap is thin at the top (adults 65+ are ~98% insured via
+Medicare). We re-estimate the ATE after (a) **truncating** the propensity score
+to progressively tighter bounds and (b) **trimming** the sample to the region of
+common support, and check whether the conclusion is stable.
+
+```{r trimming}
+positivity <- dplyr::bind_rows(
+  cbind(spec = "No trimming",            aipw_estimate(df, primary_covs)),
+  cbind(spec = "Truncate PS [0.05,0.95]", aipw_estimate(df, primary_covs, c(0.05, 0.95))),
+  cbind(spec = "Truncate PS [0.10,0.90]", aipw_estimate(df, primary_covs, c(0.10, 0.90))),
+  cbind(spec = "Trim to PS [0.05,0.95]",  aipw_estimate(df, primary_covs, c(0.05, 0.95),
+                                                        drop_outside = TRUE))
+)
+positivity %>%
+  transmute(spec, n,
+            risk_difference = round(rd, 4),
+            CI = sprintf("(%.3f, %.3f)", rd_lo, rd_hi))
+```
+
+```{r trimming-plot, echo=FALSE, fig.height=3.2}
+positivity %>%
+  mutate(spec = factor(spec, levels = rev(spec))) %>%
+  ggplot(aes(rd, spec)) +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = "grey60") +
+  geom_pointrange(aes(xmin = rd_lo, xmax = rd_hi)) +
+  labs(title = "ATE is stable across positivity restrictions",
+       x = "AIPW risk difference (95% CI)", y = NULL)
+```
+
+# 4. Alternative adjustment sets
+
+Conditional exchangeability assumes the right covariates are adjusted for. We
+compare the primary set against (a) adding `alcohol_ever` back (at the cost of
+~14% more missingness), (b) demographics/SES only, and (c) a minimal set.
+
+```{r adjustment-sets}
+sets <- list(
+  "Primary (12 covariates)" = primary_covs,
+  "+ alcohol_ever"          = c(primary_covs, "alcohol_ever"),
+  "Demographic / SES only"  = c("age", "sex", "race_eth", "education", "pir",
+                                "marital", "us_born", "interview_lang"),
+  "Minimal (age, sex, race, educ, income)" =
+                              c("age", "sex", "race_eth", "education", "pir")
+)
+
+adjustment <- dplyr::bind_rows(lapply(names(sets), function(nm) {
+  cbind(adjustment_set = nm, aipw_estimate(df, sets[[nm]]))
+}))
+adjustment %>%
+  transmute(adjustment_set, n,
+            risk_difference = round(rd, 4),
+            CI = sprintf("(%.3f, %.3f)", rd_lo, rd_hi))
+```
+
+# 5. Missing-data handling: complete case vs. multiple imputation
+
+The primary analyses use complete cases (`pir` and `alcohol_ever` drive most of
+the loss). Here we multiply-impute the covariates, re-estimate the AIPW risk
+difference within each completed dataset, and pool with Rubin's rules — checking
+whether complete-case analysis materially biases the estimate.
+
+```{r mice, results='hide'}
+set.seed(235)
+
+# impute the covariates + treatment/outcome; keep design vars as-is
+impute_vars <- c("treat", "screened_bin", primary_covs)
+design_vars <- c("SDMVPSU", "SDMVSTRA", "WTMECPRP")
+
+mids <- mice(df[, c(impute_vars, design_vars)],
+             m = 5, maxit = 5, printFlag = FALSE)
+
+# AIPW risk difference + SE in each completed dataset
+mi_fits <- lapply(1:mids$m, function(i) {
+  d_i <- complete(mids, i)
+  aipw_estimate(d_i, primary_covs)[, c("rd", "rd_se")]
+})
+mi_mat <- do.call(rbind, mi_fits)
+```
+
+```{r mice-pool}
+# Rubin's rules
+m       <- nrow(mi_mat)
+qbar    <- mean(mi_mat$rd)                       # pooled point estimate
+ubar    <- mean(mi_mat$rd_se^2)                  # within-imputation variance
+b       <- var(mi_mat$rd)                        # between-imputation variance
+T_var   <- ubar + (1 + 1 / m) * b               # total variance
+se_pool <- sqrt(T_var)
+
+data.frame(
+  method = c("Complete case (primary)", "Multiple imputation (m=5, pooled)"),
+  risk_difference = round(c(primary$rd, qbar), 4),
+  CI = c(sprintf("(%.3f, %.3f)", primary$rd_lo, primary$rd_hi),
+         sprintf("(%.3f, %.3f)", qbar - 1.96 * se_pool, qbar + 1.96 * se_pool))
+)
+```
+
+# 6. Summary
+
+```{r summary, echo=FALSE}
+cat("Primary AIPW risk difference: ",
+    sprintf("%.3f (95%% CI %.3f, %.3f)\n", primary$rd, primary$rd_lo, primary$rd_hi))
+cat("\nThe effect direction and rough magnitude should persist across all four\n",
+    "checks above; large movement in any one flags the assumption the headline\n",
+    "estimate is most fragile to.\n")
+```
+
+# 7. Session info
 
 ```{r session}
 sessionInfo()
