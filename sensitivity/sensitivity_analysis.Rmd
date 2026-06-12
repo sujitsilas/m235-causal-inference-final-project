@@ -10,7 +10,6 @@ output:
     code_folding: show
     df_print: paged
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE, message = FALSE, warning = FALSE,
@@ -32,6 +31,7 @@ data_path <- c("nhanes_insurance_screening_analytic.csv",
 data_path <- data_path[file.exists(data_path)][1]
 ```
 
+
 # 1. Purpose
 
 The primary analyses (outcome regression, IPW, doubly robust AIPW) identify the
@@ -40,6 +40,7 @@ exchangeability** given the DAG adjustment set, and **positivity**. These
 sensitivity analyses ask how fragile that conclusion is to violations of those
 assumptions and to analytic choices. Each check re-uses the **doubly robust
 (AIPW)** estimator as the workhorse, since it is the primary headline method.
+
 
 ```{r load}
 df <- read.csv(data_path, stringsAsFactors = FALSE)
@@ -73,7 +74,6 @@ primary_covs <- c("age", "sex", "race_eth", "education", "pir", "marital",
                   "us_born", "interview_lang", "bmi", "gen_health",
                   "hypertension", "smoked_100")
 ```
-
 ```{r aipw-helper}
 # Reusable AIPW estimator. Returns the risk difference and risk ratio with
 # design-based (delta-method) CIs. `ps_bounds` either truncates the propensity
@@ -123,6 +123,7 @@ primary <- aipw_estimate(df, primary_covs)
 round(primary, 4)
 ```
 
+
 # 2. Unmeasured confounding (E-value)
 
 How strong would an unmeasured confounder have to be — associated with *both*
@@ -133,14 +134,14 @@ observed effect (and to push the confidence bound to the null)?
 ev <- EValue::evalues.RR(est = primary$rr, lo = primary$rr_lo, hi = primary$rr_hi)
 ev
 ```
-
-```{r evalue-interpret, echo=FALSE, results='asis'}
+```{r evalue-interpret, echo=FALSE, results=asis}
 e_point <- ev["E-values", "point"]
 e_ci    <- ev["E-values", "lower"]
 cat(sprintf(
   "An unmeasured confounder would need a risk ratio of **%.2f** with both the exposure and the outcome (beyond the measured covariates) to explain away the point estimate, and **%.2f** to move the lower confidence bound to the null.\n",
   e_point, e_ci))
 ```
+
 
 # 3. Positivity: propensity trimming and truncation
 
@@ -162,7 +163,6 @@ positivity %>%
             risk_difference = round(rd, 4),
             CI = sprintf("(%.3f, %.3f)", rd_lo, rd_hi))
 ```
-
 ```{r trimming-plot, echo=FALSE, fig.height=3.2}
 positivity %>%
   mutate(spec = factor(spec, levels = rev(spec))) %>%
@@ -172,6 +172,7 @@ positivity %>%
   labs(title = "ATE is stable across positivity restrictions",
        x = "AIPW risk difference (95% CI)", y = NULL)
 ```
+
 
 # 4. Alternative adjustment sets
 
@@ -205,7 +206,7 @@ the loss). Here we multiply-impute the covariates, re-estimate the AIPW risk
 difference within each completed dataset, and pool with Rubin's rules — checking
 whether complete-case analysis materially biases the estimate.
 
-```{r mice, results='hide'}
+```{r mice, results=hide}
 set.seed(235)
 
 # impute the covariates + treatment/outcome; keep design vars as-is
@@ -222,7 +223,6 @@ mi_fits <- lapply(1:mids$m, function(i) {
 })
 mi_mat <- do.call(rbind, mi_fits)
 ```
-
 ```{r mice-pool}
 # Rubin's rules
 m       <- nrow(mi_mat)
@@ -239,6 +239,7 @@ data.frame(
          sprintf("(%.3f, %.3f)", qbar - 1.96 * se_pool, qbar + 1.96 * se_pool))
 )
 ```
+
 
 # 6. Summary
 

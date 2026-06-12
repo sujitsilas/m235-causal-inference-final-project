@@ -9,10 +9,14 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
-\title{BIOSTAT M235 - Final Project}
-\author{} % put your names here
+\title{BIOSTAT M235 -- Final Project\\
+\large Does Health Insurance Affect Whether U.S.\ Adults Receive a
+Blood-Sugar Screening? A Causal Analysis of NHANES 2017--2020}
+\author{Sujit Silas Armstrong \and Janvi Bharucha \and Amanda Millatt}
 \date{\today}
 
 \begin{document}
@@ -26,59 +30,384 @@
 
 \subsection{Introduction} \label{subsec:intro}
 
-Put introduction here.
+More than 38 million Americans have diabetes, with an estimated 90--95\% of
+cases being type~2 diabetes \cite{cdc2024ndsr}. In addition, over one third of
+American adults have prediabetes, and many of those will progress to type~2
+diabetes within three to five years \cite{cdc2024ndsr}. Because early detection
+depends on a blood-sugar screening test, understanding what determines whether
+an individual is screened is an important public-health question.
+
+Health insurance in the United States has been established as a critical
+determinant of health, including diabetes-related outcomes. Insurance coverage
+facilitates early diagnosis through access to screening, whereas uninsured
+individuals may face greater difficulty accessing care, leading to delays in
+diagnosis and reduced treatment adherence \cite{bolarinwa2025}. Prior NHANES
+analyses reinforce this: insured patients are substantially more likely to meet
+diabetes care-quality benchmarks, with one study reporting that insured patients
+had 2.73 times the odds of controlled blood pressure relative to uninsured
+patients \cite{casagrande2016}. A further NHANES analysis found that having
+health insurance was associated with significantly lower odds of undiagnosed
+prediabetes and type~2 diabetes \cite{mahoney2020}. The CDC has likewise
+identified uninsured people as being at elevated risk of undetected diabetes,
+noting that more than one in four adults with diabetes do not know they have it,
+and that eight in ten Americans with prediabetes are unaware of their risk
+\cite{cdc2023screening}.
+
+While Mahoney et al.\ \cite{mahoney2020} demonstrated that insurance is
+associated with lower odds of \emph{undiagnosed} diabetes, their outcome was
+undiagnosed disease status. Our analysis instead targets the step \emph{before}
+diagnosis: whether an individual receives a blood-sugar screening test at all.
+We frame this as a causal question and estimate the average treatment effect
+(ATE) of insurance coverage on screening using three complementary
+estimators: survey-weighted logistic regression, inverse-probability weighting
+(IPW), and a doubly robust (AIPW) estimator. We then run a battery of
+sensitivity analyses.
 
 \subsection{Set Up} \label{subsec:setup}
 
-Explanations and other setup go here.
+\paragraph{Data source.} We use the National Health and Nutrition Examination
+Survey (NHANES) 2017--March~2020 pre-pandemic cycle. The exposure is the
+self-reported binary indicator \texttt{HIQ011} (``Are you covered by health
+insurance or some other kind of health-care plan?''), coded as insured versus
+uninsured. The outcome is \texttt{DIQ180}, self-reported receipt of a blood-sugar
+screening test in the past three years. Because NHANES skips \texttt{DIQ180} for
+respondents already diagnosed with diabetes, the analytic population consists of
+\emph{undiagnosed} adults by construction.
+
+\paragraph{Causal estimand.} Let $A$ denote insurance coverage ($1$ = insured,
+$0$ = uninsured) and $Y$ the screening outcome. We target the average treatment
+effect on the risk-difference scale,
+\begin{equation}
+\tau \;=\; \mathbb{E}\!\left[Y^{1}\right] - \mathbb{E}\!\left[Y^{0}\right],
+\label{eq:ate}
+\end{equation}
+the change in the population probability of screening that would result if every
+adult were insured versus uninsured. Identification of $\tau$ from observational
+data rests on three assumptions \cite{hernan2020}:
+\begin{enumerate}
+\item \textbf{Consistency:} the observed outcome equals the potential outcome
+under the observed exposure.
+\item \textbf{Conditional exchangeability (no unmeasured confounding):}
+$Y^{a} \perp A \mid L$ for the measured covariate set $L$.
+\item \textbf{Positivity:} $0 < \Pr(A = a \mid L = l) < 1$ for every covariate
+stratum $l$ in the population.
+\end{enumerate}
+
+\paragraph{Confounders.} The covariate set $L$ was selected using a directed
+acyclic graph (DAG) constructed from prior literature (see the project
+repository, \texttt{nhanes\_dag.Rmd}), choosing variables that plausibly affect
+both insurance coverage and the propensity to be screened. Table~\ref{tab:covs}
+lists the covariates and their rationale. Notably, variables that lie on the
+causal path from insurance to screening (e.g.\ having a usual source of care or
+the number of health-care visits) were deliberately \emph{excluded} as mediators
+rather than confounders.
+
+{\singlespacing
+\begin{longtable}{p{3cm} p{10.5cm}}
+\caption{Covariates included in the adjustment set $L$.}
+\label{tab:covs}\\
+\toprule
+\textbf{Covariate} & \textbf{Rationale}\\
+\midrule
+\endfirsthead
+\multicolumn{2}{c}{\tablename\ \thetable\ (continued)}\\
+\toprule
+\textbf{Covariate} & \textbf{Rationale}\\
+\midrule
+\endhead
+Age & Older adults are more likely to be insured (e.g.\ Medicare eligibility at
+65) and are more frequently referred for screening due to higher baseline
+diabetes risk.\\
+Sex & Men and women may differ in healthcare-seeking behavior and
+insurance-coverage patterns.\\
+Race/ethnicity & Racial and ethnic minorities have systematically lower
+insurance rates and differ in diabetes risk and screening likelihood.\\
+Education & Higher education is associated with greater health literacy,
+employer-sponsored insurance, and engagement with preventive care.\\
+Marital status & Married/partnered individuals are more likely to be covered
+under a spouse's plan and to have higher healthcare utilization.\\
+Country of birth & Foreign-born individuals face barriers to obtaining insurance
+and accessing preventive screening.\\
+Interview language & Proxy for acculturation.\\
+Income-to-poverty ratio & Lower income is strongly associated with both lack of
+coverage and reduced preventive-care utilization.\\
+BMI & Elevated BMI is a clinical risk factor for type~2 diabetes, so providers
+are more likely to order screening regardless of insurance.\\
+Self-rated health & Individuals rating their health poor/fair may seek care
+more, but may also be less likely to be insured.\\
+Hypertension & A major comorbidity co-occurring with insulin resistance and
+metabolic syndrome that itself prompts screening.\\
+Ever smoked $\geq$100 cigarettes & Associated with socioeconomic disadvantage,
+lower insurance rates, and insulin resistance.\\
+Ever had alcohol & Heavy alcohol use is linked to metabolic dysregulation,
+affecting glucose metabolism and screening decisions.\\
+\bottomrule
+\end{longtable}
+}
+
+\paragraph{Sample and weighting.} The analytic sample was restricted to adults
+aged $\geq 20$ years who answered both the insurance and screening questions.
+Respondents who completed the interview but not the physical exam (zero MEC
+weight) were excluded because BMI is measured in the exam. All estimates
+incorporate the NHANES complex sampling design, namely primary sampling units
+(\texttt{SDMVPSU}), strata (\texttt{SDMVSTRA}), and MEC exam weights
+(\texttt{WTMECPRP}), via the \texttt{survey} package \cite{lumley2004}, so that
+estimates are nationally representative. Covariate missingness was handled by
+complete-case analysis in the primary models and probed by multiple imputation
+in the sensitivity analyses. The full exclusion cascade is summarized in the
+STROBE diagram in the repository.
 
 \subsection{Methodology and Main Analysis} \label{subsec:meth_analysis}
 
-The methods of the paper and the main analysis go here.
+We estimated $\tau$ three ways. Triangulating across estimators with different
+modeling assumptions guards against any single method's misspecification.
+
+\subsubsection{Inverse Probability Weighting (IPW)}
+
+% TODO: Amanda to expand the IPW methodology and results.
+Inverse-probability-of-treatment weighting models the propensity score
+$e(L) = \Pr(A = 1 \mid L)$ by logistic regression and reweights individuals by
+the inverse of their probability of the observed exposure, creating a
+pseudo-population in which exposure is independent of the measured covariates
+\cite{robins2000}. Stabilized weights were used to reduce variance and were
+combined with the NHANES survey weights. Covariate balance before and after
+weighting was assessed with standardized mean differences (love plot).
+\emph{[Preliminary: IPW-adjusted ATE $= 0.191$, bootstrap 95\% CI
+$(0.108,\,0.269)$; full write-up to be completed by A.~Millatt.]}
+
+\subsubsection{Regression Analysis}
+
+A survey-weighted logistic regression model was used as the initial method,
+since the outcome is binary. Three models were fit with increasing adjustment.
+\emph{Model~1} was unadjusted. \emph{Model~2} added sociodemographic covariates
+(age, sex, race/ethnicity, education, income-to-poverty ratio, marital status,
+country of birth, interview language). \emph{Model~3} additionally adjusted for
+health status and behavior (BMI, self-rated health, hypertension, smoking,
+alcohol). The dispersion parameter was near one, supporting a binomial model.
+Center weights (\texttt{WTMECPRP}) were used for national representativeness, and
+observations with missing covariates were dropped. A Wald test assessed the
+significance of the insurance term in each model, and the ATE was obtained by
+g-computation (standardization). Results appear in Table~\ref{tab:regression}.
+
+\subsubsection{Doubly Robust Estimation (AIPW)}
+
+As the primary analysis we used the augmented inverse-probability-weighted
+(AIPW) estimator, which is \emph{doubly robust}: it combines a propensity model
+$e(L)$ with an outcome model $m_a(L) = \mathbb{E}[Y \mid A = a, L]$ and remains
+consistent for $\tau$ if \emph{either} model (but not necessarily both) is
+correctly specified \cite{robins1994, bang2005, funk2011}. For each subject $i$
+we form the pseudo-outcomes
+\begin{align}
+\hat\mu_1^{(i)} &= m_1(L_i) + \frac{A_i}{e(L_i)}\bigl(Y_i - m_1(L_i)\bigr),\\
+\hat\mu_0^{(i)} &= m_0(L_i) + \frac{1-A_i}{1-e(L_i)}\bigl(Y_i - m_0(L_i)\bigr),
+\end{align}
+whose survey-weighted means estimate $\mathbb{E}[Y^{1}]$ and $\mathbb{E}[Y^{0}]$;
+the ATE is $\hat\tau = \overline{\hat\mu_1} - \overline{\hat\mu_0}$. Both nuisance
+models were logistic regressions over the covariates in Table~\ref{tab:covs},
+fit with the NHANES exam weights. (To avoid numerical instability, the exam
+weights were rescaled to mean one within the nuisance fits; this leaves the
+coefficients unchanged but prevents the spurious separation that very large case
+weights induce.) Design-based confidence intervals for the risk difference, risk
+ratio, and marginal odds ratio were obtained by the delta method applied to the
+survey-weighted potential-outcome means, so that the NHANES clustering and
+stratification are respected.
+
+\subsubsection{Main Results}
+
+After excluding interview-only respondents, the regression analytic sample was
+6{,}894 adults: 5{,}694 (82.6\%) insured and 1{,}200 (17.4\%) uninsured. The
+weighted screening rate was already markedly different by group: 57\% among
+insured adults versus 34\% among uninsured adults. The doubly robust analysis,
+which requires complete data on all twelve covariates, used 5{,}822 adults and
+estimated $\mathbb{E}[Y^{1}] = 0.56$ and $\mathbb{E}[Y^{0}] = 0.37$.
+
+\begin{table}[h]
+\centering
+\caption{Survey-weighted logistic regression: odds ratio (OR) for insurance and
+g-computation ATE, by level of adjustment.}
+\label{tab:regression}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{OR} & \textbf{95\% CI} & \textbf{$p$-value} & \textbf{ATE}\\
+\midrule
+1: Unadjusted              & 2.52 & (2.11, 3.01) & $<0.001$ & 0.225\\
+2: Demographically adjusted & 1.95 & (1.51, 2.52) & $0.0002$ & 0.156\\
+3: Fully adjusted          & 1.94 & N/A          & $0.108$  & 0.147\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In the unadjusted model, insured adults had about 2.5 times the odds of being
+screened (OR $= 2.52$, 95\% CI $2.11$--$3.01$, $p < 0.001$). Adjusting for
+sociodemographic covariates attenuated this to OR $= 1.95$ (95\% CI
+$1.51$--$2.52$, $p = 0.0002$); adding health and behavioral variables barely
+changed it (OR $= 1.94$). Within Model~2, age (OR $= 1.02$ per year, $p =
+0.0003$) and education (some college OR $= 1.41$; college graduate OR $= 1.45$)
+were significant predictors of screening. Wald tests confirmed insurance as a
+significant predictor in Model~1 ($F = 115.5$, $p < 0.001$) and Model~2 ($F =
+35.0$, $p = 0.0002$). Because NHANES masks its true PSU identifiers, very few
+residual degrees of freedom remain once Model~3's covariates are included,
+rendering its confidence intervals unreliable; we therefore rely on Model~2 for
+inference and report only Model~3's point estimates and $p$-values.
+
+The three estimators agree closely (Table~\ref{tab:methods}). The doubly robust
+risk difference was $0.187$ (95\% CI $0.124$--$0.249$), corresponding to a
+marginal OR of about $2.1$ and a risk ratio of $1.50$. Reassuringly, the AIPW
+estimate's two ingredients computed alone, the plug-in g-formula ($0.162$) and
+IPW ($0.182$), bracket the AIPW value, the hallmark of a well-behaved doubly
+robust estimate. All three methods indicate that insurance raises the
+probability of blood-sugar screening by roughly 15--19 percentage points.
+
+\begin{table}[h]
+\centering
+\caption{Average treatment effect (risk difference) across the three estimators.}
+\label{tab:methods}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Method} & \textbf{ATE (risk difference)} & \textbf{95\% CI}\\
+\midrule
+Regression (g-computation, Model 2) & 0.156 & N/A\\
+Inverse probability weighting       & 0.191 & (0.108, 0.269)\\
+Doubly robust (AIPW)                & 0.187 & (0.124, 0.249)\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Paper Discussion} \label{sec:discussion}
 
-Discussion goes here. You can split it up by advantages and limitations or structure it however you feel makes sense.
-
 \subsection{Advantages} \label{subsec:advantages}
 
+Using three estimators with different assumptions strengthens our conclusions:
+agreement across methods makes the finding robust to any one method's
+misspecification. Logistic regression is straightforward to implement and
+interpret, yields odds ratios comparable to prior literature, and uses the full
+analytic sample. IPW explicitly targets the ATE and separates the design stage
+(propensity modeling and balance checking) from outcome analysis. The doubly
+robust estimator offers the strongest theoretical guarantee, requiring only one
+of the two nuisance models to be correct, and, unlike regression alone, directly
+estimates a marginal causal estimand on the risk-difference scale. All analyses
+incorporate the NHANES survey design, so estimates generalize to the U.S.\ adult
+population.
 
 \subsection{Limitations} \label{subsec:limitations}
 
+Several limitations temper the interpretation. First, both exposure and outcome
+are self-reported and subject to recall and social-desirability bias. Second,
+NHANES is cross-sectional, so insurance status and screening are measured
+contemporaneously, and reverse pathways cannot be fully excluded. Third,
+positivity is strained at the top of the propensity distribution: adults aged
+65+ are nearly universally insured through Medicare ($\approx 98\%$), so there
+are few comparable uninsured older adults, and effect estimates in that region
+rely on model extrapolation. Fourth, complete-case analysis assumes data are
+missing at random; income-to-poverty ratio and alcohol use carry the most
+missingness. Finally, residual confounding from unmeasured factors (e.g.\
+provider behavior, local health-system characteristics) remains possible, which
+motivates the formal sensitivity analysis below.
 
 \subsection{Comments} \label{subsec:finalcomments}
 
+Across regression, IPW, and doubly robust estimation, having health insurance is
+associated with a 15--19 percentage-point increase in the probability of
+receiving a blood-sugar screening among undiagnosed U.S.\ adults. This extends
+Mahoney et al.\ \cite{mahoney2020} upstream of diagnosis: insurance appears to
+shape not only whether diabetes is detected, but whether the screening step that
+enables detection occurs at all.
 
-\section{Extension} \label{sec:Extension}
+\section{Extension: Sensitivity Analysis} \label{sec:Extension}
 
 \subsection{Motivation} \label{subsec:ExtMotivation}
 
-The motivation for the proposed extension. Describe the data set, why it's important or useful, etc.
+The causal interpretation of $\tau$ depends on assumptions that cannot be fully
+verified from the data: no unmeasured confounding, positivity, a correctly
+specified adjustment set, and an appropriate treatment of missing data. As an
+extension, we quantify how fragile the headline doubly robust estimate is to
+plausible violations of each. All checks re-use the AIPW estimator as the
+workhorse and are implemented in \texttt{sensitivity/sensitivity\_analysis.Rmd}.
 
 \subsection{Method} \label{subsec:ExtMethod}
 
-Your methodology.
+We examined four threats. (1) \emph{Unmeasured confounding} was quantified with
+the E-value \cite{vanderweele2017}, the minimum strength of association (on the
+risk-ratio scale) that an unmeasured confounder would need with both insurance
+and screening to explain away the estimate. (2) \emph{Positivity} was probed by
+re-estimating the ATE after truncating the propensity score to progressively
+tighter bounds and after trimming the sample to the region of common support.
+(3) \emph{Adjustment-set sensitivity} compared the primary twelve-covariate set
+against adding alcohol use, a demographic/SES-only set, and a minimal set.
+(4) \emph{Missing data} was addressed by multiple imputation by chained
+equations (five imputations), re-estimating the AIPW within each completed
+dataset and pooling by Rubin's rules \cite{rubin1987}.
 
 \subsection{Results} \label{subsec:ExtResults}
 
-Your results.
+The primary AIPW risk difference of $0.187$ corresponds to an E-value of
+$\mathbf{2.37}$, with the lower confidence bound's E-value equal to $1.82$. That
+is, an unmeasured confounder would need to be associated with both insurance and
+screening by a risk ratio of at least $2.37$, beyond all measured covariates,
+to fully explain away the effect, which is a substantial degree of confounding. Positivity restrictions (Table~\ref{tab:sens}) attenuated the
+estimate only modestly, to $0.15$--$0.16$, with every confidence interval still
+excluding zero. Varying the adjustment set produced risk differences from
+$0.150$ (minimal) to $0.189$ (adding alcohol), all significant. Finally,
+multiple imputation gave a pooled risk difference of $0.168$ (95\% CI
+$0.113$--$0.223$), close to the complete-case value of $0.187$, indicating that
+complete-case analysis did not materially bias the estimate.
+
+\begin{table}[h]
+\centering
+\caption{Sensitivity of the doubly robust risk difference (RD).}
+\label{tab:sens}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Check} & \textbf{Specification} & \textbf{RD} & \textbf{95\% CI}\\
+\midrule
+Positivity      & No trimming               & 0.187 & (0.124, 0.249)\\
+                & Truncate PS $[0.05,0.95]$ & 0.161 & (0.124, 0.197)\\
+                & Truncate PS $[0.10,0.90]$ & 0.160 & (0.131, 0.189)\\
+                & Trim to PS $[0.05,0.95]$  & 0.150 & (0.087, 0.212)\\
+\midrule
+Adjustment set  & Primary (12 covariates)   & 0.187 & (0.124, 0.249)\\
+                & $+$ alcohol use           & 0.189 & (0.124, 0.254)\\
+                & Demographic/SES only      & 0.169 & (0.103, 0.235)\\
+                & Minimal                   & 0.150 & (0.090, 0.210)\\
+\midrule
+Missing data    & Complete case             & 0.187 & (0.124, 0.249)\\
+                & Multiple imputation ($m=5$) & 0.168 & (0.113, 0.223)\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Discussion} \label{subsec:ExtDiscuss}
 
-The discussion.
+The headline finding is stable across all four checks: the effect direction and
+rough magnitude persist under tighter positivity restrictions, alternative
+adjustment sets, and multiple imputation, and the E-value indicates that only a
+fairly strong unmeasured confounder could overturn it. The largest single
+movement comes from restricting positivity, which both attenuates the estimate
+and narrows it toward the region where insured and uninsured adults are
+genuinely comparable, consistent with the Medicare-driven overlap concern noted
+among older adults. We therefore interpret $0.15$--$0.19$ as a robust range for
+the effect of insurance on blood-sugar screening, with the lower end the more
+defensible estimate once positivity is enforced.
 
 \newpage
 
 \section{Acknowledgments}
 
-Mention what group members did what portions of the project.
+\textbf{Sujit Silas Armstrong} assembled and cleaned the analytic dataset
+(\texttt{nhanes\_data\_prep.Rmd}), implemented the doubly robust (AIPW)
+estimator (\texttt{modeling/doubly\_robust.Rmd}), and conducted the sensitivity
+analyses (\texttt{sensitivity/sensitivity\_analysis.Rmd}). \textbf{Janvi
+Bharucha} wrote the introduction and dataset description and carried out the
+survey-weighted regression analysis (\texttt{modeling/outcome\_regression.Rmd}).
+\textbf{Amanda Millatt} constructed the DAG and identification strategy
+(\texttt{nhanes\_dag.Rmd}) and performed the inverse-probability-weighting
+analysis (\texttt{modeling/ipw.Rmd}).
 
-Insert Github Repo as well: \href{github repo link}{Github Repo}.
+Project repository: \href{https://github.com/}{m235-causal-inference-final-project}.
 
 \newpage
 
 \bibliographystyle{plain}  % or "apalike", "ieeetr", "acm", etc.
 \bibliography{references}
-
 
 \end{document}
