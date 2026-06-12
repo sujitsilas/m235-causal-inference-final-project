@@ -1,4 +1,4 @@
-# BIOM M235 — Causal Inference Final Project
+# BIOSTAT M235 — Causal Inference Final Project
 
 **Does having health insurance affect whether U.S. adults get a blood-sugar
 screening?** A causal analysis of the NHANES 2017–March 2020 pre-pandemic cycle.
