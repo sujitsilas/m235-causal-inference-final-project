@@ -136,7 +136,7 @@ cat("The estimated dispersion parameter is:", dispersion_param, "\n")
 
 
 ```
-# 5. Create the love plot to examine covariate balance before and after adjustment 
+# 5. Creating the love plot to examine covariate balance before and after adjustment 
 
 A love plot was created to examine the covariate blanace by levels of insurance coverage with the ideal absolute standardized mean differences (SMD) threshold set at 0.1. The love plot demonstrates the effectiveness of inverse probability weighting in balancing the covariate with the absolute SMD for most variables reduced to below the 0.1 threshold after adjustment. This indicates  improved comparability between the insured and uninsured groups.
 
@@ -156,7 +156,7 @@ love.plot(
 ```
 
 
-# 6. Calculate the ATE 
+# 6. Calculating the ATE 
 
 The Average Treatment Effect (ATE) was calculated by predicting the probability of diabetes screening for every unit under both insured and uninsured scenarios (potential outcomes) based on the previously fitted binomial logistic regression model.Then, the absolute difference of screening probability for each unit in the sample was estimated by subtracting these units predictions. The original NHANES survey weights **WTMECPRP** to these differences to ensure the estimate was nationally representative of the U.S. population. Finally, the weighted ATE was computed.
 
