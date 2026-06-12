@@ -9,9 +9,9 @@ screening?** A causal analysis of the NHANES 2017–March 2020 pre-pandemic cycl
 
 ## Team
 
-- **Sujit Silas Armstrong** 
-- **Janvi Bharucha** 
 - **Amanda Millatt**
+- **Janvi Bharucha**
+- **Sujit Silas Armstrong**
 
 ## Repository layout
 
