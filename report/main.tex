@@ -26,7 +26,7 @@ Blood-Sugar Screening? A Causal Analysis of NHANES 2017--2020}
 
 \newpage
 
-\section{Paper Explanation}
+\section{Explanation}
 
 \subsection{Introduction} \label{subsec:intro}
 
@@ -164,16 +164,33 @@ modeling assumptions guards against any single method's misspecification.
 
 \subsubsection{Inverse Probability Weighting (IPW)}
 
-% TODO: Amanda to expand the IPW methodology and results.
 Inverse-probability-of-treatment weighting models the propensity score
 $e(L) = \Pr(A = 1 \mid L)$ by logistic regression and reweights individuals by
 the inverse of their probability of the observed exposure, creating a
 pseudo-population in which exposure is independent of the measured covariates
 \cite{robins2000}. Stabilized weights were used to reduce variance and were
-combined with the NHANES survey weights. Covariate balance before and after
-weighting was assessed with standardized mean differences (love plot).
-\emph{[Preliminary: IPW-adjusted ATE $= 0.191$, bootstrap 95\% CI
-$(0.108,\,0.269)$; full write-up to be completed by A.~Millatt.]}
+combined with the NHANES survey weights (\texttt{WTMECPRP}) for national
+representativeness. For each unit $i$, the stabilized weight is
+\begin{equation}
+sw_i = \frac{A_i\,\Pr(A = 1)}{e(L_i)} + \frac{(1 - A_i)\,\Pr(A = 0)}{1 - e(L_i)},
+\end{equation}
+where $\Pr(A = 1)$ is the marginal probability of exposure. The propensity-score
+model was a binomial logistic regression over the covariates in
+Table~\ref{tab:covs}, fit with the NHANES sample-design weights. To avoid
+instability and convergence issues, the weights were rescaled, and observations
+with missing covariates were dropped. Covariate balance before and after
+weighting was assessed by plotting absolute standardized mean differences in a
+Love plot, and a density plot of the estimated propensity scores by insurance
+status was used to evaluate overlap and verify the positivity assumption.
+
+The IPW-adjusted ATE ($\hat{\tau}_{\mathrm{IPW}}$) was computed as the difference
+between the weighted potential-outcome means. Because the analytic standard
+errors do not account for the estimation uncertainty of the propensity score,
+non-parametric bootstrapping was conducted with $R = 500$ replications: the
+baseline dataset was resampled with replacement, and each replication
+re-estimated the propensity score, recomputed the stabilized IPW weights,
+multiplied them by the survey-design weights, and rescaled the final weights to
+mean one before fitting the outcome model.
 
 \subsubsection{Regression Analysis}
 
@@ -203,8 +220,11 @@ we form the pseudo-outcomes
 \end{align}
 whose survey-weighted means estimate $\mathbb{E}[Y^{1}]$ and $\mathbb{E}[Y^{0}]$;
 the ATE is $\hat\tau = \overline{\hat\mu_1} - \overline{\hat\mu_0}$. Both nuisance
-models were logistic regressions over the covariates in Table~\ref{tab:covs},
-fit with the NHANES exam weights. (To avoid numerical instability, the exam
+models were logistic regressions fit with the NHANES exam weights over the
+covariates in Table~\ref{tab:covs}, excluding alcohol use; alcohol is omitted
+from the primary doubly robust specification to limit complete-case loss, and the
+sensitivity analysis (Table~\ref{tab:sens}) confirms that re-including it leaves
+the estimate essentially unchanged ($0.189$ vs.\ $0.187$). (To avoid numerical instability, the exam
 weights were rescaled to mean one within the nuisance fits; this leaves the
 coefficients unchanged but prevents the spurious separation that very large case
 weights induce.) Design-based confidence intervals for the risk difference, risk
@@ -232,7 +252,7 @@ g-computation ATE, by level of adjustment.}
 \midrule
 1: Unadjusted              & 2.52 & (2.11, 3.01) & $<0.001$ & 0.225\\
 2: Demographically adjusted & 1.95 & (1.51, 2.52) & $0.0002$ & 0.156\\
-3: Fully adjusted          & 1.94 & N/A          & $0.108$  & 0.147\\
+3: Fully adjusted          & 1.94 & N/A          & $0.108$  & 0.148\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -250,13 +270,15 @@ residual degrees of freedom remain once Model~3's covariates are included,
 rendering its confidence intervals unreliable; we therefore rely on Model~2 for
 inference and report only Model~3's point estimates and $p$-values.
 
-The three estimators agree closely (Table~\ref{tab:methods}). The doubly robust
-risk difference was $0.187$ (95\% CI $0.124$--$0.249$), corresponding to a
-marginal OR of about $2.1$ and a risk ratio of $1.50$. Reassuringly, the AIPW
-estimate's two ingredients computed alone, the plug-in g-formula ($0.162$) and
-IPW ($0.182$), bracket the AIPW value, the hallmark of a well-behaved doubly
-robust estimate. All three methods indicate that insurance raises the
-probability of blood-sugar screening by roughly 15--19 percentage points.
+The three estimators agree closely (Table~\ref{tab:methods}). The standalone IPW
+analysis yielded an adjusted ATE ($\hat{\tau}_{\mathrm{IPW}}$) of $0.191$,
+corresponding to a marginal OR of $2.17$ (log-odds $0.777$, $p < 0.001$) within
+the weighted pseudo-population, with a bootstrap 95\% CI for the risk difference
+of $(0.108, 0.269)$ from $R = 500$ replications. The doubly robust risk
+difference was $0.187$ (95\% CI $0.124$--$0.249$), corresponding to a marginal OR
+of about $2.1$ and a risk ratio of $1.50$. All three methods indicate that
+insurance raises the probability of blood-sugar screening by roughly 15--19
+percentage points.
 
 \begin{table}[h]
 \centering
@@ -273,7 +295,7 @@ Doubly robust (AIPW)                & 0.187 & (0.124, 0.249)\\
 \end{tabular}
 \end{table}
 
-\section{Paper Discussion} \label{sec:discussion}
+\section{Discussion} \label{sec:discussion}
 
 \subsection{Advantages} \label{subsec:advantages}
 
@@ -403,7 +425,7 @@ survey-weighted regression analysis (\texttt{modeling/outcome\_regression.Rmd}).
 (\texttt{nhanes\_dag.Rmd}) and performed the inverse-probability-weighting
 analysis (\texttt{modeling/ipw.Rmd}).
 
-Project repository: \href{https://github.com/}{m235-causal-inference-final-project}.
+Project repository: \url{https://github.com/sujitsilas/m235-causal-inference-final-project}.
 
 \newpage
 
